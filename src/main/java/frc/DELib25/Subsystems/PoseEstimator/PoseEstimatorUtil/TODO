@@ -1,0 +1,39 @@
+1. CAMERA FOM -> ROBOT VELOCITY, CAMERA JITTER, ZOOM
+
+ROBOT VELOCITY:
+CURRENT VELOCITY / MAX VELOCITY = % VELOCITY PRECENTAGE  (1 = CURRENT VELOCITY, 5 = MAX VELOCITY,  1/5 = 0.2%) IN M/S
+STANDING IN PLACE CAMERA FOM = X (0.1 TEN M)
+MOVING AT FULL VELOCITY FOM = Y (2 M)
+CAMERA FOM = ( Y - X ) * VELOCITY PRECENTAGE (    2 - 0.1 = 1.9    ,    1.9 * 0.2 = 0.38 = FOM)
+
+
+2. ODOMETRY FOM -> DRIFTING OVER TIME, SKEW OVER TIME, COLLISION
+
+DRIFTING OVER TIME:
+X Y OMEGA AFTER STARING DEMO RUN = 0 , 0 , 0 
+X Y OMEGA AFTER AFTER SECOND DEMO RUN = 0.05 , 0.05 , 0.5
+X Y OMEGA AFTER CLOSE ENDING DEMO RUN = 0.1 , 0.13 , 2
+X Y OMEGA IN THE END = 0.15 , 0.18 , 3
+SUM ALL THE VALUSE AND YOU GET THAT X Y OMEGA DRIFTING OVER 0.07 0.12 5.5
+
+__________________________________________________________________________________
+|                                                                                |      
+|                                                                                | 
+|                                                                                | 
+|                                                                                | 
+|                                                                                | 
+|                                                                                | 
+|        ___                                                                     |
+|       |   |                                                                    |   
+|       |___|                                                                    |   
+|                                                                                |  
+|________________________________________________________________________________|
+
+SKEW OVER TIME:
+1 ROTATION = 0.01M ERROR IN ODOMETRY
+1 ROTATION = 360 DEGREES 
+0.01 / 360 = 0.0000277778M PER DEGREE = METER PER DEGREE
+DELTA DEGREES IN LAST LOOF * METER PER DEGREE = ERROR IN LOOP 
+FOM += ERROR IN LOOF
+
+
