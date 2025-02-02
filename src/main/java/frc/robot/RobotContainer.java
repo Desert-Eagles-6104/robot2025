@@ -18,8 +18,6 @@ import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.DriverStationController;
 // import frc.DELib25.Util.SwerveAutoBuilder; 
-import frc.robot.commands.Shit;
-import frc.robot.subsystems.ExampleSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since 
@@ -37,7 +35,6 @@ public class RobotContainer {
   private SwerveSubsystem m_swerve;
   private VisionSubsystem m_vision;
   private PoseEstimatorSubsystem m_poseEstimator;
-  private ExampleSubsystem m_ExampleSubsystem;
   // 
   //private SwerveAutoBuilder swerveAutoBuilder;
   public static BooleanSupplier m_isLocalisation = ()-> false;
@@ -47,7 +44,6 @@ public class RobotContainer {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
     m_vision = new VisionSubsystem(new CameraSettings(-0.30821, 0, 0.10689, 0, 15.13, 180.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
     // swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
-    m_ExampleSubsystem = new ExampleSubsystem();
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
@@ -58,8 +54,6 @@ public class RobotContainer {
     resets();
     auto();
     driverStationController.LeftBlue().onTrue(new RotateToTarget(m_swerve));
-    drivercontroller.L2().onTrue(new Shit(m_ExampleSubsystem, 0.5));
-    drivercontroller.R2().onTrue(new Shit(m_ExampleSubsystem,-0.5));
   }
 
   public void disableMotors() {
