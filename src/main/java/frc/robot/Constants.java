@@ -45,7 +45,7 @@ public final class Constants {
 
     public static SwerveConstants swerveConstants = new SwerveConstants(){{
       chosenModule =  //TODO: This must be tuned to specific robot
-      COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
+      COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
       /*String bus */
       String canBus = "Canivore";
@@ -121,7 +121,7 @@ public final class Constants {
       driveKA = 0;
 
       /*wheel parameters */
-      WheelRadius = 0.0508;
+      WheelRadius = 2;
       WheelCircumference = WheelRadius * 2 * Math.PI;
 
       /* Swerve Profiling Values */
