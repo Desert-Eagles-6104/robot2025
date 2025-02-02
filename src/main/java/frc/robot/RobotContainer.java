@@ -38,8 +38,6 @@ public class RobotContainer {
   // private SwerveAutoBuilder swerveAutoBuilder;
   public static BooleanSupplier m_isLocalisation = ()-> false;
   public static BooleanSupplier m_isLocalisationOmega = () -> false;
-  
-
 
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);

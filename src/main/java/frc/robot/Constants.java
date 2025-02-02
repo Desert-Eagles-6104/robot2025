@@ -7,8 +7,14 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Motors.PIDContainer;
+import frc.DELib25.Motors.MotorType;
+import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.Swerve.SwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
@@ -143,6 +149,182 @@ public final class Constants {
       filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
   }};
 }
+
+  public final class ElevatorSubSystem {
+    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+     
+      motorType = MotorType.talonFX;
+
+      subsystemName = "Elevator";
+
+      slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
+
+      master = new MotorConstants(50,"rio",false ,true);
+
+      rotationsPerPositionUnit = 1.0/360.0;
+
+      sensorToMechanismRatio = 90.0;
+      
+      pidContainerSlot0 = new PIDContainer(1.5, 3.0, 0.15, 0.15, 95.0, 2.0, 10.0);
+
+      pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.15, 1000.0, 0.0, 0.0);
+      //#region motion magic values
+      motionMagicCruiseVelocity = 300;
+      
+      motionMagicAcceleration = 800;
+
+      motionMagicJerk = 70000;
+      //#endregion motion magic values
+
+      //#region cuurent limit
+      supplyCurrentLimit = 60; 
+
+      enableSupplyCurrentLimit = true;
+
+      statorCurrentLimit = 40;
+
+      enableStatorCurrentLimit = true;
+      //#endregion current limit
+
+      //#region soft limits 
+      forwardSoftLimit = 95;
+
+      // reverseSoftLimit = 9.57;
+      //#endregion sofr limits
+
+      allowableError = 2.0;
+
+      homePosition = 9.57;
+    }};
+  }
+
+  public final class CoralArmSubsystem {
+    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+      motorType = MotorType.talonFX;
+
+      subsystemName = "coralArm";
+
+      slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
+
+      master = new MotorConstants(50,"rio",false ,true);
+
+      rotationsPerPositionUnit = 1.0/360.0;
+
+      sensorToMechanismRatio = 90.0;
+      
+      pidContainerSlot0 = new PIDContainer(1.5, 3.0, 0.15, 0.15, 95.0, 2.0, 10.0);
+
+      pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.15, 1000.0, 0.0, 0.0);
+      //#region motion magic values
+      motionMagicCruiseVelocity = 300;
+      
+      motionMagicAcceleration = 800;
+
+      motionMagicJerk = 70000;
+      //#endregion motion magic values
+
+      //#region cuurent limit
+      supplyCurrentLimit = 60; 
+
+      enableSupplyCurrentLimit = true;
+
+      statorCurrentLimit = 40;
+
+      enableStatorCurrentLimit = true;
+      //#endregion current limit
+
+      //#region soft limits 
+      forwardSoftLimit = 95;
+
+      // reverseSoftLimit = 9.57;
+      //#endregion sofr limits
+
+      allowableError = 2.0;
+
+      homePosition = 9.57;
+    }};
+  }
+
+  public final class AlgaeArmSubsystem {
+    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+      motorType = MotorType.talonFX;
+
+      subsystemName = "algeaArm";
+
+      slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
+
+      master = new MotorConstants(50,"rio",false ,true);
+
+      rotationsPerPositionUnit = 1.0/360.0;
+
+      sensorToMechanismRatio = 90.0;
+      
+      pidContainerSlot0 = new PIDContainer(1.5, 3.0, 0.15, 0.15, 95.0, 2.0, 10.0);
+
+      pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.15, 1000.0, 0.0, 0.0);
+      //#region motion magic values
+      motionMagicCruiseVelocity = 300;
+      
+      motionMagicAcceleration = 800;
+
+      motionMagicJerk = 70000;
+      //#endregion motion magic values
+
+      //#region cuurent limit
+      supplyCurrentLimit = 60; 
+
+      enableSupplyCurrentLimit = true;
+
+      statorCurrentLimit = 40;
+
+      enableStatorCurrentLimit = true;
+      //#endregion current limit
+
+      //#region soft limits 
+      forwardSoftLimit = 95;
+
+      // reverseSoftLimit = 9.57;
+      //#endregion sofr limits
+
+      allowableError = 2.0;
+
+      homePosition = 9.57;
+    }};
+  }
+
+  public static final class IntakeAlgaeSubsystem{
+    public static final int motorId = 0;
+    public static final int beamBreakPort = 0;
+    public static final double Ks = 0.0; 
+    public static final double Kv = 0.0; 
+    public static final double Ka = 0.0;
+    public static final double Kp = 0.0; 
+    public static final double Ki = 0.0; 
+    public static final double Kd = 0.0;
+    public static final double supplyCurrentLimit = 0;
+    public static final boolean SupplyCurrentLimitEnable = true;
+    public static final int SensorToMechanismRatio = 0;
+    public static final double DutyCycleNeutralDeadband = 0.0;
+    public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+    public static final int frequencyHz = 0;
+  }
+
+  public static final class IntakeCoralSubsystem{
+    public static final int motorId = 0;
+    public static final int beamBreakPort = 0;
+    public static final double Ks = 0.0; 
+    public static final double Kv = 0.0; 
+    public static final double Ka = 0.0;
+    public static final double Kp = 0.0; 
+    public static final double Ki = 0.0; 
+    public static final double Kd = 0.0;
+    public static final double supplyCurrentLimit = 0;
+    public static final boolean SupplyCurrentLimitEnable = true;
+    public static final int SensorToMechanismRatio = 0;
+    public static final double DutyCycleNeutralDeadband = 0.0;
+    public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+    public static final int frequencyHz = 0;
+  }
 
   public static final SysidConfiguration sysidConfiguration = new SysidConfiguration(){{
     /** The voltage ramp rate used for quasistatic test routines. */
