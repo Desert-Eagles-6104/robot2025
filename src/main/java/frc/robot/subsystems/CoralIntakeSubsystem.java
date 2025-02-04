@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
-public class IntakeCoralSubsystem extends SubsystemBase {
-  private static IntakeCoralSubsystem m_instance = null;
+public class CoralIntakeSubsystem extends SubsystemBase {
+  private static CoralIntakeSubsystem m_instance = null;
 
    private TalonFX m_motor;
    private BeamBreak m_beamBreak;
@@ -37,23 +37,23 @@ public class IntakeCoralSubsystem extends SubsystemBase {
   private StatusSignal<Double> m_closedLoopErrorSignal;
   
 
-  public IntakeCoralSubsystem() {
+  public CoralIntakeSubsystem() {
     configuration = new TalonFXConfiguration();
     configuration = new TalonFXConfiguration();
-    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.IntakeCoralSubsystem.motorInverted).withDutyCycleNeutralDeadband(Constants.IntakeCoralSubsystem.DutyCycleNeutralDeadband));
-    configuration.withSlot0(new Slot0Configs().withKS(Constants.IntakeCoralSubsystem.Ks).withKV(Constants.IntakeCoralSubsystem.Kv).withKA(Constants.IntakeCoralSubsystem.Ka).withKP(Constants.IntakeCoralSubsystem.Kp).withKI(Constants.IntakeCoralSubsystem.Ki).withKD(Constants.IntakeCoralSubsystem.Kd));
-    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.IntakeCoralSubsystem.SensorToMechanismRatio));
-    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.IntakeCoralSubsystem.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.IntakeCoralSubsystem.SupplyCurrentLimitEnable));
+    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.CoralIntake.motorInverted).withDutyCycleNeutralDeadband(Constants.CoralIntake.DutyCycleNeutralDeadband));
+    configuration.withSlot0(new Slot0Configs().withKS(Constants.CoralIntake.Ks).withKV(Constants.CoralIntake.Kv).withKA(Constants.CoralIntake.Ka).withKP(Constants.CoralIntake.Kp).withKI(Constants.CoralIntake.Ki).withKD(Constants.CoralIntake.Kd));
+    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.CoralIntake.SensorToMechanismRatio));
+    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.CoralIntake.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.CoralIntake.SupplyCurrentLimitEnable));
 
-    m_motor = new TalonFX(Constants.IntakeCoralSubsystem.motorId);
+    m_motor = new TalonFX(Constants.CoralIntake.motorId);
     m_motor.getConfigurator().apply(configuration);
 
     m_positionSignal = m_motor.getPosition();
     m_velocitySignal = m_motor.getVelocity();
     m_closedLoopErrorSignal = m_motor.getClosedLoopError();
-    BaseStatusSignal.setUpdateFrequencyForAll(Constants.IntakeCoralSubsystem.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
+    BaseStatusSignal.setUpdateFrequencyForAll(Constants.CoralIntake.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
 
-    m_beamBreak = new BeamBreak(Constants.IntakeCoralSubsystem.beamBreakPort);
+    m_beamBreak = new BeamBreak(Constants.CoralIntake.beamBreakPort);
   }
 
   @Override
@@ -87,9 +87,9 @@ public class IntakeCoralSubsystem extends SubsystemBase {
   }
 
 
-  public static IntakeCoralSubsystem getInstance() {
+  public static CoralIntakeSubsystem getInstance() {
     if(m_instance == null){
-      m_instance = new IntakeCoralSubsystem();
+      m_instance = new CoralIntakeSubsystem();
     }  
     return m_instance;
   }

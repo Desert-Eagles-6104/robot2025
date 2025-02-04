@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
-public class IntakeAlgaeSubsystem extends SubsystemBase {
-  private static IntakeAlgaeSubsystem m_instance = null;
+public class AlgaeIntakeSubsystem extends SubsystemBase {
+  private static AlgaeIntakeSubsystem m_instance = null;
 
   private TalonFX m_motor;
   private BeamBreak m_beamBreak;
@@ -37,22 +37,22 @@ public class IntakeAlgaeSubsystem extends SubsystemBase {
   private StatusSignal<AngularVelocity> m_velocitySignal;
   private StatusSignal<Double> m_closedLoopErrorSignal;
 
-  public IntakeAlgaeSubsystem() {
-    configuration = Constants.IntakeAlgaeSubsystem.configuration;
-    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.IntakeAlgaeSubsystem.motorInverted).withDutyCycleNeutralDeadband(Constants.IntakeAlgaeSubsystem.DutyCycleNeutralDeadband));
-    configuration.withSlot0(new Slot0Configs().withKS(Constants.IntakeAlgaeSubsystem.Ks).withKV(Constants.IntakeAlgaeSubsystem.Kv).withKA(Constants.IntakeAlgaeSubsystem.Ka).withKP(Constants.IntakeAlgaeSubsystem.Kp).withKI(Constants.IntakeAlgaeSubsystem.Ki).withKD(Constants.IntakeAlgaeSubsystem.Kd));
-    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.IntakeAlgaeSubsystem.SensorToMechanismRatio));
-    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.IntakeAlgaeSubsystem.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.IntakeAlgaeSubsystem.SupplyCurrentLimitEnable));
+  public AlgaeIntakeSubsystem() {
+    configuration = new TalonFXConfiguration();
+    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.AlgaeIntake.motorInverted).withDutyCycleNeutralDeadband(Constants.AlgaeIntake.DutyCycleNeutralDeadband));
+    configuration.withSlot0(new Slot0Configs().withKS(Constants.AlgaeIntake.Ks).withKV(Constants.AlgaeIntake.Kv).withKA(Constants.AlgaeIntake.Ka).withKP(Constants.AlgaeIntake.Kp).withKI(Constants.AlgaeIntake.Ki).withKD(Constants.AlgaeIntake.Kd));
+    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.AlgaeIntake.SensorToMechanismRatio));
+    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.AlgaeIntake.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.AlgaeIntake.SupplyCurrentLimitEnable));
 
-    m_motor = new TalonFX(Constants.IntakeAlgaeSubsystem.motorId);
+    m_motor = new TalonFX(Constants.AlgaeIntake.motorId);
     m_motor.getConfigurator().apply(configuration);
 
     m_positionSignal = m_motor.getPosition();
     m_velocitySignal = m_motor.getVelocity();
     m_closedLoopErrorSignal = m_motor.getClosedLoopError();
-    BaseStatusSignal.setUpdateFrequencyForAll(Constants.IntakeAlgaeSubsystem.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
+    BaseStatusSignal.setUpdateFrequencyForAll(Constants.AlgaeIntake.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
 
-    m_beamBreak = new BeamBreak(Constants.IntakeAlgaeSubsystem.beamBreakPort);
+    m_beamBreak = new BeamBreak(Constants.AlgaeIntake.beamBreakPort);
   }
 
   @Override
@@ -84,9 +84,9 @@ public class IntakeAlgaeSubsystem extends SubsystemBase {
     m_motor.setControl(m_PositionVoltageRequest.withPosition((getPosition() + position)));
   }
 
-  public static IntakeAlgaeSubsystem getInstance() {
+  public static AlgaeIntakeSubsystem getInstance() {
     if(m_instance == null){
-      m_instance = new IntakeAlgaeSubsystem();
+      m_instance = new AlgaeIntakeSubsystem();
     }  
     return m_instance;
   }

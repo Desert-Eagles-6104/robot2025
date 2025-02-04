@@ -35,6 +35,7 @@ import frc.DELib25.Sysid.SysidConfiguration;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+
   }
 
   public final static class Vision{
@@ -151,7 +152,9 @@ public final class Constants {
   }};
 }
 
-  public final class ElevatorSubSystem {
+
+
+  public final class Elevator {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
      
       motorType = MotorType.talonFX;
@@ -199,7 +202,7 @@ public final class Constants {
     }};
   }
 
-  public final class CoralArmSubsystem {
+  public final class CoralArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
       motorType = MotorType.talonFX;
 
@@ -246,7 +249,7 @@ public final class Constants {
     }};
   }
 
-  public final class AlgaeArmSubsystem {
+  public final class AlgaeArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
       motorType = MotorType.talonFX;
 
@@ -293,45 +296,41 @@ public final class Constants {
     }};
   }
 
-  public static final class IntakeAlgaeSubsystem{
-    public static final TalonFXConfiguration configuration = new TalonFXConfiguration(){{
-      final int motorId = 0;
-      final int beamBreakPort = 0;
-      final double Ks = 0.0; 
-      final double Kv = 0.0; 
-      final double Ka = 0.0;
-      final double Kp = 0.0; 
-      final double Ki = 0.0; 
-      final double Kd = 0.0;
-      final double supplyCurrentLimit = 0;
-      final boolean SupplyCurrentLimitEnable = true;
-      final int SensorToMechanismRatio = 0;
-      final double DutyCycleNeutralDeadband = 0.0;
-      final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
-      final int frequencyHz = 0;
-    }};
-  }
+  public static final class AlgaeIntake{
+    public static final int motorId = 0;
+    public static final int beamBreakPort = 0;
+    public static final double Ks = 0.0; 
+    public static final double Kv = 0.0; 
+    public static final double Ka = 0.0;
+    public static final double Kp = 0.0; 
+    public static final double Ki = 0.0; 
+    public static final double Kd = 0.0;
+    public static final double supplyCurrentLimit = 0;
+    public static final boolean SupplyCurrentLimitEnable = true;
+    public static final int SensorToMechanismRatio = 0;
+    public static final double DutyCycleNeutralDeadband = 0.0;
+    public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+    public static final int frequencyHz = 0;
+    }
 
 
 
-  public static final class IntakeCoralSubsystem{
-    public static final TalonFXConfiguration configuration = new TalonFXConfiguration(){{
-      final int motorId = 0;
-      final int beamBreakPort = 0;
-      final double Ks = 0.0; 
-      final double Kv = 0.0; 
-      final double Ka = 0.0;
-      final double Kp = 0.0; 
-      final double Ki = 0.0; 
-      final double Kd = 0.0;
-      final double supplyCurrentLimit = 0;
-      final boolean SupplyCurrentLimitEnable = true;
-      final int SensorToMechanismRatio = 0;
-      final double DutyCycleNeutralDeadband = 0.0;
-      final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
-      final int frequencyHz = 0;
-    }};
-  }
+  public static final class CoralIntake{
+      public static final int motorId = 0;
+      public static final int beamBreakPort = 0;
+      public static final double Ks = 0.0; 
+      public static final double Kv = 0.0; 
+      public static final double Ka = 0.0;
+      public static final double Kp = 0.0; 
+      public static final double Ki = 0.0; 
+      public static final double Kd = 0.0;
+      public static final double supplyCurrentLimit = 0.0;
+      public static final boolean SupplyCurrentLimitEnable = true;
+      public static final int SensorToMechanismRatio = 0;
+      public static final double DutyCycleNeutralDeadband = 0.0;
+      public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+      public static final int frequencyHz = 0;
+    }
 
   public static final SysidConfiguration sysidConfiguration = new SysidConfiguration(){{
     /** The voltage ramp rate used for quasistatic test routines. */
