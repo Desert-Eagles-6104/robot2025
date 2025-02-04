@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 
@@ -293,37 +294,43 @@ public final class Constants {
   }
 
   public static final class IntakeAlgaeSubsystem{
-    public static final int motorId = 0;
-    public static final int beamBreakPort = 0;
-    public static final double Ks = 0.0; 
-    public static final double Kv = 0.0; 
-    public static final double Ka = 0.0;
-    public static final double Kp = 0.0; 
-    public static final double Ki = 0.0; 
-    public static final double Kd = 0.0;
-    public static final double supplyCurrentLimit = 0;
-    public static final boolean SupplyCurrentLimitEnable = true;
-    public static final int SensorToMechanismRatio = 0;
-    public static final double DutyCycleNeutralDeadband = 0.0;
-    public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
-    public static final int frequencyHz = 0;
+    public static final TalonFXConfiguration configuration = new TalonFXConfiguration(){{
+      final int motorId = 0;
+      final int beamBreakPort = 0;
+      final double Ks = 0.0; 
+      final double Kv = 0.0; 
+      final double Ka = 0.0;
+      final double Kp = 0.0; 
+      final double Ki = 0.0; 
+      final double Kd = 0.0;
+      final double supplyCurrentLimit = 0;
+      final boolean SupplyCurrentLimitEnable = true;
+      final int SensorToMechanismRatio = 0;
+      final double DutyCycleNeutralDeadband = 0.0;
+      final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+      final int frequencyHz = 0;
+    }};
   }
 
+
+
   public static final class IntakeCoralSubsystem{
-    public static final int motorId = 0;
-    public static final int beamBreakPort = 0;
-    public static final double Ks = 0.0; 
-    public static final double Kv = 0.0; 
-    public static final double Ka = 0.0;
-    public static final double Kp = 0.0; 
-    public static final double Ki = 0.0; 
-    public static final double Kd = 0.0;
-    public static final double supplyCurrentLimit = 0;
-    public static final boolean SupplyCurrentLimitEnable = true;
-    public static final int SensorToMechanismRatio = 0;
-    public static final double DutyCycleNeutralDeadband = 0.0;
-    public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
-    public static final int frequencyHz = 0;
+    public static final TalonFXConfiguration configuration = new TalonFXConfiguration(){{
+      final int motorId = 0;
+      final int beamBreakPort = 0;
+      final double Ks = 0.0; 
+      final double Kv = 0.0; 
+      final double Ka = 0.0;
+      final double Kp = 0.0; 
+      final double Ki = 0.0; 
+      final double Kd = 0.0;
+      final double supplyCurrentLimit = 0;
+      final boolean SupplyCurrentLimitEnable = true;
+      final int SensorToMechanismRatio = 0;
+      final double DutyCycleNeutralDeadband = 0.0;
+      final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
+      final int frequencyHz = 0;
+    }};
   }
 
   public static final SysidConfiguration sysidConfiguration = new SysidConfiguration(){{

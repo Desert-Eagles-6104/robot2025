@@ -38,8 +38,7 @@ public class IntakeAlgaeSubsystem extends SubsystemBase {
   private StatusSignal<Double> m_closedLoopErrorSignal;
 
   public IntakeAlgaeSubsystem() {
-    configuration = new TalonFXConfiguration();
-    configuration = new TalonFXConfiguration();
+    configuration = Constants.IntakeAlgaeSubsystem.configuration;
     configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.IntakeAlgaeSubsystem.motorInverted).withDutyCycleNeutralDeadband(Constants.IntakeAlgaeSubsystem.DutyCycleNeutralDeadband));
     configuration.withSlot0(new Slot0Configs().withKS(Constants.IntakeAlgaeSubsystem.Ks).withKV(Constants.IntakeAlgaeSubsystem.Kv).withKA(Constants.IntakeAlgaeSubsystem.Ka).withKP(Constants.IntakeAlgaeSubsystem.Kp).withKI(Constants.IntakeAlgaeSubsystem.Ki).withKD(Constants.IntakeAlgaeSubsystem.Kd));
     configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.IntakeAlgaeSubsystem.SensorToMechanismRatio));
