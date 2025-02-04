@@ -4,22 +4,35 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class ElevatorSubsystem extends ServoSubsystemTalon {
+  private BeamBreak m_ElevatorMagnet;
+  private boolean magnetState = false;
   /** Creates a new Elevator. */
   public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+   public void periodic() {
+    super.periodic();
+    magnetState = magnetUpdate();
+    SmartDashboard.putBoolean("magnetcontact", magnetState);
+    SmartDashboard.putNumber("ElevatorSetpoint", setpoint);
   }
 
-  
+  public boolean magnetUpdate(){
+    m_ElevatorMagnet.update();
+    return m_ElevatorMagnet.get();
+  }
+
+  public boolean getMagnetState(){
+    return magnetState;
+  }
   @Override
   public double toRotations(double units){
     return super.toRotations(units);
@@ -69,6 +82,7 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   public double getClosedLoopError(){
     return super.getClosedLoopError();
   }
+
 
   @Override
   public void disableMotors(){

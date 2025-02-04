@@ -4,11 +4,15 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class AlgaeArmSubsystem extends ServoSubsystemTalon {
+  private BeamBreak m_AlgaeArmMagnet;
+  private boolean magnetState = false;
   /** Creates a new AlgaeArmSubsystem. */
   public AlgaeArmSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
@@ -16,7 +20,19 @@ public class AlgaeArmSubsystem extends ServoSubsystemTalon {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    super.periodic();
+    magnetState = magnetUpdate();
+    SmartDashboard.putBoolean("magnetcontact", magnetState);
+    SmartDashboard.putNumber("AlgaeArmSetpoint", setpoint);
+  }
+
+  public boolean magnetUpdate(){
+    m_AlgaeArmMagnet.update();
+    return m_AlgaeArmMagnet.get();
+  }
+
+  public boolean getMagnetState(){
+    return magnetState;
   }
 
   
