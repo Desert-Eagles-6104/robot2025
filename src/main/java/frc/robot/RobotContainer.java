@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +19,10 @@ import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.DriverStationController;
+import frc.robot.subsystems.AlgaeArmSubsystem;
+import frc.robot.subsystems.CoralArmSubsystem;
 // import frc.DELib25.Util.SwerveAutoBuilder; 
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since 
@@ -34,6 +39,9 @@ public class RobotContainer {
   private DriverStationController driverStationController = new DriverStationController(2);
   private SwerveSubsystem m_swerve;
   private VisionSubsystem m_vision;
+  private ElevatorSubsystem m_elevator;
+  private CoralArmSubsystem m_CoralArm;
+  private AlgaeArmSubsystem m_AlgaeArm;
   private PoseEstimatorSubsystem m_poseEstimator;
   // 
   //private SwerveAutoBuilder swerveAutoBuilder;
@@ -54,6 +62,7 @@ public class RobotContainer {
     resets();
     auto();
     driverStationController.LeftBlue().onTrue(new RotateToTarget(m_swerve));
+    
   }
 
   public void disableMotors() {
@@ -84,7 +93,6 @@ public class RobotContainer {
     SmartDashboard.putData("calibrate Swerve Modules", new ResetSwerveModules(m_swerve).ignoringDisable(true));
     m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.L2()));
   }
-
  
   public void presets(){
   

@@ -1,0 +1,43 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.Commands.CoralIntakeCommands;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.CoralIntakeSubsystem;
+
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+public class ControlCoralintake extends Command {
+  CoralIntakeSubsystem m_CoralIntakeSubsystem;
+  private double m_output = 0;
+  /** Creates a new Controlintake. */
+  public ControlCoralintake(CoralIntakeSubsystem coralIntakeSubsystem , double output) {
+    m_CoralIntakeSubsystem = coralIntakeSubsystem;
+    double m_output = output;
+    addRequirements(coralIntakeSubsystem);
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    m_CoralIntakeSubsystem.setMotorPrecent(m_output);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {}
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_CoralIntakeSubsystem.disableMotors();
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

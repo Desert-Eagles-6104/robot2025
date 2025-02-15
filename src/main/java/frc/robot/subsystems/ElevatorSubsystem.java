@@ -83,7 +83,6 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
     return super.getClosedLoopError();
   }
 
-
   @Override
   public void disableMotors(){
     super.disableMotors();
