@@ -39,17 +39,27 @@ public final class Constants {
   }
 
   public final static class Vision{
-    public static final CameraSettings aprilTagCameraSettings = new CameraSettings(0.30821, 0, 0.10689, 0, 15.13, 0, false); //TODO: This must be tuned to specific robot
-    public static final CameraSettings gamePieceCameraSettings = new CameraSettings(0, 0, 0, 0, 0, 0, false); //TODO: This must be tuned to specific robot
+    public static final CameraSettings aprilTagCameraSettings = new CameraSettings(0.30821, 0, 0.10689, 0, 15.13, 0, false); 
+    public static final CameraSettings gamePieceCameraSettings = new CameraSettings(0, 0, 0, 0, 0, 0, false); 
 
     public static final double cameraHeight = 0.10689;//TODO: This must be tuned to specific robot
-    public static final double tragetHeight = 1.435;//TODO: This must be tuned to specific robot
-    public static final double cameraPitch = 15.13;//TODO: This must be tuned to specific robot
+    public static final double tragetHeight = 0.307975;//high of april tag center from floor - reef april tag
+    public static final double cameraPitch = 15.13;//liemlight 3 cameraPitch
+
+    private static Translation2d[][] blueReefEdges =
+  {
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  };
   }
 
   public final static class Swerve{
-    public static final double x = 0.4853 /2.0; //width/2 //TODO: This must be tuned to specific robot
-    public static final double y = 0.425 /2.0; //length/2//TODO: This must be tuned to specific robot
+    public static final double x = 0.75 /2.0; //width/2 
+    public static final double y = 0.75 /2.0; //length/2
 
     public static SwerveConstants swerveConstants = new SwerveConstants(){{
       chosenModule =  //TODO: This must be tuned to specific robot
