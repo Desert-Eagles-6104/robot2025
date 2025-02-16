@@ -5,6 +5,7 @@
 package frc.robot.Commands.CommandsGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Commands.CoralIntakeCommands.ControlCoralintake;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.subsystems.AlgaeArmSubsystem;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
@@ -15,7 +16,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class intake extends SequentialCommandGroup {
+public class HumanIntake extends SequentialCommandGroup {
   private ElevatorSubsystem m_elevator;
   private CoralArmSubsystem m_coralArm;
   private AlgaeArmSubsystem m_AlgaeArm;
@@ -27,8 +28,8 @@ public class intake extends SequentialCommandGroup {
   private double m_CoralPrecent = 0;
   private double m_algaePrecent = 0; 
   
-  /** Creates a new Intake. */
-  public intake(ElevatorSubsystem elevator , CoralArmSubsystem coralArm, AlgaeArmSubsystem algaeArm , double ElevatorPosition , double AlgaeArmAngle , double CoralArmAngle, CoralIntakeSubsystem coralIntakeSubsystem , AlgaeIntakeSubsystem algaeIntakeSubsystem , double CoralPrecent , double algaePrecent) {
+  /** Creates a new HumanIntake. */
+  public HumanIntake(ElevatorSubsystem elevator , CoralArmSubsystem coralArm, AlgaeArmSubsystem algaeArm , double ElevatorPosition , double AlgaeArmAngle , double CoralArmAngle, CoralIntakeSubsystem coralIntakeSubsystem , AlgaeIntakeSubsystem algaeIntakeSubsystem , double CoralPrecent , double algaePrecent) {
     m_elevator = elevator;
     m_coralArm = coralArm;
     m_AlgaeArm = algaeArm;
@@ -40,6 +41,6 @@ public class intake extends SequentialCommandGroup {
     m_CoralPrecent = CoralPrecent;
     m_algaePrecent = algaePrecent;
 
-    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new FloorToElevatorIntake(coralIntakeSubsystem, algaeIntakeSubsystem, CoralPrecent, algaePrecent) ,  new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
+    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new ControlCoralintake(coralIntakeSubsystem, CoralPrecent), new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
   }
 }

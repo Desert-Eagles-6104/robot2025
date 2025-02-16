@@ -17,7 +17,7 @@ public class SmartPreset extends Command {
   private double m_AlgaeArmAngle = 0;
   private double m_ElevatorPosition = 0;
 
-  /** Creates a new command to control simply get to evry preset of the robot with all its subsystems. */
+  /** Creates a new command to simply control set preset of the robot with all its subsystems. */
   public SmartPreset(ElevatorSubsystem elevator , CoralArmSubsystem coralArmSubsystem, AlgaeArmSubsystem algaeArmSubsystem ,double ElevatorPosition, double AlgeaArmAngle, double CoralArmAngle) {
     m_Elevator = elevator;
     m_CoralArm = coralArmSubsystem;
@@ -43,12 +43,6 @@ public class SmartPreset extends Command {
     m_AlgaeArm.setMotionMagicPosition(m_AlgaeArmAngle);
     m_CoralArm.setMotionMagicPosition(m_CoralArmAngle);
     m_Elevator.setMotionMagicPosition(m_ElevatorPosition);
-    // if(m_spin){
-    //   m_shooter.setVelocityWithRatio(m_velocity);
-    // }
-    // else{
-    //   m_shooter.setVelocity(m_velocity);
-    // }
   }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -62,6 +56,6 @@ public class SmartPreset extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.isAtSetpoint() && m_CoralArm.isAtSetpoint();
+    return m_Elevator.isAtSetpoint() && m_CoralArm.isAtSetpoint() && m_AlgaeArm.isAtSetpoint();
   }
 }

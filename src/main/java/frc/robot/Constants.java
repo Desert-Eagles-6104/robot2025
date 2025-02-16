@@ -46,7 +46,7 @@ public final class Constants {
     public static final double tragetHeight = 0.307975;//high of april tag center from floor - reef april tag
     public static final double cameraPitch = 15.13;//liemlight 3 cameraPitch
 
-    private static Translation2d[][] blueReefEdges =
+    private static Translation2d[][] blueReefMidPoints =
   {
     {},
     {},
@@ -63,7 +63,7 @@ public final class Constants {
 
     public static SwerveConstants swerveConstants = new SwerveConstants(){{
       chosenModule =  //TODO: This must be tuned to specific robot
-      COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+      COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
       /*String bus */
       String canBus = "Canivore";
@@ -102,8 +102,8 @@ public final class Constants {
       anglePeakCurrentDuration = 0.1;
       angleEnableCurrentLimit = true;
 
-      driveStatorCurrentLimit = 60;
       driveContinuousCurrentLimit = 40;
+      driveStatorCurrentLimit = 60;
       drivePeakCurrentLimit = 60;
       drivePeakCurrentDuration = 0.1;
       driveEnableCurrentLimit = true;
@@ -268,7 +268,7 @@ public final class Constants {
       slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
 
       master = new MotorConstants(50,"rio",false ,true);
-
+      
       rotationsPerPositionUnit = 1.0/360.0;
 
       sensorToMechanismRatio = 90.0;
