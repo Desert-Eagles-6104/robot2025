@@ -46,8 +46,8 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
   public void periodic() {
     if(!first){
       updateVisionOdometry();
-      SmartDashboard.putNumber("distance from speaker", getDistanceToSpeaker());
-      SmartDashboard.putNumber("angleSpeaker", getAngleToSpeaker().getDegrees());
+      SmartDashboard.putNumber("distance from speaker", getDistanceToReef());
+      SmartDashboard.putNumber("angleSpeaker", getAngleToReef().getDegrees());
     }
     else{
       first = false;
@@ -72,7 +72,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
   }
 
   public static boolean isCentered(){
-    return Math.abs(getHeading().getDegrees() - getAngleToSpeaker().getDegrees()) < 1.5; //TODO: cheak
+    return Math.abs(getHeading().getDegrees() - getAngleToReef().getDegrees()) < 1.5; //TODO: cheak
   }
 
   public static Pose2d getRobotPose(){
@@ -119,22 +119,22 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
       }
   }
 
-  public static double getDistanceToSpeaker(){
+  public static double getDistanceToReef(){
     if(Robot.s_Alliance == Alliance.Red){
     return getRobotPose().getTranslation().getDistance(redSpeaker);
     }
     return getRobotPose().getTranslation().getDistance(blueSpeaker);
   }
 
-  public static Rotation2d getAngleToSpeaker(){
+  public static Rotation2d getAngleToReef(){
     if(Robot.s_Alliance == Alliance.Red){
       return Rotation2d.fromRadians(-Math.atan((redSpeaker.getY() - getRobotPose().getY())/(redSpeaker.getX() -getRobotPose().getX()))).rotateBy(Rotation2d.fromDegrees(180));
     }
     return Rotation2d.fromRadians(-Math.atan((blueSpeaker.getY() - getRobotPose().getY())/(blueSpeaker.getX() -getRobotPose().getX())));
   }
 
-  public static double getArmAngleToBlueSpeaker(){
-    double distanceToSpeaker = getDistanceToSpeaker()+odometryToArmDistance;
+  public static double getArmAngleToBlueReef(){
+    double distanceToSpeaker = getDistanceToReef()+odometryToArmDistance;
     return clamp(Math.toDegrees(Math.atan((speakerHighetFromRobot)/(distanceToSpeaker)))+7.9  , 10, 100);
   } 
 

@@ -34,7 +34,7 @@ public class RotateToTarget extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    target = PoseEstimatorSubsystem.getAngleToSpeaker().unaryMinus();
+    target = PoseEstimatorSubsystem.getAngleToReef().unaryMinus();
     m_headingController.setSetpoint(target);
     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0,0,m_headingController.update(PoseEstimatorSubsystem.getHeading()));
     m_swerve.drive(chassisSpeeds, true, true, new Translation2d());

@@ -18,6 +18,7 @@ import frc.DELib25.Subsystems.Swerve.SwerveCommands.RotateToTarget;
 import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
+import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
 import frc.robot.subsystems.AlgaeArmSubsystem;
 import frc.robot.subsystems.CoralArmSubsystem;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private CoralArmSubsystem m_CoralArm;
   private AlgaeArmSubsystem m_AlgaeArm;
   private PoseEstimatorSubsystem m_poseEstimator;
+  private PhoneixSysid m_elevatorPhoneixSysid;
   // 
   //private SwerveAutoBuilder swerveAutoBuilder;
   public static BooleanSupplier m_isLocalisation = ()-> false;
@@ -51,12 +53,14 @@ public class RobotContainer {
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
     m_vision = new VisionSubsystem(new CameraSettings(-0.30821, 0, 0.10689, 0, 15.13, 180.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
+    m_elevatorPhoneixSysid = new PhoneixSysid(Constants.sysidConfiguration, m_elevator);
     // swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.L2()));
     SmartDashboard.putData("reset Odometry from limelight", new InstantCommand(() -> PoseEstimatorSubsystem.resetPositionFromCamera()));
+    drivercontroller.cross().onTrue(m_elevatorPhoneixSysid.runFullCharacterization(true));
     SwerveBinding();
     presets();
     resets();

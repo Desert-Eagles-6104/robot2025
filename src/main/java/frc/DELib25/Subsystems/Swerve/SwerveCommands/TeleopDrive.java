@@ -79,7 +79,7 @@ public class TeleopDrive extends Command {
       if(RobotContainer.m_isLocalisationOmega.getAsBoolean()){
         //localization
         if(PoseEstimatorSubsystem.inMyWing()){
-          setVisionTargetlocalization(PoseEstimatorSubsystem.getAngleToSpeaker().getDegrees());
+          setVisionTargetlocalization(PoseEstimatorSubsystem.getAngleToReef().getDegrees());
         }
         else{
           setVisionTargetlocalization(PoseEstimatorSubsystem.getAngleToDelivery().getDegrees());
