@@ -16,8 +16,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
@@ -25,8 +25,10 @@ public class CoralIntakeSubsystem extends SubsystemBase {
   private static CoralIntakeSubsystem m_instance = null;
 
    private TalonFX m_motor;
+
    private BeamBreak m_beamBreak;
    private boolean m_isBroken;
+   private boolean m_approve;
 
    private TalonFXConfiguration configuration;
 
@@ -44,6 +46,7 @@ public class CoralIntakeSubsystem extends SubsystemBase {
     configuration.withSlot0(new Slot0Configs().withKS(Constants.CoralIntake.Ks).withKV(Constants.CoralIntake.Kv).withKA(Constants.CoralIntake.Ka).withKP(Constants.CoralIntake.Kp).withKI(Constants.CoralIntake.Ki).withKD(Constants.CoralIntake.Kd));
     configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.CoralIntake.SensorToMechanismRatio));
     configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.CoralIntake.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.CoralIntake.SupplyCurrentLimitEnable));
+    m_approve = false;
 
     m_motor = new TalonFX(Constants.CoralIntake.motorId);
     m_motor.getConfigurator().apply(configuration);
@@ -59,6 +62,10 @@ public class CoralIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public boolean getApprove(){
+    return m_approve;
   }
 
   

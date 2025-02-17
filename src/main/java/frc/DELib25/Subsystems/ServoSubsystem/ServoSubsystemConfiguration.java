@@ -48,7 +48,7 @@ public class ServoSubsystemConfiguration {
     public double reverseSoftLimit = -99999;
     //#endregion sofr limits
 
-    public double allowableError = 0.0;
+    public double allowableError = 1.0;
 
     public double homePosition = 0.0;
 }

@@ -4,7 +4,9 @@
 
 package frc.robot.Commands.CommandsGroups;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.subsystems.AlgaeArmSubsystem;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
@@ -21,6 +23,7 @@ public class intake extends SequentialCommandGroup {
   private AlgaeArmSubsystem m_AlgaeArm;
   private CoralIntakeSubsystem m_CoralIntakeSubsystem;
   private AlgaeIntakeSubsystem m_AlgaeIntakeSubsystem;
+  private CommandPS5Controller m_driverController;
   private double m_elevatorPosition = 0;
   private double m_CoralArmAngle = 0;
   private double m_AlgaeArmAngle = 0;

@@ -4,8 +4,11 @@
 
 package frc.robot.Commands.CommandsGroups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Commands.CoralIntakeCommands.ControlCoralintake;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.robot.Commands.CoralIntakeCommands.SmartCoralControl;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.Constants.Elevator;
 import frc.robot.subsystems.AlgaeArmSubsystem;
@@ -42,6 +45,6 @@ public class Score extends SequentialCommandGroup {
     m_CoralPrecent = CoralPrecent;
     m_algaePrecent = algaePrecent;
 
-    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new ControlCoralintake(coralIntakeSubsystem, CoralPrecent), new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
+    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new SmartCoralControl(coralIntakeSubsystem, CoralPrecent), new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
   }
 }

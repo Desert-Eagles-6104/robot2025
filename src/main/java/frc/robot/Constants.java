@@ -309,6 +309,8 @@ public final class Constants {
   public static final class AlgaeIntake{
     public static final int motorId = 0;
     public static final int beamBreakPort = 0;
+    public static final double intakeOutput = 0.6;
+    public static final double OutTakeOutput = 0.7;
     public static final double Ks = 0.0; 
     public static final double Kv = 0.0; 
     public static final double Ka = 0.0;
@@ -328,6 +330,8 @@ public final class Constants {
   public static final class CoralIntake{
       public static final int motorId = 0;
       public static final int beamBreakPort = 0;
+      public static final double intakeOutput = 0.6;
+      public static final double OutTakeOutput = 0.7;
       public static final double Ks = 0.0; 
       public static final double Kv = 0.0; 
       public static final double Ka = 0.0;

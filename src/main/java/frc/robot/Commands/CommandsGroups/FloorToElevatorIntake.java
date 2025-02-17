@@ -5,7 +5,8 @@
 package frc.robot.Commands.CommandsGroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Commands.CoralIntakeCommands.ControlCoralintake;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.robot.Commands.CoralIntakeCommands.SmartCoralControl;
 import frc.robot.Commands.algaeIntakeCommands.ControlAlgaeIntake;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
@@ -20,6 +21,7 @@ public class FloorToElevatorIntake extends ParallelCommandGroup {
   private double m_CoralPrecent = 0;
   private double m_algaePrecent = 0; 
 
+
   public FloorToElevatorIntake(CoralIntakeSubsystem coralIntakeSubsystem , AlgaeIntakeSubsystem algaeIntakeSubsystem , double CoralPrecent , double algaePrecent) {
     m_CoralIntakeSubsystem = coralIntakeSubsystem;
     m_AlgaeIntakeSubsystem = algaeIntakeSubsystem;
@@ -27,6 +29,6 @@ public class FloorToElevatorIntake extends ParallelCommandGroup {
     m_algaePrecent = algaePrecent;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ControlCoralintake(coralIntakeSubsystem, CoralPrecent) , new ControlAlgaeIntake(algaeIntakeSubsystem, algaePrecent));
+    addCommands(new SmartCoralControl(coralIntakeSubsystem, CoralPrecent) , new ControlAlgaeIntake(algaeIntakeSubsystem, algaePrecent));
   }
 }
