@@ -4,45 +4,35 @@
 
 package frc.robot.Commands.integrationCommands;
 
+import java.lang.Thread.State;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
+import frc.robot.subsystems.GripperSubsystem;
+import frc.robot.subsystems.IntakeArmSubsystem;
+import frc.robot.PresetUtil;
+import frc.robot.PresetUtil.PresetState;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SmartPreset extends Command {
   private ElevatorSubsystem m_Elevator;
-  private GripperArmSubsystem m_CoralArm;
-  private IntakeArmSubsystem m_AlgaeArm;
-  private double m_CoralArmAngle = 0;
-  private double m_AlgaeArmAngle = 0;
-  private double m_ElevatorPosition = 0;
+  private GripperArmSubsystem m_gripperArm;
+  private GripperSubsystem m_gripper;
+  private PresetState m_state;
 
   /** Creates a new command to simply control set preset of the robot with all its subsystems. */
-  public SmartPreset(ElevatorSubsystem elevator , GripperArmSubsystem coralArmSubsystem, IntakeArmSubsystem algaeArmSubsystem ,double ElevatorPosition, double AlgeaArmAngle, double CoralArmAngle) {
-    m_Elevator = elevator;
-    m_CoralArm = coralArmSubsystem;
-    m_AlgaeArm = algaeArmSubsystem;
-    m_CoralArmAngle = CoralArmAngle;
-    m_AlgaeArmAngle = AlgeaArmAngle;
-    m_ElevatorPosition = ElevatorPosition;
-    addRequirements(elevator, coralArmSubsystem, algaeArmSubsystem);
+  public SmartPreset(ElevatorSubsystem elevatorSubsystem , GripperArmSubsystem gripperArmSubsystem, GripperSubsystem gripper ,PresetState state) {
+    m_Elevator = elevatorSubsystem;
+    m_gripperArm = gripperArmSubsystem;
+    m_gripper = gripper;
+    m_state = state;
+    addRequirements(elevatorSubsystem, gripperArmSubsystem, gripper);
   }
-
-  // public SmartPreset(ShooterSubsystem shooter , ArmSubsystem arm, double angle ,double velocity, boolean spin) {
-  //   m_Elevator = shooter;
-  //   m_arm = arm;
-  //   m_angle = angle;
-  //   m_velocity = velocity;
-  //   m_spin = spin;
-  //   addRequirements(arm , shooter);
-  // }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_AlgaeArm.setMotionMagicPosition(m_AlgaeArmAngle);
-    m_CoralArm.setMotionMagicPosition(m_CoralArmAngle);
-    m_Elevator.setMotionMagicPosition(m_ElevatorPosition);
+    set(m_state);
   }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -56,6 +46,19 @@ public class SmartPreset extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.isAtSetpoint() && m_CoralArm.isAtSetpoint() && m_AlgaeArm.isAtSetpoint();
+    return m_Elevator.isAtSetpoint() && m_gripperArm.isAtSetpoint();
+  }
+
+  private void set(PresetState state){
+    if(m_gripper.HasGamePiece()){
+      m_gripper.setMotorPercent(0.5);
+      m_gripperArm.setMotionMagicPosition(PresetUtil.getPresetState(state).getArmAngle());
+      m_Elevator.setMotionMagicPosition(PresetUtil.getPresetState(state).getElevatorHeight());
+    }
+    else{
+      m_gripper.setMotorPercent(0.0);
+      m_gripperArm.setMotionMagicPosition(PresetUtil.getPresetState(state).getArmAngle());
+      m_Elevator.setMotionMagicPosition(PresetUtil.getPresetState(state).getElevatorHeight());
+    } 
   }
 }

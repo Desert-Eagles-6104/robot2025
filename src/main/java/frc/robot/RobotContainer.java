@@ -24,6 +24,8 @@ import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.Commands.IntakeArmCommands.IntakeArmSetPosition;
+import frc.robot.Commands.integrationCommands.SmartPreset;
+import frc.robot.PresetUtil.PresetState;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
@@ -50,6 +52,7 @@ public class RobotContainer {
   private SwerveAutoBuilder m_swerveAutoBuilder;
   public static BooleanSupplier m_isLocalisation = ()-> false;
   public static BooleanSupplier m_isLocalisationOmega = () -> false;
+  public static PresetState m_state = PresetState.Home;
 
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
@@ -63,12 +66,16 @@ public class RobotContainer {
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.L2()));
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
+    // controls
     drivercontroller.circle().onTrue(new IntakeArmSetPosition(m_intakeArm, 15, false));
     drivercontroller.square().onTrue(new IntakeArmSetPosition(m_intakeArm, 90,false));
     drivercontroller.triangle().onTrue(new IntakeArmSetPosition(m_intakeArm, 60, false));
     dashboardResets();
     SwerveBinding();
     auto();
+    updateState();
+    drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+    drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
   }
 
   public void dashboardResets(){
@@ -83,6 +90,14 @@ public class RobotContainer {
   public void disableMotors() {
     m_swerve.disableModules();
   
+  }
+
+  public void updateState(){
+    operatorController.cross().onTrue(new InstantCommand(() -> m_state = PresetState.L1));
+    operatorController.circle().onTrue(new InstantCommand(() -> m_state = PresetState.L2));
+    operatorController.triangle().onTrue(new InstantCommand(() -> m_state = PresetState.L3));
+    operatorController.square().onTrue(new InstantCommand(() -> m_state = PresetState.L4));
+    operatorController.options().onTrue(new InstantCommand(() -> m_state = PresetState.Home));
   }
 
   /**

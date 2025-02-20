@@ -5,20 +5,18 @@
 package frc.robot.Commands.GripperCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.subsystems.GripperSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class InstantGripperControl extends Command {
+public class GripperSetPrecent extends Command {
   GripperSubsystem m_CoralIntakeSubsystem;
   private double m_output = 0;
 
   /** Creates a new Controlintake. */
-  public InstantGripperControl(GripperSubsystem coralIntakeSubsystem , double output) {
+  public GripperSetPrecent(GripperSubsystem coralIntakeSubsystem , double output) {
     m_CoralIntakeSubsystem = coralIntakeSubsystem;
     double m_output = output;
     addRequirements(coralIntakeSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

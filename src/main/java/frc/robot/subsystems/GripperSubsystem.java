@@ -28,7 +28,7 @@ public class GripperSubsystem extends SubsystemBase {
 
    private BeamBreak m_beamBreak;
    private boolean m_isBroken;
-   private boolean m_approve;
+   private boolean m_hasGamePiece;
 
    private TalonFXConfiguration configuration;
 
@@ -46,7 +46,7 @@ public class GripperSubsystem extends SubsystemBase {
     configuration.withSlot0(new Slot0Configs().withKS(Constants.Gripper.Ks).withKV(Constants.Gripper.Kv).withKA(Constants.Gripper.Ka).withKP(Constants.Gripper.Kp).withKI(Constants.Gripper.Ki).withKD(Constants.Gripper.Kd));
     configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.Gripper.SensorToMechanismRatio));
     configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.Gripper.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.Gripper.SupplyCurrentLimitEnable));
-    m_approve = false;
+    m_hasGamePiece = false;
 
     m_motor = new TalonFX(Constants.Gripper.motorId);
     m_motor.getConfigurator().apply(configuration);
@@ -62,19 +62,15 @@ public class GripperSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_hasGamePiece = m_beamBreak.get();
   }
-
-  public boolean getApprove(){
-    return m_approve;
-  }
-
   
   public void disableMotors(){
     m_motor.disable();
   }
 
 
-  public boolean getBeamBreak(){
+  public boolean HasGamePiece(){
     return m_isBroken;
   }
 
