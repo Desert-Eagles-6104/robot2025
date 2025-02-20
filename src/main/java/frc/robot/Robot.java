@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     s_isAuto = true;
     s_Alliance = DriverStation.getAlliance().get();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+  //  m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
     // schedule the autonomous command (example)

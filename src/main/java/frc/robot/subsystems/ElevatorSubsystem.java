@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
@@ -16,20 +17,21 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   /** Creates a new Elevator. */
   public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
+    m_ElevatorMagnet = new BeamBreak(2);
   }
 
    public void periodic() {
     super.periodic();
     magnetState = magnetUpdate();
-    SmartDashboard.putBoolean("magnetcontact", magnetState);
-    SmartDashboard.putNumber("ElevatorSetpoint", setpoint);
+    // SmartDashboard.putBoolean("magnetcontact", magnetState);
+    // SmartDashboard.putNumber("ElevatorSetpoint", setpoint);
   }
 
   public boolean magnetUpdate(){
     m_ElevatorMagnet.update();
     return m_ElevatorMagnet.get();
   }
-
+  
   public boolean getMagnetState(){
     return magnetState;
   }
@@ -50,7 +52,7 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
 
   @Override
   public void setPosition(double position){
-    if(Math.abs(super.getClosedLoopError()) < 2){
+    if(Math.abs(super.getClosedLoopError()) <2 ){
       super.setPosition(position);
     }
     else{
@@ -59,8 +61,8 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   }
 
   @Override
-  public void setPrecentOutput(double precent){
-    super.setPrecentOutput(precent);
+  public void setPrecentOutput(double percent){
+    super.setPrecentOutput(percent);
   }
 
   @Override
@@ -86,5 +88,10 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   @Override
   public void disableMotors(){
     super.disableMotors();
+  }
+
+  @Override 
+  public void runCharacterization(Voltage volts){
+    super.runCharacterization(volts);
   }
 }

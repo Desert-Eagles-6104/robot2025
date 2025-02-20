@@ -16,6 +16,8 @@ public class AlgaeArmSubsystem extends ServoSubsystemTalon {
   /** Creates a new AlgaeArmSubsystem. */
   public AlgaeArmSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
+    m_AlgaeArmMagnet = new BeamBreak(0);
+
   }
 
   @Override

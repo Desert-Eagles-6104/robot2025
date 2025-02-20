@@ -16,6 +16,8 @@ public class CoralArmSubsystem extends ServoSubsystemTalon {
   /** Creates a new CoralArmSubsystem. */
   public CoralArmSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
+    m_CoralArmMagnet = new BeamBreak(0);
+
   }
 
   @Override

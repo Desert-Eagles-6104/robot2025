@@ -46,15 +46,6 @@ public final class Constants {
     public static final double tragetHeight = 0.307975;//high of april tag center from floor - reef april tag
     public static final double cameraPitch = 15.13;//liemlight 3 cameraPitch
 
-    private static Translation2d[][] blueReefMidPoints =
-  {
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
-  };
   }
 
   public final static class Swerve{
@@ -63,7 +54,7 @@ public final class Constants {
 
     public static SwerveConstants swerveConstants = new SwerveConstants(){{
       chosenModule =  //TODO: This must be tuned to specific robot
-      COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
+      COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
       /*String bus */
       String canBus = "Canivore";
@@ -165,33 +156,33 @@ public final class Constants {
 
 
   public final class Elevator {
-    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+    public static final ServoSubsystemConfiguration ElevatorConfiguration = new ServoSubsystemConfiguration(){{
      
       motorType = MotorType.talonFX;
 
       subsystemName = "Elevator";
 
-      slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
+      slaves = new MotorConstants[]{new MotorConstants(51,"rio",false,true)};
 
-      master = new MotorConstants(50,"rio",false ,true);
+      master = new MotorConstants(50,"rio",true ,true);
 
-      rotationsPerPositionUnit = 1.0/360.0;
+      rotationsPerPositionUnit = 1/360;
 
-      sensorToMechanismRatio = 90.0;
+      sensorToMechanismRatio = 20.25;
       
-      pidContainerSlot0 = new PIDContainer(1.5, 3.0, 0.15, 0.15, 95.0, 2.0, 10.0);
+      pidContainerSlot0 = new PIDContainer(0, 2.4607, 0.078006, 0.17003, 67.97, 0.0, 4.4216);
 
-      pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.15, 1000.0, 0.0, 0.0);
+      // pidContainerSlot1 = new PIDContainer(0.0, 0.0, 1.0, 0.15, 1000.0, 0.0, 0.0);
       //#region motion magic values
-      motionMagicCruiseVelocity = 300;
+      motionMagicCruiseVelocity = 100000;
       
-      motionMagicAcceleration = 800;
+      motionMagicAcceleration = 5000;
 
-      motionMagicJerk = 70000;
+      motionMagicJerk = 1250;
       //#endregion motion magic values
 
       //#region cuurent limit
-      supplyCurrentLimit = 60; 
+      supplyCurrentLimit = 40;
 
       enableSupplyCurrentLimit = true;
 
@@ -201,14 +192,14 @@ public final class Constants {
       //#endregion current limit
 
       //#region soft limits 
-      forwardSoftLimit = 95;
+      // forwardSoftLimit = 1000;
 
-      // reverseSoftLimit = 9.57;
+      // reverseSoftLimit = -1;
       //#endregion sofr limits
 
       allowableError = 2.0;
 
-      homePosition = 9.57;
+      homePosition = 5;
     }};
   }
 
@@ -265,13 +256,13 @@ public final class Constants {
 
       subsystemName = "algeaArm";
 
-      slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
+      // slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
 
-      master = new MotorConstants(50,"rio",false ,true);
+      master = new MotorConstants(4,"rio",false ,true);
       
       rotationsPerPositionUnit = 1.0/360.0;
 
-      sensorToMechanismRatio = 90.0;
+      sensorToMechanismRatio = 27;
       
       pidContainerSlot0 = new PIDContainer(1.5, 3.0, 0.15, 0.15, 95.0, 2.0, 10.0);
 
@@ -295,9 +286,9 @@ public final class Constants {
       //#endregion current limit
 
       //#region soft limits 
-      forwardSoftLimit = 95;
+      forwardSoftLimit = 60;
 
-      // reverseSoftLimit = 9.57;
+      reverseSoftLimit = 9.57;
       //#endregion sofr limits
 
       allowableError = 2.0;
@@ -348,13 +339,13 @@ public final class Constants {
 
   public static final SysidConfiguration sysidConfiguration = new SysidConfiguration(){{
     /** The voltage ramp rate used for quasistatic test routines. */
-    m_rampRate = Volts.of(1).div(Seconds.of(1));
+    m_rampRate = Volts.of(2.5).div(Seconds.of(4));
 
     /** The step voltage output used for dynamic test routines. */
-    m_stepVoltage = Volts.of(4);
+    m_stepVoltage = Volts.of(2.5);
 
     /** Safety timeout for the test routine commands. */
-    m_timeout = Seconds.of(3.5);
+    m_timeout = Seconds.of(4.5);
     //#endregion mechanisem
   }};
 }

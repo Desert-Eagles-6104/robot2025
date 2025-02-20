@@ -51,7 +51,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private SwerveSubsystem(SwerveConstants swerveConstants) {
     m_swerveConstants = swerveConstants;
     
-    Pigeon.CreateInstance(0);
+    Pigeon.CreateInstance(44);
     m_gyro = Pigeon.getInstance();
 
     m_frontLeft = new SwerveModule(swerveConstants.FL, swerveConstants);

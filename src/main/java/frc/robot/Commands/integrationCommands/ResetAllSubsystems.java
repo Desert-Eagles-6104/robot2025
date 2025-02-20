@@ -4,12 +4,10 @@
 
 package frc.robot.Commands.integrationCommands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.CoralArmCommands.CoralArmHoming;
 import frc.robot.Commands.ElevatorCommands.ElevatorHoming;
 import frc.robot.Commands.algeaArmCommands.AlgaeArmHoming;
-import frc.robot.Constants.AlgaeArm;
 import frc.robot.subsystems.AlgaeArmSubsystem;
 import frc.robot.subsystems.CoralArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;

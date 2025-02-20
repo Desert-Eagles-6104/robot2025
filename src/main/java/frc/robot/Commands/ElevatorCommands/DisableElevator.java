@@ -12,9 +12,9 @@ import frc.robot.subsystems.ElevatorSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DisableElevator extends InstantCommand {
   ElevatorSubsystem m_elevator;
-  public DisableElevator(ElevatorSubsystem arm) {
-    m_elevator = arm;
-    addRequirements(arm);
+  public DisableElevator(ElevatorSubsystem elevator) {
+    m_elevator = elevator;
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
