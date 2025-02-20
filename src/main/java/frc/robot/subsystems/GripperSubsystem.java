@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
-public class CoralIntakeSubsystem extends SubsystemBase {
-  private static CoralIntakeSubsystem m_instance = null;
+public class GripperSubsystem extends SubsystemBase {
+  private static GripperSubsystem m_instance = null;
 
    private TalonFX m_motor;
 
@@ -39,24 +39,24 @@ public class CoralIntakeSubsystem extends SubsystemBase {
   private StatusSignal<Double> m_closedLoopErrorSignal;
   
 
-  public CoralIntakeSubsystem() {
+  public GripperSubsystem() {
     configuration = new TalonFXConfiguration();
     configuration = new TalonFXConfiguration();
-    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.CoralIntake.motorInverted).withDutyCycleNeutralDeadband(Constants.CoralIntake.DutyCycleNeutralDeadband));
-    configuration.withSlot0(new Slot0Configs().withKS(Constants.CoralIntake.Ks).withKV(Constants.CoralIntake.Kv).withKA(Constants.CoralIntake.Ka).withKP(Constants.CoralIntake.Kp).withKI(Constants.CoralIntake.Ki).withKD(Constants.CoralIntake.Kd));
-    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.CoralIntake.SensorToMechanismRatio));
-    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.CoralIntake.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.CoralIntake.SupplyCurrentLimitEnable));
+    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.Gripper.motorInverted).withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband));
+    configuration.withSlot0(new Slot0Configs().withKS(Constants.Gripper.Ks).withKV(Constants.Gripper.Kv).withKA(Constants.Gripper.Ka).withKP(Constants.Gripper.Kp).withKI(Constants.Gripper.Ki).withKD(Constants.Gripper.Kd));
+    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.Gripper.SensorToMechanismRatio));
+    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.Gripper.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.Gripper.SupplyCurrentLimitEnable));
     m_approve = false;
 
-    m_motor = new TalonFX(Constants.CoralIntake.motorId);
+    m_motor = new TalonFX(Constants.Gripper.motorId);
     m_motor.getConfigurator().apply(configuration);
 
     m_positionSignal = m_motor.getPosition();
     m_velocitySignal = m_motor.getVelocity();
     m_closedLoopErrorSignal = m_motor.getClosedLoopError();
-    BaseStatusSignal.setUpdateFrequencyForAll(Constants.CoralIntake.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
+    BaseStatusSignal.setUpdateFrequencyForAll(Constants.Gripper.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
 
-    m_beamBreak = new BeamBreak(Constants.CoralIntake.beamBreakPort);
+    m_beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
   }
 
   @Override
@@ -73,30 +73,18 @@ public class CoralIntakeSubsystem extends SubsystemBase {
     m_motor.disable();
   }
 
-  public double getPosition(){
-    return (m_positionSignal.getValueAsDouble());
-  }
-
-  public double getVelocity(){
-    return m_velocitySignal.getValueAsDouble();
-  }
 
   public boolean getBeamBreak(){
     return m_isBroken;
   }
 
-  public void setMotorPrecent(double prcent){
-    m_motor.set(prcent);
+  public void setMotorPercent(double percent){
+    m_motor.set(percent);
   }
 
-  public void setPosition(double position){
-    m_motor.setControl(m_PositionVoltageRequest.withPosition((getPosition() + position)));
-  }
-
-
-  public static CoralIntakeSubsystem getInstance() {
+  public static GripperSubsystem getInstance() {
     if(m_instance == null){
-      m_instance = new CoralIntakeSubsystem();
+      m_instance = new GripperSubsystem();
     }  
     return m_instance;
   }

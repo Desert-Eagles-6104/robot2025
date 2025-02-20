@@ -2,19 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.CoralIntakeCommands;
+package frc.robot.Commands.GripperCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.robot.subsystems.CoralIntakeSubsystem;
+import frc.robot.subsystems.GripperSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class InstantCoralControl extends Command {
-  CoralIntakeSubsystem m_CoralIntakeSubsystem;
+public class InstantGripperControl extends Command {
+  GripperSubsystem m_CoralIntakeSubsystem;
   private double m_output = 0;
 
   /** Creates a new Controlintake. */
-  public InstantCoralControl(CoralIntakeSubsystem coralIntakeSubsystem , double output) {
+  public InstantGripperControl(GripperSubsystem coralIntakeSubsystem , double output) {
     m_CoralIntakeSubsystem = coralIntakeSubsystem;
     double m_output = output;
     addRequirements(coralIntakeSubsystem);
@@ -24,6 +24,6 @@ public class InstantCoralControl extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_CoralIntakeSubsystem.setMotorPrecent(m_output);
+    m_CoralIntakeSubsystem.setMotorPercent(m_output);
   }
 }

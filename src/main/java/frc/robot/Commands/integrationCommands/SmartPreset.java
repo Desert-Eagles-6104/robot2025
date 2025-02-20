@@ -5,20 +5,20 @@
 package frc.robot.Commands.integrationCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaeArmSubsystem;
-import frc.robot.subsystems.CoralArmSubsystem;
+import frc.robot.subsystems.IntakeArmSubsystem;
+import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SmartPreset extends Command {
   private ElevatorSubsystem m_Elevator;
-  private CoralArmSubsystem m_CoralArm;
-  private AlgaeArmSubsystem m_AlgaeArm;
+  private GripperArmSubsystem m_CoralArm;
+  private IntakeArmSubsystem m_AlgaeArm;
   private double m_CoralArmAngle = 0;
   private double m_AlgaeArmAngle = 0;
   private double m_ElevatorPosition = 0;
 
   /** Creates a new command to simply control set preset of the robot with all its subsystems. */
-  public SmartPreset(ElevatorSubsystem elevator , CoralArmSubsystem coralArmSubsystem, AlgaeArmSubsystem algaeArmSubsystem ,double ElevatorPosition, double AlgeaArmAngle, double CoralArmAngle) {
+  public SmartPreset(ElevatorSubsystem elevator , GripperArmSubsystem coralArmSubsystem, IntakeArmSubsystem algaeArmSubsystem ,double ElevatorPosition, double AlgeaArmAngle, double CoralArmAngle) {
     m_Elevator = elevator;
     m_CoralArm = coralArmSubsystem;
     m_AlgaeArm = algaeArmSubsystem;

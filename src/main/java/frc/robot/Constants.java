@@ -204,11 +204,11 @@ public final class Constants {
     }};
   }
 
-  public final class CoralArm {
+  public final class GripperArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
       motorType = MotorType.talonFX;
 
-      subsystemName = "coralArm";
+      subsystemName = "gripperArm";
 
       master = new MotorConstants(1,"rio",true ,true);
 
@@ -250,11 +250,11 @@ public final class Constants {
     }};
   }
 
-  public final class AlgaeArm {
+  public final class IntakeArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
       motorType = MotorType.talonFX;
 
-      subsystemName = "algeaArm";
+      subsystemName = "intakeArm";
 
       // slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
 
@@ -297,7 +297,7 @@ public final class Constants {
     }};
   }
 
-  public static final class AlgaeIntake{
+  public static final class Intake{
     public static final int motorId = 3;
     public static final int beamBreakPort = 0;
     public static final double intakeOutput = 0.6;
@@ -318,7 +318,7 @@ public final class Constants {
 
 
 
-  public static final class CoralIntake{
+  public static final class Gripper{
       public static final int motorId = 2;
       public static final int beamBreakPort = 0;
       public static final double intakeOutput = 0.6;

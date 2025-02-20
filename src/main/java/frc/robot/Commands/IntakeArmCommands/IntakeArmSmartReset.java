@@ -2,15 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.CoralArmCommands;
+package frc.robot.Commands.IntakeArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralArmSubsystem;
+import frc.robot.subsystems.IntakeArmSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
-public class CoralArmSmartReset extends Command {
-  CoralArmSubsystem m_CoralArmSubsystem;
-  public CoralArmSmartReset(CoralArmSubsystem arm) {
-    m_CoralArmSubsystem = arm;
+public class IntakeArmSmartReset extends Command {
+  IntakeArmSubsystem m_AlgaeArmSubsystem;
+  public IntakeArmSmartReset(IntakeArmSubsystem arm) {
+    m_AlgaeArmSubsystem = arm;
     addRequirements(arm);
   }
 

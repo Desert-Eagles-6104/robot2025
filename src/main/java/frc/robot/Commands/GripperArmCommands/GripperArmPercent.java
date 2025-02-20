@@ -2,18 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.CoralArmCommands;
+package frc.robot.Commands.GripperArmCommands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralArmSubsystem;
+import frc.robot.subsystems.GripperArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralArmPercent extends Command {
-  CoralArmSubsystem m_coral;
+public class GripperArmPercent extends Command {
+  GripperArmSubsystem m_coral;
   double m_percent;
   /** Creates a new CoralArmPercent. */
-  public CoralArmPercent(CoralArmSubsystem arm , double percent) {
+  public GripperArmPercent(GripperArmSubsystem arm , double percent) {
     m_coral = arm;
     m_percent = percent;
     addRequirements(m_coral);

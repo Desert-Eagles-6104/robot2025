@@ -6,12 +6,12 @@ package frc.robot.Commands.CommandsGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.robot.Commands.CoralIntakeCommands.SmartCoralControl;
+import frc.robot.Commands.GripperCommands.SmartGripperControl;
 import frc.robot.Commands.integrationCommands.SmartPreset;
-import frc.robot.subsystems.AlgaeArmSubsystem;
-import frc.robot.subsystems.AlgaeIntakeSubsystem;
-import frc.robot.subsystems.CoralArmSubsystem;
-import frc.robot.subsystems.CoralIntakeSubsystem;
+import frc.robot.subsystems.IntakeArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.GripperArmSubsystem;
+import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,10 +19,10 @@ import frc.robot.subsystems.ElevatorSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HumanIntake extends SequentialCommandGroup {
   private ElevatorSubsystem m_elevator;
-  private CoralArmSubsystem m_coralArm;
-  private AlgaeArmSubsystem m_AlgaeArm;
-  private CoralIntakeSubsystem m_CoralIntakeSubsystem;
-  private AlgaeIntakeSubsystem m_AlgaeIntakeSubsystem;
+  private GripperArmSubsystem m_coralArm;
+  private IntakeArmSubsystem m_AlgaeArm;
+  private GripperSubsystem m_CoralIntakeSubsystem;
+  private IntakeSubsystem m_AlgaeIntakeSubsystem;
   private double m_elevatorPosition = 0;
   private double m_CoralArmAngle = 0;
   private double m_AlgaeArmAngle = 0;
@@ -30,7 +30,7 @@ public class HumanIntake extends SequentialCommandGroup {
   private double m_algaePrecent = 0; 
   
   /** Creates a new HumanIntake. */
-  public HumanIntake(ElevatorSubsystem elevator , CoralArmSubsystem coralArm, AlgaeArmSubsystem algaeArm , double ElevatorPosition , double AlgaeArmAngle , double CoralArmAngle, CoralIntakeSubsystem coralIntakeSubsystem , AlgaeIntakeSubsystem algaeIntakeSubsystem , double CoralPrecent , double algaePrecent) {
+  public HumanIntake(ElevatorSubsystem elevator , GripperArmSubsystem coralArm, IntakeArmSubsystem algaeArm , double ElevatorPosition , double AlgaeArmAngle , double CoralArmAngle, GripperSubsystem coralIntakeSubsystem , IntakeSubsystem algaeIntakeSubsystem , double CoralPrecent , double algaePrecent) {
     m_elevator = elevator;
     m_coralArm = coralArm;
     m_AlgaeArm = algaeArm;
@@ -42,6 +42,6 @@ public class HumanIntake extends SequentialCommandGroup {
     m_CoralPrecent = CoralPrecent;
     m_algaePrecent = algaePrecent;
 
-    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new SmartCoralControl(coralIntakeSubsystem, CoralPrecent), new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
+    addCommands(new SmartPreset(elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle) , new SmartGripperControl(coralIntakeSubsystem, CoralPrecent), new SmartPreset( elevator, coralArm, algaeArm ,ElevatorPosition , AlgaeArmAngle , CoralArmAngle));
   }
 }

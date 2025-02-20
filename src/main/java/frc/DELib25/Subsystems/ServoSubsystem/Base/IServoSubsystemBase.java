@@ -2,7 +2,6 @@ package frc.DELib25.Subsystems.ServoSubsystem.Base;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.measure.Voltage;
 
 public interface IServoSubsystemBase {
