@@ -16,12 +16,13 @@ import frc.DELib25.BooleanUtil.ToggleBoolean;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssist;
+import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistToReef;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.HeadingController;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper.DriveMode;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.Constants;
+import frc.robot.ReefUtill;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -29,7 +30,7 @@ public class TeleopDrive extends Command {
  private  SwerveSubsystem m_swerve;
  private CommandPS5Controller m_joystick;
  private HeadingController m_headingController;
- private DriveAssist m_driveAssistController;
+ private DriveAssistToReef m_driveAssistToReefController;
  private BooleanSupplier m_lowPower;
  private BooleanSupplier m_fieldRelative;
  private BooleanSupplier m_shouldResetYaw;
@@ -37,13 +38,14 @@ public class TeleopDrive extends Command {
  private LatchedBolean m_useVisionLatch;
  private ToggleBoolean m_fieldRelativeToggle;
  private Translation2d m_centerOfRotation;
+ private BooleanSupplier m_isRight;
 
 
-  public TeleopDrive(SwerveSubsystem swerve ,CommandPS5Controller joystick, BooleanSupplier lowPower, BooleanSupplier fieldRelative, BooleanSupplier resetYaw, BooleanSupplier useVision, BooleanSupplier intakeButton) {
+  public TeleopDrive(SwerveSubsystem swerve ,CommandPS5Controller joystick, BooleanSupplier lowPower, BooleanSupplier fieldRelative, BooleanSupplier resetYaw, BooleanSupplier useVision, BooleanSupplier isRight) {
     m_swerve = swerve;
     m_joystick = joystick;
     m_headingController = new HeadingController(new PIDContainer(0.06, 0, 0, "stablize"), new PIDContainer(0.09, 0, 0, "snap"), new PIDContainer(0.2, 0.0, 0.0, "vision"), new PIDContainer(0.2, 0.00001, 0.0, "visionLowError")); //vision note: p=0.1  visionNoteLowError: p =0.1 i = 0.00001
-    m_driveAssistController = new DriveAssist(0.03, intakeButton);
+    m_driveAssistToReefController = new DriveAssistToReef(swerve);
     m_lowPower = lowPower;
     m_fieldRelative = fieldRelative;
     m_shouldResetYaw = resetYaw;
@@ -51,6 +53,7 @@ public class TeleopDrive extends Command {
     m_useVisionLatch = new LatchedBolean();
     m_fieldRelativeToggle = new ToggleBoolean();
     m_centerOfRotation = new Translation2d();
+    m_isRight = isRight;
     addRequirements(swerve);
   }
 
@@ -78,12 +81,7 @@ public class TeleopDrive extends Command {
 
       if(RobotContainer.m_isLocalisationOmega.getAsBoolean()){
         //localization
-        if(PoseEstimatorSubsystem.inMyWing()){
-          setVisionTargetlocalization(PoseEstimatorSubsystem.getAngleToReef().getDegrees());
-        }
-        else{
-          setVisionTargetlocalization(PoseEstimatorSubsystem.getAngleToDelivery().getDegrees());
-        }
+         setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngle().getDegrees());
         chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), m_useVision.getAsBoolean(), chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
       }
       else {
@@ -92,7 +90,7 @@ public class TeleopDrive extends Command {
         chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), m_useVision.getAsBoolean(), chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getInterpolatedPose(VisionSubsystem.getTotalLatency()).getRotation(), m_swerve.getRobotRelativeVelocity()); 
       }
 
-      chassisSpeeds = m_driveAssistController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading());
+      chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading(), m_isRight.getAsBoolean());
 
       m_swerve.drive(chassisSpeeds, true, m_fieldRelativeToggle.update(!m_fieldRelative.getAsBoolean()), m_centerOfRotation);
   }

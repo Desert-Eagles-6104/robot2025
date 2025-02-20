@@ -90,6 +90,10 @@ public class VisionSubsystem extends SubsystemBase {
     }
     return m_estimatedRobotPose;
   }
+
+  public static double getID(){
+    return LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
+  }
   
   public static double getTx(){
     return m_tx;
@@ -135,8 +139,8 @@ public class VisionSubsystem extends SubsystemBase {
     return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.getCameraName()) * miliToSec;
   }
 
-  public int getCurrentID(){
-    return (int)m_currentID;
+  public double getCurrentID(){
+    return m_currentID;
   }
 
   /*

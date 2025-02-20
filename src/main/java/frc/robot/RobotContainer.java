@@ -64,7 +64,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
-    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.L2()));
+    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.R1()));
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
     // controls
     drivercontroller.circle().onTrue(new IntakeArmSetPosition(m_intakeArm, 15, false));
