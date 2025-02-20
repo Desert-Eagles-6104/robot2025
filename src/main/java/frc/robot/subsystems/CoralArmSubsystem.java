@@ -4,37 +4,18 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class CoralArmSubsystem extends ServoSubsystemTalon {
-  private BeamBreak m_CoralArmMagnet;
-  private boolean magnetState = false;
   /** Creates a new CoralArmSubsystem. */
   public CoralArmSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
-    m_CoralArmMagnet = new BeamBreak(0);
-
   }
 
   @Override
   public void periodic() {
     super.periodic();
-    magnetState = magnetUpdate();
-    SmartDashboard.putBoolean("magnetcontact", magnetState);
-    SmartDashboard.putNumber("CoralArmSetpoint", setpoint);
-  }
-
-  public boolean magnetUpdate(){
-    m_CoralArmMagnet.update();
-    return m_CoralArmMagnet.get();
-  }
-
-  public boolean getMagnetState(){
-    return magnetState;
   }
 
   @Override

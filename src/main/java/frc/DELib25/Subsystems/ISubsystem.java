@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.DELib25.Subsystems;
-
-import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.measure.Voltage;
 
 public interface ISubsystem {

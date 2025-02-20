@@ -27,11 +27,15 @@ import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
 import frc.robot.Commands.CoralArmCommands.CoralArmPercent;
+import frc.robot.Commands.CoralArmCommands.CoralArmSetPosition;
 import frc.robot.Commands.ElevatorCommands.ElevatorChangeNeutralMode;
 import frc.robot.Commands.ElevatorCommands.ElevatorSetPercent;
 import frc.robot.Commands.ElevatorCommands.ElevatorSetPosition;
+import frc.robot.Commands.ElevatorCommands.HomingElevator;
+import frc.robot.Commands.algeaArmCommands.AlgaeArmSetPosition;
 import frc.robot.subsystems.AlgaeArmSubsystem;
 import frc.robot.subsystems.CoralArmSubsystem;
+import frc.robot.subsystems.CoralIntakeSubsystem;
 // import frc.DELib25.Util.SwerveAutoBuilder; 
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -52,6 +56,7 @@ public class RobotContainer {
   private VisionSubsystem m_vision;
   private ElevatorSubsystem m_elevator;
   private CoralArmSubsystem m_CoralArm;
+  private CoralIntakeSubsystem m_CoralInake;
   private AlgaeArmSubsystem m_AlgaeArm;
   private PoseEstimatorSubsystem m_poseEstimator;
   private PhoneixSysid m_FloorPhoneixSysid;
@@ -63,30 +68,32 @@ public class RobotContainer {
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
     m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
+    m_CoralArm = new CoralArmSubsystem(Constants.CoralArm.configuration);
     m_AlgaeArm = new AlgaeArmSubsystem(Constants.AlgaeArm.configuration);
     m_vision = new VisionSubsystem(new CameraSettings(-0.30821, 0, 0.10689, 0, 15.13, 180.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
-    m_FloorPhoneixSysid = new PhoneixSysid(Constants.sysidConfiguration, m_AlgaeArm);
+    m_FloorPhoneixSysid = new PhoneixSysid(Constants.sysidConfiguration, m_CoralArm);
     // swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.L2()));
     SmartDashboard.putData("reset Odometry from limelight", new InstantCommand(() -> PoseEstimatorSubsystem.resetPositionFromCamera()));
-    SmartDashboard.putData("resetalgaePosition" , new InstantCommand(() -> m_AlgaeArm.resetPosition(0)));
-    // drivercontroller.cross().onTrue(new ElevatorSetPosition(m_elevator, 600, false));
-    // drivercontroller.povUp().onTrue(new ElevatorSetPosition(m_elevator, 400, false));
-    // drivercontroller.povDown().onTrue(new ElevatorSetPosition(m_elevator, 200, false));
-    // drivercontroller.povLeft().onTrue(new ElevatorSetPosition(m_elevator, 0, false));
+    SmartDashboard.putData("resetalgaePosition" , new InstantCommand(() -> m_elevator.resetPosition(0)).ignoringDisable(true));
+    SmartDashboard.putData("reset elevator" , new InstantCommand(() -> m_elevator.resetPosition(0)).ignoringDisable(true));
+    SmartDashboard.putData("reset arm" , new InstantCommand(() -> m_CoralArm.resetPosition(37)).ignoringDisable(true));
+    SmartDashboard.putData("reset alge" ,
+     new InstantCommand(() -> m_AlgaeArm.resetPosition(0.0)).ignoringDisable(true));
+    drivercontroller.circle().onTrue(new AlgaeArmSetPosition(m_AlgaeArm, 15, false));
+    drivercontroller.square().onTrue(new AlgaeArmSetPosition(m_AlgaeArm, 90,false));
+    drivercontroller.triangle().onTrue(new AlgaeArmSetPosition(m_AlgaeArm, 60, false));
     // SmartDashboard.putData("sofrLimit",new InstantCommand(() -> m_elevator.ControlSoftLimit(false)));
-    drivercontroller.circle().toggleOnTrue(new ElevatorSetPercent(m_elevator, 0.05));
-    drivercontroller.povDown().onTrue(new CoralArmPercent(m_CoralArm, -0.3));
-    drivercontroller.povUp().onTrue(new CoralArmPercent(m_CoralArm, 0.3));
-
+    // drivercontroller.circle().onTrue(new HomingElevator(m_elevator));
+    // drivercontroller.povDown().onTrue(new CoralArmPercent(m_CoralArm, -0.3));
+    // drivercontroller.povUp().onTrue(new CoralArmPercent(m_CoralArm, 0.3));
     
     SwerveBinding();
-    drivercontroller.square().onTrue( new InstantCommand(() -> m_AlgaeArm.disableMotors()));
-    drivercontroller.triangle().onTrue(m_FloorPhoneixSysid.runFullCharacterization(true));
-    SmartDashboard.putData("coast" , new InstantCommand(() -> m_AlgaeArm.changeNeutralMode(NeutralModeValue.Coast)));
+    //drivercontroller.triangle().onTrue(m_FloorPhoneixSysid.runFullCharacterization(false));
+    SmartDashboard.putData("coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     presets();
     resets();
     auto();

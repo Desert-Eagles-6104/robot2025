@@ -5,38 +5,20 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class AlgaeArmSubsystem extends ServoSubsystemTalon {
-  private BeamBreak m_AlgaeArmMagnet;
-  private boolean magnetState = false;
   /** Creates a new AlgaeArmSubsystem. */
   public AlgaeArmSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);
-    m_AlgaeArmMagnet = new BeamBreak(0);
-
   }
 
   @Override
   public void periodic() {
     super.periodic();
-    magnetState = magnetUpdate();
-    SmartDashboard.putBoolean("magnetcontact", magnetState);
-    SmartDashboard.putNumber("AlgaeArmSetpoint", setpoint);
   }
-
-  public boolean magnetUpdate(){
-    m_AlgaeArmMagnet.update();
-    return m_AlgaeArmMagnet.get();
-  }
-
-  public boolean getMagnetState(){
-    return magnetState;
-  }
-
   
   @Override
   public double toRotations(double units){
@@ -50,18 +32,32 @@ public class AlgaeArmSubsystem extends ServoSubsystemTalon {
 
   @Override
   public void setMotionMagicPosition(double position) {
-    super.setMotionMagicPosition(position);
+    if(position < getPosition()){
+      super.setMotionMagicPosition(position);
+    }
+    else{
+      super.setPosition(position);
+    }
   }
 
   @Override
   public void setPosition(double position){
-    if(Math.abs(super.getClosedLoopError()) < 2){
-      super.setPosition(position);
-    }
-    else{
+    if(position < getPosition()){
       super.setMotionMagicPosition(position);
     }
+    else{
+      super.setPosition(position);
+    }
   }
+
+  public void smartSetPosition(double position){
+    if(position < getPosition()){
+      super.setMotionMagicPosition(position);
+    }
+    else{
+      super.setPosition(position);
+    }
+}
 
   @Override
   public void setPrecentOutput(double precent){
