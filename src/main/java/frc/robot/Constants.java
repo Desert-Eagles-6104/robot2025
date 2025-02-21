@@ -59,6 +59,8 @@ public final class Constants {
       /*String bus */
       String canBus = "Canivore";
 
+      
+
 
       /* Drivetrain Constants */
       wheelCircumference = chosenModule.wheelCircumference;
@@ -93,6 +95,8 @@ public final class Constants {
       anglePeakCurrentLimit = 40;
       anglePeakCurrentDuration = 0.1;
       angleEnableCurrentLimit = true;
+
+      double [] angleOffset= {0.105957, 0.260498, -0.268066,-0.159424};
 
       driveContinuousCurrentLimit = 40;
       driveStatorCurrentLimit = 60;

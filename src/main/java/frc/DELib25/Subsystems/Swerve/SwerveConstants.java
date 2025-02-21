@@ -22,6 +22,8 @@ public class SwerveConstants {
     /* Drivetrain Constants */
     public double wheelCircumference = chosenModule.wheelCircumference;
 
+    double [] angleOffset={0.105957, 0.260498, -0.268066,-0.159424};
+
     /*swerve module position*/
     public Translation2d frontLeftPos = new Translation2d(0.35,0.35);
     public Translation2d frontRightPos = new Translation2d(0.35,-0.35);

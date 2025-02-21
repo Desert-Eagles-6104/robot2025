@@ -5,6 +5,8 @@
 package frc.DELib25.Subsystems.Swerve;
 
 import static edu.wpi.first.units.Units.Volts;
+
+import java.io.Console;
 import java.io.IOException;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.VecBuilder;
@@ -26,6 +28,7 @@ import frc.DELib25.CSV.CSVWriter;
 import frc.DELib25.Intepulation.InterpolatingDouble;
 import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Sensors.Pigeon;
+import frc.robot.Constants;
 
 public class SwerveSubsystem extends SubsystemBase {
   private static SwerveSubsystem swerve = null;
@@ -64,14 +67,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_kinematics = new SwerveDriveKinematics(swerveConstants.frontLeftPos, swerveConstants.frontRightPos, swerveConstants.backLeftPos, swerveConstants.backRightPos);
     m_odometry = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), getModulesPositions(), new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.1), VecBuilder.fill(0.3, 0.3, 9999999));
+    readAngleOffsets();
 
-    try {
-      m_writer = new CSVWriter(swerveConstants.filepath);
-      m_reader = new CSVReader(swerveConstants.filepath);
-      readAngleOffsets();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // try {
+    //   m_writer = new CSVWriter(swerveConstants.filepath);
+    //   m_reader = new CSVReader(swerveConstants.filepath);
+    // } catch (IOException e) {
+    //   e.printStackTrace();
+    // }
 
     int k_maxPoseHistorySize = 51;
     m_pastPoses = new InterpolatingTreeMap<>(k_maxPoseHistorySize);
@@ -181,9 +184,14 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void readAngleOffsets(){
-    double[][] angleOffsets = m_reader.readAsDouble(1);
+    // double[][] angleOffsets = m_reader.readAsDouble(1);
+    double [] angleOffsets = new double[4];
     for(int i = 0; i < angleOffsets.length; i++){
-      m_swerveModules[i].setAngleOffset(Rotation2d.fromRotations(angleOffsets[i][0]));
+      angleOffsets[i]= Constants.Swerve.swerveConstants.angleOffset[i];
+    }
+
+    for(int i = 0; i < angleOffsets.length; i++){
+      m_swerveModules[i].setAngleOffset(Rotation2d.fromRotations(angleOffsets[i]));
     }
   }
 
@@ -199,8 +207,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_writer.writeCSVFile(angleOffsets);
     return true;
   }
-
-
 
   public static SwerveSubsystem createInstance(SwerveConstants swerveConstants){
     if(swerve == null){
