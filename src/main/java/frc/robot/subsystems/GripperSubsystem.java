@@ -25,7 +25,6 @@ public class GripperSubsystem extends SubsystemBase {
   private static GripperSubsystem m_instance = null;
 
    private TalonFX m_motor;
-
    private BeamBreak m_beamBreak;
    private boolean m_isBroken;
    private boolean m_hasGamePiece;

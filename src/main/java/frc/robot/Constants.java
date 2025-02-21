@@ -59,6 +59,7 @@ public final class Constants {
       /*String bus */
       String canBus = "Canivore";
 
+
       /* Drivetrain Constants */
       wheelCircumference = chosenModule.wheelCircumference;
 
@@ -140,7 +141,7 @@ public final class Constants {
       maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
 
       /* Neutral Modes */
-      angleNeutralMode = NeutralMode.Coast;
+      angleNeutralMode = NeutralMode.Brake;
       driveNeutralMode = NeutralMode.Brake;
 
 

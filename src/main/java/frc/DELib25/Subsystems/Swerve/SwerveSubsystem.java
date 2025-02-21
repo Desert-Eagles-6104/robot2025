@@ -142,13 +142,13 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     for (SwerveModule m : m_swerveModules) {
-      m.refreshAllSignals(); 
+      m.refreshAllSignals();
     }
     m_gyro.getYawStatusSignal().refresh();
     Pose2d currentPose = m_odometry.update(m_gyro.getYaw(), getModulesPositions());
     m_pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
-  }
+  } 
 
   public void zeroHeading(){
     Rotation2d heading = (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red)) ? Rotation2d.fromDegrees(180) : new Rotation2d();
@@ -160,6 +160,8 @@ public class SwerveSubsystem extends SubsystemBase {
     for (int i = 0; i < m_swerveModules.length; i++){
       m_swerveModules[i].resetToAbsolute();
     }
+
+    
   }
 
   public void resetOdometry(Pose2d pose) {
