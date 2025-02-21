@@ -49,12 +49,6 @@ public class DriveAssistToReef {
                     chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, m_swerveSubsystem.getHeading());
                 }
             }
-
-            else if(dontSeesAprilTagForTime.get(!VisionSubsystem.getTv())){
-                chassisSpeeds.vxMetersPerSecond = 0;
-                chassisSpeeds.vyMetersPerSecond = 0;
-                chassisSpeeds.omegaRadiansPerSecond = 0;
-            }
             return chassisSpeeds;
         }
     }

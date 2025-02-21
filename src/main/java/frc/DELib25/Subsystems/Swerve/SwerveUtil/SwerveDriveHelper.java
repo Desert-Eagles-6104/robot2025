@@ -29,7 +29,7 @@ public class SwerveDriveHelper {
     public static ChassisSpeeds updateChassisSpeeds(ChassisSpeeds rawChassisSpeeds, BooleanSupplier lowPower, DriveMode mode){
         switch(mode){
             case MadTown:
-                return madTown(rawChassisSpeeds, lowPower.getAsBoolean());
+                return madTown(rawChassisSpeeds, lowPower.getAsBoolean());//todo
                 
             case JackInTheBot:
                 return JackInTheBot(rawChassisSpeeds, lowPower.getAsBoolean());
@@ -89,7 +89,7 @@ public class SwerveDriveHelper {
 		 to make the controls less sensitive at the lower end. */
 		final double power = (lowPower) ? 1.5 : 1.75;
         final double highPowerRotationScalar = 0.6;
-		Rotation2d direction = translationInput.getAngle();
+		Rotation2d direction = translationInput.getAngle();//todo
 		double scaledMagnitude = Math.pow(inputMagnitude, power);
 		translationInput = new Translation2d(direction.getCos() * scaledMagnitude, direction.getSin() * scaledMagnitude);
 		

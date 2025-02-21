@@ -16,7 +16,7 @@ public class GripperSetPrecent extends Command {
   public GripperSetPrecent(GripperSubsystem coralIntakeSubsystem , double output) {
     m_CoralIntakeSubsystem = coralIntakeSubsystem;
     double m_output = output;
-    addRequirements(coralIntakeSubsystem);
+    addRequirements(m_CoralIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.

@@ -4,12 +4,10 @@
 
 package frc.robot.Commands.integrationCommands;
 
-import java.lang.Thread.State;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
-import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.PresetUtil;
 import frc.robot.PresetUtil.PresetState;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -26,7 +24,7 @@ public class SmartPreset extends Command {
     m_gripperArm = gripperArmSubsystem;
     m_gripper = gripper;
     m_state = state;
-    addRequirements(elevatorSubsystem, gripperArmSubsystem, gripper);
+    addRequirements(m_Elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -51,14 +49,14 @@ public class SmartPreset extends Command {
 
   private void set(PresetState state){
     if(m_gripper.HasGamePiece()){
-      m_gripper.setMotorPercent(0.5);
+      m_gripper.setMotorPercent(0.0);
       m_gripperArm.setMotionMagicPosition(PresetUtil.getPresetState(state).getArmAngle());
       m_Elevator.setMotionMagicPosition(PresetUtil.getPresetState(state).getElevatorHeight());
     }
     else{
       m_gripper.setMotorPercent(0.0);
-      m_gripperArm.setMotionMagicPosition(PresetUtil.getPresetState(state).getArmAngle());
-      m_Elevator.setMotionMagicPosition(PresetUtil.getPresetState(state).getElevatorHeight());
+      m_gripperArm.setMotionMagicPosition(PresetUtil.getPresetState(PresetState.Human).getArmAngle());
+      m_Elevator.setMotionMagicPosition(PresetUtil.getPresetState(PresetState.Human).getElevatorHeight());
     } 
   }
 }

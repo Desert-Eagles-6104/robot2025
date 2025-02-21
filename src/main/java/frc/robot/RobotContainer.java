@@ -23,6 +23,9 @@ import frc.DELib25.Util.SwerveAutoBuilder;
 import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
+import frc.robot.Commands.ElevatorCommands.ElevatorSetPosition;
+import frc.robot.Commands.GripperArmCommands.GripperArmPercent;
+import frc.robot.Commands.GripperCommands.GripperSetPrecent;
 import frc.robot.Commands.IntakeArmCommands.IntakeArmSetPosition;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.PresetUtil.PresetState;
@@ -59,23 +62,29 @@ public class RobotContainer {
     m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
     m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
     m_intakeArm = new IntakeArmSubsystem(Constants.IntakeArm.configuration);
+    m_gripper = new GripperSubsystem();
     m_vision = new VisionSubsystem(new CameraSettings(-0.30821, 0, 0.10689, 0, 15.13, 180.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
     m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
-    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1(), drivercontroller.R1()));
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
     // controls
-    drivercontroller.circle().onTrue(new IntakeArmSetPosition(m_intakeArm, 15, false));
-    drivercontroller.square().onTrue(new IntakeArmSetPosition(m_intakeArm, 90,false));
-    drivercontroller.triangle().onTrue(new IntakeArmSetPosition(m_intakeArm, 60, false));
+    //drivercontroller.circle().onTrue(new ElevatorSetPosition(m_elevator, 0.1, true));
+    //drivercontroller.square().onTrue(new ElevatorSetPosition(m_elevator, 0.3,true));
+    //drivercontroller.triangle().onTrue(new ElevatorSetPosition(m_elevator, 0.6, true));
     dashboardResets();
     SwerveBinding();
     auto();
     updateState();
+    // SCORE AND INTAKE
     drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+    drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+
   }
 
   public void dashboardResets(){
@@ -85,6 +94,7 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Intake Arm" ,new InstantCommand(() -> m_intakeArm.resetPosition(0.0)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Brake" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Brake)).ignoringDisable(true));
+    SmartDashboard.putBoolean("hasCoral", m_gripper.HasGamePiece());
   }
 
   public void disableMotors() {
@@ -118,6 +128,8 @@ public class RobotContainer {
     
     m_swerveAutoBuilder.buildAutos();
   }
+
+
 
   public void SwerveBinding(){
     SmartDashboard.putData("calibrate Swerve Modules", new ResetSwerveModules(m_swerve).ignoringDisable(true));

@@ -36,28 +36,28 @@ public class PresetUtil {
         switch (state) {
 
             case L1:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.2,-54.208984375);//first stage   
             
             case L2:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.6,-54.208984375);//second stage   
             
             case L3:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.8,-54.208984375);//thired stage   
             
             case L4:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(1,-54.208984375);//4 stage   
             
             case Home:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.4,89.384765625);//home stage   
             
             case Human:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.6,37);//coralStation   
             
             case Intake:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(1,-54.208984375);   
             
             default:
-                return new PresetUtil(1,1);   
+                return new PresetUtil(0.4,89.384765625);   
         
         }
     }

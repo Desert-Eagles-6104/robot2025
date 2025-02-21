@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -141,7 +140,7 @@ public final class Constants {
       maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
 
       /* Neutral Modes */
-      angleNeutralMode = NeutralMode.Brake;
+      angleNeutralMode = NeutralMode.Coast;
       driveNeutralMode = NeutralMode.Brake;
 
 
