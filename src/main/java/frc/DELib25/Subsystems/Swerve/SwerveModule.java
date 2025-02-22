@@ -162,7 +162,7 @@ public class SwerveModule {
      * @param openLoop whether the robot uses open loop or closed loop (percenctOutput or velocity)
      */
     public void setState(SwerveModuleState desiredState , boolean openLoop, boolean avoidJittering){
-        desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
+        desiredState.optimize(getState().angle);
         if(avoidJittering && Math.abs(desiredState.speedMetersPerSecond) <= (m_swerveConstants.maxSpeed * 0.03)){
             desiredState.angle = m_lastAngle;
         }
