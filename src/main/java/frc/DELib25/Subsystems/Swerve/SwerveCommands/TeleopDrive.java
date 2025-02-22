@@ -69,7 +69,7 @@ public class TeleopDrive extends Command {
       MathUtil.applyDeadband(-m_joystick.getLeftY(), 0.1),
       MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1),
       MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1));
-      chassisSpeeds = SwerveDriveHelper.updateChassisSpeeds(chassisSpeeds, m_lowPower, DriveMode.Raw);
+      chassisSpeeds = SwerveDriveHelper.updateChassisSpeeds(chassisSpeeds, m_lowPower, DriveMode.MadTown);
       chassisSpeeds = SwerveDriveHelper.joystickToRobotUnits(chassisSpeeds, Constants.Swerve.swerveConstants.maxSpeed, Constants.Swerve.swerveConstants.maxAngularVelocity);
       //heading controller
       m_useVisionLatch.update(m_useVision.getAsBoolean());
