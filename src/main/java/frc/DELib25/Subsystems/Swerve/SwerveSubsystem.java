@@ -5,9 +5,6 @@
 package frc.DELib25.Subsystems.Swerve;
 
 import static edu.wpi.first.units.Units.Volts;
-
-import java.io.Console;
-import java.io.IOException;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -28,7 +25,6 @@ import frc.DELib25.CSV.CSVWriter;
 import frc.DELib25.Intepulation.InterpolatingDouble;
 import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Sensors.Pigeon;
-import frc.robot.Constants;
 
 public class SwerveSubsystem extends SubsystemBase {
   private static SwerveSubsystem swerve = null;
@@ -67,7 +63,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_kinematics = new SwerveDriveKinematics(swerveConstants.frontLeftPos, swerveConstants.frontRightPos, swerveConstants.backLeftPos, swerveConstants.backRightPos);
     m_odometry = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), getModulesPositions(), new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.1), VecBuilder.fill(0.3, 0.3, 9999999));
-    readAngleOffsets();
+    
+    // readAngleOffsets();
 
     // try {
     //   m_writer = new CSVWriter(swerveConstants.filepath);
@@ -183,30 +180,30 @@ public class SwerveSubsystem extends SubsystemBase {
    }
   }
 
-  public void readAngleOffsets(){
-    // double[][] angleOffsets = m_reader.readAsDouble(1);
-    double [] angleOffsets = new double[4];
-    for(int i = 0; i < angleOffsets.length; i++){
-      angleOffsets[i]= Constants.Swerve.swerveConstants.angleOffset[i];
-    }
+  // public void readAngleOffsets(){
+  //   // double[][] angleOffsets = m_reader.readAsDouble(1);
+  //   double [] angleOffsets = new double[4];
+  //   for(int i = 0; i < angleOffsets.length; i++){
+  //     angleOffsets[i]= Constants.Swerve.swerveConstants.angleOffset[i];
+  //   }
 
-    for(int i = 0; i < angleOffsets.length; i++){
-      m_swerveModules[i].setAngleOffset(Rotation2d.fromRotations(angleOffsets[i]));
-    }
-  }
+  //   for(int i = 0; i < angleOffsets.length; i++){
+  //     m_swerveModules[i].setAngleOffset(Rotation2d.fromRotations(angleOffsets[i]));
+  //   }
+  // }
 
-  public boolean updateAngleOffsets(){
-    double[][] angleOffsets = new double[4][1];
-    for(int i = 0; i < angleOffsets.length; i++){
-      Rotation2d angleOffset = m_swerveModules[i].getAbsAngle();
-      angleOffsets[i][0] = angleOffset.getRotations();
-      m_swerveModules[i].setAngleOffset(angleOffset);
-    }
-    double[] smartdashboardArray = {angleOffsets[0][0], angleOffsets[1][0] ,angleOffsets[2][0] ,angleOffsets[3][0]};
-    SmartDashboard.putNumberArray("offsets", smartdashboardArray);
-    m_writer.writeCSVFile(angleOffsets);
-    return true;
-  }
+  // public boolean updateAngleOffsets(){
+  //   double[][] angleOffsets = new double[4][1];
+  //   for(int i = 0; i < angleOffsets.length; i++){
+  //     Rotation2d angleOffset = m_swerveModules[i].getAbsAngle();
+  //     angleOffsets[i][0] = angleOffset.getRotations();
+  //     m_swerveModules[i].setAngleOffset(angleOffset);
+  //   }
+  //   double[] smartdashboardArray = {angleOffsets[0][0], angleOffsets[1][0] ,angleOffsets[2][0] ,angleOffsets[3][0]};
+  //   SmartDashboard.putNumberArray("offsets", smartdashboardArray);
+  //   m_writer.writeCSVFile(angleOffsets);
+  //   return true;
+  // }
 
   public static SwerveSubsystem createInstance(SwerveConstants swerveConstants){
     if(swerve == null){

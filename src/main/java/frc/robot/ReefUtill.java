@@ -31,7 +31,7 @@ public class ReefUtill {
         F6,
     }
 
-    public Rotation2d getRobotAngle() {
+    public Rotation2d getRobotAngleToFace() {
         return m_robotAngle;
     }
 

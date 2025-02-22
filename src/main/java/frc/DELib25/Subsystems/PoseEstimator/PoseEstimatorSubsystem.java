@@ -30,8 +30,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
   public void periodic() {
     if(!first){
       updateVisionOdometry();
-      //SmartDashboard.putNumber("distance from speaker", getDistanceToReef());
-      //SmartDashboard.putNumber("angleSpeaker", getAngleToReef().getDegrees());
     }
     else{ 
       first = false;
@@ -54,10 +52,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
       first = false;
     }
   }
-
- // public static boolean isCentered(){
- //   return Math.abs(getHeading().getDegrees() - getAngleToReef().getDegrees()) < 1.5; //TODO: cheak
- // }
 
   public static Pose2d getRobotPose(){
     return m_swerve.getPose();
