@@ -1,8 +1,6 @@
 package frc.DELib25.Subsystems.VelocitySubsystem.Base;
 
 import java.util.function.BooleanSupplier;
-
-import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.measure.Voltage;
 
 public interface IVelocitySubsystemBase {

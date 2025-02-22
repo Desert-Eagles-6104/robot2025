@@ -38,7 +38,7 @@ public class ResetSwerveModules extends Command {
   public void end(boolean interrupted) {
       m_swerve.setModulesNetrualMode(NeutralModeValue.Brake);
     if(m_confirmOffsets){
-        m_swerve.updateAngleOffsets();
+        // m_swerve.updateAngleOffsets();
         // m_swerve.readAngleOffsets();
     }
     m_swerve.disableModules();

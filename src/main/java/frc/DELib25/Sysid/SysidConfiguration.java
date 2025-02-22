@@ -9,8 +9,6 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.Consumer;
 import com.ctre.phoenix6.SignalLogger;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.VelocityUnit;
 import edu.wpi.first.units.VoltageUnit;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;

@@ -14,15 +14,13 @@ import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
 
 public class SwerveConstants {
     public COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-    COTSTalonFXSwerveConstants.SDS.MK4.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4.driveRatios.L3);
+    COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
     /*String bus */
     String canBus = "Canivore";
 
     /* Drivetrain Constants */
     public double wheelCircumference = chosenModule.wheelCircumference;
-
-    double [] angleOffset={0.105957, 0.260498, -0.268066,-0.159424};
 
     /*swerve module position*/
     public Translation2d frontLeftPos = new Translation2d(0.35,0.35);
