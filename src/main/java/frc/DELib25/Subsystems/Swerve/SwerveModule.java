@@ -107,6 +107,7 @@ public class SwerveModule {
         CanBusProperties(250);
 
         m_angleOffset = swerveModuleConstants.angleOffset;
+        resetToAbsolute();
     }
 
     /**
