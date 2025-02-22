@@ -1,5 +1,7 @@
 package frc.DELib25.Sensors;
 
+import java.time.Year;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
@@ -33,7 +35,7 @@ public class Pigeon {
 	private final Pigeon2 mGyro;
 
 	// Configs
-	private boolean inverted = false;
+	private boolean inverted = true;
 	private Rotation2d yawAdjustmentAngle = Rotation2d.fromDegrees(0);
 	private Rotation2d rollAdjustmentAngle = new Rotation2d();
 	private Rotation2d pitchAdjustmentAngle = new Rotation2d();

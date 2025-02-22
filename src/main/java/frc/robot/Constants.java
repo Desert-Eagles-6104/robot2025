@@ -142,16 +142,15 @@ public final class Constants {
       maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
 
       /* Neutral Modes */
-      angleNeutralMode = NeutralMode.Brake;
+      angleNeutralMode = NeutralMode.Coast;
       driveNeutralMode = NeutralMode.Brake;
 
+      FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(-0.398926), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
+      FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(-0.243164), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
+      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(0.229248), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
+      BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(0.332520), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
 
-      FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(90.0), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
-      FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(90.0), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
-      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(90.0), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
-      BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(90.0), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
-
-      filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
+      // filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
   }};
 }
 

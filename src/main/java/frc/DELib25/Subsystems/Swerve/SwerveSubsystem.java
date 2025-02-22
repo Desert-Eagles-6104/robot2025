@@ -45,6 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> m_pastPoses;
 
   private Pigeon m_gyro;
+
   /** Creates a new SwerveSubsystem */
   private SwerveSubsystem(SwerveConstants swerveConstants) {
     m_swerveConstants = swerveConstants;
