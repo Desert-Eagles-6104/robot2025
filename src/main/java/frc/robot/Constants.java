@@ -145,10 +145,10 @@ public final class Constants {
       angleNeutralMode = NeutralMode.Coast;
       driveNeutralMode = NeutralMode.Brake;
 
-      FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(0.598926), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
-      FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(-0.843164), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
-      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(-0.929248), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
-      BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(0.932520), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
+      FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(0.110840), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
+      FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(0.265869), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
+      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(-0.277832), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
+      BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(-0.158936), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
 
       // filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
   }};
