@@ -45,19 +45,19 @@ public class PresetUtil {
                 return new PresetUtil(0.8,-54.208984375);//thired stage   
             
             case L4:
-                return new PresetUtil(1,-54.208984375);//4 stage   
+                return new PresetUtil(0.9,-54.208984375);//4 stage   
             
             case Home:
-                return new PresetUtil(0.4,89.384765625);//home stage   
+                return new PresetUtil(0.1,89.384765625);//home stage   
             
             case Human:
-                return new PresetUtil(0.6,37);//coralStation   
+                return new PresetUtil(0.07,37);//coralStation   
             
             case Intake:
-                return new PresetUtil(1,-54.208984375);   
+                return new PresetUtil(0.1,-54.208984375);   
             
             default:
-                return new PresetUtil(0.4,89.384765625);   
+                return new PresetUtil(0.0,89.384765625);   
         
         }
     }

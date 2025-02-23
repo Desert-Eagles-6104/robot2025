@@ -23,10 +23,10 @@ public class SwerveConstants {
     public double wheelCircumference = chosenModule.wheelCircumference;
 
     /*swerve module position*/
-    public Translation2d frontLeftPos = new Translation2d(0.35,0.35);
-    public Translation2d frontRightPos = new Translation2d(0.35,-0.35);
-    public Translation2d backLeftPos = new Translation2d(-0.35,0.35);
-    public Translation2d backRightPos = new Translation2d(-0.35,-0.35);
+    public Translation2d frontLeftPos = new Translation2d(0.375,0.375);
+    public Translation2d frontRightPos = new Translation2d(0.375,-0.375);
+    public Translation2d backLeftPos = new Translation2d(-0.375,0.375);
+    public Translation2d backRightPos = new Translation2d(-0.375,-0.375);
     public Translation2d[] modulesPositions = new Translation2d[4];
 
     /* Module Gear Ratios */

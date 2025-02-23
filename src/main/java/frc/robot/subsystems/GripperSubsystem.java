@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
@@ -59,7 +60,9 @@ public class GripperSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_beamBreak.update();
     m_hasGamePiece = m_beamBreak.get();
+    SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
   }
   
   public void disableMotors(){
@@ -68,7 +71,7 @@ public class GripperSubsystem extends SubsystemBase {
 
 
   public boolean HasGamePiece(){
-    return m_beamBreak.get();
+    return m_hasGamePiece;
   }
 
   public void setMotorPercent(double percent){

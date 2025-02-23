@@ -119,10 +119,10 @@ public final class Constants {
       driveKV = 0.0;
 
       /* Heading PID Values */
-      HeadingKP = 0.5;
+      HeadingKP = 0.3;
       HeadingKI = 0.0;
       HeadingKD = 0.0;
-      HeadingTolerence = 1;
+      HeadingTolerence = 1.5;
 
 
       /* Drive Motor Characterization Values 
@@ -320,7 +320,7 @@ public final class Constants {
 
   public static final class Gripper{
       public static final int motorId = 2;
-      public static final int beamBreakPort = 0;
+      public static final int beamBreakPort = 2;
       public static final double intakeOutput = 0.6;
       public static final double OutTakeOutput = 0.7;
       public static final double Ks = 0.0; 

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Swerve.SwerveCommands.ResetSwerveModules;
 import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
@@ -74,6 +73,7 @@ public class RobotContainer {
     SwerveBinding();
     auto();
     updateState();
+    drivercontroller.povUp().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
     // SCORE AND INTAKE
     drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
@@ -91,7 +91,6 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Intake Arm" ,new InstantCommand(() -> m_intakeArm.resetPosition(0.0)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Brake" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Brake)).ignoringDisable(true));
-    SmartDashboard.putBoolean("hasCoral", m_gripper.HasGamePiece());
   }
 
   public void disableMotors() {

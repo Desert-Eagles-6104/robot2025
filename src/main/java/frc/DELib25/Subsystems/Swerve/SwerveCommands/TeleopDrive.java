@@ -22,6 +22,8 @@ import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper.DriveMode;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.Constants;
+import frc.robot.ReefUtill;
+import frc.robot.Robot;
 
 public class TeleopDrive extends Command {
  private  SwerveSubsystem m_swerve;
@@ -37,7 +39,6 @@ public class TeleopDrive extends Command {
  private Translation2d m_centerOfRotation;
  private BooleanSupplier m_isRight;
  private BooleanSupplier m_isLeft;
-
 
   public TeleopDrive(SwerveSubsystem swerve ,CommandPS5Controller joystick, BooleanSupplier lowPower, BooleanSupplier fieldRelative, BooleanSupplier resetYaw, BooleanSupplier useVision, BooleanSupplier isRight, BooleanSupplier isLeft) {
     m_swerve = swerve;
@@ -72,12 +73,12 @@ public class TeleopDrive extends Command {
       chassisSpeeds = SwerveDriveHelper.updateChassisSpeeds(chassisSpeeds, m_lowPower, DriveMode.MadTown);
       chassisSpeeds = SwerveDriveHelper.joystickToRobotUnits(chassisSpeeds, Constants.Swerve.swerveConstants.maxSpeed, Constants.Swerve.swerveConstants.maxAngularVelocity);
       //heading controller
-      m_useVisionLatch.update(m_useVision.getAsBoolean());
+      // m_useVisionLatch.update(m_useVision.getAsBoolean());
       if (Math.abs(chassisSpeeds.omegaRadiansPerSecond) > 0.4){
         m_useVisionLatch.reset();
       }
       
-    //  setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
+     setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
       // chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), m_useVision.getAsBoolean(), chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
 
       // chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading(), m_isLeft.getAsBoolean() ,m_isRight.getAsBoolean());
