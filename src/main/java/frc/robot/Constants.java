@@ -193,12 +193,12 @@ public final class Constants {
       //#endregion current limit
 
       //#region soft limits 
-      forwardSoftLimit = 0.65;
+      forwardSoftLimit = 0.70;
 
       reverseSoftLimit = 0.0;
       //#endregion sofr limits
 
-      allowableError = 0.05;
+      allowableError = 1.5;
 
       homePosition = 0.0;
     }};
@@ -216,16 +216,16 @@ public final class Constants {
 
       sensorToMechanismRatio = 2.28;
       
-      pidContainerSlot0 = new PIDContainer(0, 0, 0, 0.75, 75, 0, 0.5, GravityTypeValue.Arm_Cosine);
+      pidContainerSlot0 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
 
-      pidContainerSlot1 = new PIDContainer(0, 0, 0, 0.75, 75, 0, 0.5, GravityTypeValue.Arm_Cosine);
+      pidContainerSlot1 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
 
       //#region motion magic values
-      motionMagicCruiseVelocity = 10000;
+      motionMagicCruiseVelocity = 35000;
       
-      motionMagicAcceleration = 20000;
+      motionMagicAcceleration = 30000;
 
-      motionMagicJerk = 20;
+      motionMagicJerk = 350;
       //#endregion motion magic values
 
       //#region cuurent limit
@@ -241,7 +241,7 @@ public final class Constants {
       //#region soft limits 
       forwardSoftLimit = 37;
 
-      reverseSoftLimit = -90;
+      reverseSoftLimit = -88;
       //#endregion sofr limits
 
       allowableError = 1.0;
@@ -329,10 +329,10 @@ public final class Constants {
       public static final double Kp = 0.0; 
       public static final double Ki = 0.0; 
       public static final double Kd = 0.0;
-      public static final double supplyCurrentLimit = 0.0;
+      public static final double supplyCurrentLimit = 20;
       public static final boolean SupplyCurrentLimitEnable = true;
-      public static final int SensorToMechanismRatio = 0;
-      public static final double DutyCycleNeutralDeadband = 0.0;
+      public static final int SensorToMechanismRatio = 3;
+      public static final double DutyCycleNeutralDeadband = 1.0;
       public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
       public static final int frequencyHz = 0;
     }

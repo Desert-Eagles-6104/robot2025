@@ -39,8 +39,7 @@ public class HomingElevator extends Command {
   @Override
   public void end(boolean interrupted) {
     m_elevator.resetPosition(0);
-    m_elevator.disableMotors();
-    m_elevator.ControlSoftLimit(true);
+    m_elevator.setPrecentOutput(0.0);
   }
 
   // Returns true when the command should end.

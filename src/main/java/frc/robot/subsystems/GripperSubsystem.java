@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Sensors.BeamBreak;
@@ -38,7 +39,6 @@ public class GripperSubsystem extends SubsystemBase {
   
 
   public GripperSubsystem() {
-    configuration = new TalonFXConfiguration();
     configuration = new TalonFXConfiguration();
     configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.Gripper.motorInverted).withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband));
     configuration.withSlot0(new Slot0Configs().withKS(Constants.Gripper.Ks).withKV(Constants.Gripper.Kv).withKA(Constants.Gripper.Ka).withKP(Constants.Gripper.Kp).withKI(Constants.Gripper.Ki).withKD(Constants.Gripper.Kd));

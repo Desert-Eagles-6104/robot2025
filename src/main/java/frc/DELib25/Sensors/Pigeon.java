@@ -35,7 +35,7 @@ public class Pigeon {
 	private final Pigeon2 mGyro;
 
 	// Configs
-	private boolean inverted = true;
+	private boolean inverted = false;
 	private Rotation2d yawAdjustmentAngle = Rotation2d.fromDegrees(0);
 	private Rotation2d rollAdjustmentAngle = new Rotation2d();
 	private Rotation2d pitchAdjustmentAngle = new Rotation2d();
