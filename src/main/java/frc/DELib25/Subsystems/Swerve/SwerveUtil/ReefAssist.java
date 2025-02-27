@@ -18,8 +18,8 @@ import frc.robot.Robot;
 
 public class ReefAssist extends Command {
   private SwerveSubsystem m_swerveSubsystem;
-  private double m_kpSide = 0.05;
-  private double m_kpForward = 0.1;
+  private double m_kpSide = 0.0;
+  private double m_kpForward = 0.0;
   private LinearFilter m_filterSide;
   private LinearFilter m_filterForward;
   private ChassisSpeeds chassisSpeeds;

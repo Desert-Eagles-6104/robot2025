@@ -66,13 +66,13 @@ public class VisionSubsystem extends SubsystemBase {
       m_lastTx = m_tx;
     }
 
-    m_TvNote = LimelightHelpers.getTV(CameraType.GamePieceCamera.getCameraName());
-    if(m_TvNote){
-      m_TxNote = LimelightHelpers.getTX(CameraType.GamePieceCamera.getCameraName(), m_LastTxNote);
-      m_TyNote = LimelightHelpers.getTY(CameraType.GamePieceCamera.getCameraName(), m_LastTyNote);
-      m_LastTyNote = m_TyNote;
-      m_LastTxNote = m_TxNote;
-    }
+   // m_TvNote = LimelightHelpers.getTV(CameraType.GamePieceCamera.getCameraName());
+   // if(m_TvNote){
+   //   m_TxNote = LimelightHelpers.getTX(CameraType.GamePieceCamera.getCameraName(), m_LastTxNote);
+   //   m_TyNote = LimelightHelpers.getTY(CameraType.GamePieceCamera.getCameraName(), m_LastTyNote);
+   //   m_LastTyNote = m_TyNote;
+   //   m_LastTxNote = m_TxNote;
+   // }
 
     //bounding april tag
     orbitCalculation();

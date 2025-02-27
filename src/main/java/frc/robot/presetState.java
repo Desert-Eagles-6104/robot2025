@@ -17,12 +17,13 @@ public class presetState extends SubsystemBase {
     }
     
     public enum PresetState{
-        L1,
+        AlgeL2,
         L2,
         L3,
         L4,
         Home,
         Human,
+        AlgeL3,
         Intake;
     }
 
@@ -37,11 +38,14 @@ public class presetState extends SubsystemBase {
     public static presetState getPresetState(PresetState state){
         switch (state) {
 
-            case L1:
-                return new presetState(0.02,-45.208984375);//first stage   
+            case AlgeL2:
+                return new presetState(0.17,-15.208984375);//first stage  
+            
+            case AlgeL3:
+                return new presetState(0.37,-15.208984375);//first stage   
             
             case L2:
-                return new presetState(0.15,-44.208984375);//second stage   
+                return new presetState(0.13,-44.208984375);//second stage   
             
             case L3:
                 return new presetState(0.35,-44.208984375);//thired stage   
