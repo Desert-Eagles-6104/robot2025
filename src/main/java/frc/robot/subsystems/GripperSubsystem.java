@@ -39,7 +39,9 @@ public class GripperSubsystem extends SubsystemBase {
 
   public GripperSubsystem() {
     configuration = new TalonFXConfiguration();
-    configuration.withMotorOutput(new MotorOutputConfigs().withInverted(Constants.Gripper.motorInverted).withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband));
+    configuration.withMotorOutput(new MotorOutputConfigs()
+    .withInverted(Constants.Gripper.motorInverted)
+    .withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband));
     configuration.withSlot0(new Slot0Configs().withKS(Constants.Gripper.Ks).withKV(Constants.Gripper.Kv).withKA(Constants.Gripper.Ka).withKP(Constants.Gripper.Kp).withKI(Constants.Gripper.Ki).withKD(Constants.Gripper.Kd));
     configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.Gripper.SensorToMechanismRatio));
     configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.Gripper.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.Gripper.SupplyCurrentLimitEnable));

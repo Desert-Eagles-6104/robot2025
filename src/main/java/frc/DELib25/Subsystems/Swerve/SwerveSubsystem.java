@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.CSV.CSVReader;
@@ -39,6 +40,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private SwerveModule m_backLeft;
   private SwerveModule m_backRight;
   private SwerveModule[] m_swerveModules = new SwerveModule[4];
+  
+  private Field2d m_field = new Field2d();
 
   private SwerveDriveKinematics m_kinematics;
   private SwerveDrivePoseEstimator m_odometry;
@@ -61,6 +64,8 @@ public class SwerveSubsystem extends SubsystemBase {
     m_swerveModules[1] = m_frontRight;
     m_swerveModules[2] = m_backLeft;
     m_swerveModules[3] = m_backRight;
+
+    SmartDashboard.putData("Field", m_field);
 
     m_kinematics = new SwerveDriveKinematics(swerveConstants.frontLeftPos, swerveConstants.frontRightPos, swerveConstants.backLeftPos, swerveConstants.backRightPos);
     m_odometry = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(0), getModulesPositions(), new Pose2d(), VecBuilder.fill(0.1, 0.1, 0.1), VecBuilder.fill(0.3, 0.3, 9999999));
@@ -149,6 +154,8 @@ public class SwerveSubsystem extends SubsystemBase {
     Pose2d currentPose = m_odometry.update(m_gyro.getYaw(), getModulesPositions());
     m_pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
+    m_odometry.update(m_gyro.getYaw() ,getModulesPositions());
+    m_field.setRobotPose(m_odometry.getEstimatedPosition());
   } 
 
   public void zeroHeading(){

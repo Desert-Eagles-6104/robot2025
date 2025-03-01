@@ -198,7 +198,7 @@ public final class Constants {
       reverseSoftLimit = 0.0;
       //#endregion sofr limits
 
-      allowableError = 1.5;
+      allowableError = 0.8;
 
       homePosition = 0.0;
     }};

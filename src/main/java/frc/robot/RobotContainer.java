@@ -98,10 +98,10 @@ public class RobotContainer {
     // SCORE AND INTAKE&
     drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
-    drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+    drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
   }
 
   public void dashboardResets(){
@@ -125,7 +125,7 @@ public class RobotContainer {
   public Command getAuto() {
     return m_swerveAutoBuilder.getAuto();
   }
-    // re
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    * 
