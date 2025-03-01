@@ -137,14 +137,14 @@ public class ReefUtill {
                 }
                 case HR:
                 if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
-                    return new ReefUtill(new Translation2d(fieldLength - 3.18, 4.2), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(50.0).rotateBy(Rotation2d.k180deg));
+                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 1.02), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(50.0).rotateBy(Rotation2d.k180deg));
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(0.0));
                 }
                 case HL:
                 if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
-                    return new ReefUtill(new Translation2d(fieldLength - 3.18, 4.2), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0).rotateBy(Rotation2d.k180deg));
+                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 7.04), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0).rotateBy(Rotation2d.k180deg));
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(0.0));
