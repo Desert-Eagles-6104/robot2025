@@ -50,15 +50,15 @@ public class SmartPreset extends Command {
   }
   
   private void set(PresetState state){
-    // if(m_gripper.HasGamePiece()){
-    //   m_gripper.setMotorPercent(0.0);
-    //   m_gripperArm.setMotionMagicPosition(presetState.getPresetState(state).getArmAngle());
-    //   m_Elevator.setMotionMagicPosition(presetState.getPresetState(state).getElevatorHeight());
-    // }
-    //else{
-    //  m_gripper.setMotorPercent(0.0);
-    //  m_gripperArm.setMotionMagicPosition(presetState.getPresetState(PresetState.Human).getArmAngle());
-    //  m_Elevator.setMotionMagicPosition(presetState.getPresetState(PresetState.Human).getElevatorHeight());
-    //} 
+    if(m_gripper.HasGamePiece()){
+      m_gripper.setMotorPercent(0.0);
+      m_gripperArm.setMotionMagicPosition(presetState.getPresetState(state).getArmAngle());
+      m_Elevator.setMotionMagicPosition(presetState.getPresetState(state).getElevatorHeight());
+    }
+    else{
+     m_gripper.setMotorPercent(0.0);
+     m_gripperArm.setMotionMagicPosition(presetState.getPresetState(PresetState.Human).getArmAngle());
+     m_Elevator.setMotionMagicPosition(presetState.getPresetState(PresetState.Human).getElevatorHeight());
+    } 
   }
 }

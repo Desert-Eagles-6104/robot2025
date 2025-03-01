@@ -180,7 +180,7 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public enum CameraType{
-    AprilTagCamera("limelight"),
+    AprilTagCamera("limelight-april"),
     GamePieceCamera("limelight-notes");
 
     final String m_cameraName;

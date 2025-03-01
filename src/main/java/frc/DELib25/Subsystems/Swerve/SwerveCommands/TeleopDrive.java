@@ -73,13 +73,13 @@ public class TeleopDrive extends Command {
       chassisSpeeds = SwerveDriveHelper.updateChassisSpeeds(chassisSpeeds, m_lowPower, DriveMode.MadTown);
       chassisSpeeds = SwerveDriveHelper.joystickToRobotUnits(chassisSpeeds, Constants.Swerve.swerveConstants.maxSpeed, Constants.Swerve.swerveConstants.maxAngularVelocity);
       //heading controller
-       //m_useVisionLatch.update(m_useVision.getAsBoolean());
+       m_useVisionLatch.update(m_useVision.getAsBoolean());
       if (Math.abs(chassisSpeeds.omegaRadiansPerSecond) > 0.4){
         m_useVisionLatch.reset();
       }
       
-      //setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
-      // chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), false, chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
+      setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
+      chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), false, chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
 
       chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading(), m_isLeft.getAsBoolean() ,m_isRight.getAsBoolean());
 

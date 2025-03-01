@@ -27,7 +27,7 @@ import frc.robot.Commands.SetState;
 import frc.robot.Commands.ElevatorCommands.HomingElevator;
 //import frc.robot.Commands.GripperCommands.EatUntilCoral;
 import frc.robot.Commands.GripperCommands.GripperSet;
-//import frc.robot.Commands.GripperCommands.GripperSetPrecent;
+import frc.robot.Commands.GripperCommands.GripperSetPrecent;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.presetState.PresetState;
@@ -68,7 +68,7 @@ public class RobotContainer {
     m_intakeArm = new IntakeArmSubsystem(Constants.IntakeArm.configuration);
     m_gripper = new GripperSubsystem();
     m_gripper2 = new Gripper2Subsystem();
-    m_vision = new VisionSubsystem(new CameraSettings(-0.30821, 0, 0.10689, 0, 15.13, 180.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
+    m_vision = new VisionSubsystem(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
     m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
@@ -80,29 +80,28 @@ public class RobotContainer {
     auto();
     drivercontroller.povUp().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     // drivercontroller.povDown().onTrue(new HomingElevator(m_elevator));
-    drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.5));
-    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.9));
+    drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
+    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
 
-    
     //operator
-    operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    operatorController.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
-    operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
-    operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
+    // operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
+    // operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    // operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    // operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    // operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    // operatorController.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
+    // operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    // operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
     //operatorController.L1().onTrue(new EatUntilCoral(m_gripper2, 0.5));
     // operatorController.povDown().onTrue(new HomingElevator(m_elevator));
 
     // SCORE AND INTAKE&
-    // drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
-    // drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
-    // drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    // drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    // drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
-    // drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+    drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+    drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, 0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
+    drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper, -0.4).andThen(new GripperSetPrecent(m_gripper, 0.0)));
   }
 
   public void dashboardResets(){
@@ -124,7 +123,7 @@ public class RobotContainer {
   }
 
   public Command getAuto() {
-    return m_swerveAutoBuilder.getAuto();  
+    return m_swerveAutoBuilder.getAuto();
   }
     // re
   /**

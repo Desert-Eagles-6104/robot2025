@@ -44,6 +44,7 @@ public class ReefUtill {
     }
 
     public static ReefFace getFaceFromVision(){
+
         int id = (int)VisionSubsystem.getID();//TODO Chnage frim switch to ifs
         switch (id) {
             case 17:
@@ -72,7 +73,7 @@ public class ReefUtill {
                 return ReefFace.F5;
             default:
                 return ReefFace.F1;
-        } 
+        }
     }
 
     public static ReefUtill getReefFacePoint(ReefFace state){

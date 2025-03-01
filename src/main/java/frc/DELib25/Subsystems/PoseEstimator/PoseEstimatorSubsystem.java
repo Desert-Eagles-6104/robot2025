@@ -37,7 +37,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
   }
 
   private static void updateVisionOdometry(){
-    if(!first){
+    if(!first){ 
       boolean rejectUpdate = false;
       LimelightHelpers.SetRobotOrientation("limelight", getRobotPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       limelightMesermentMT2 = VisionSubsystem.getEstimatedRobotPose();
