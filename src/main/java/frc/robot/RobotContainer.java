@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.lang.Thread.State;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -94,8 +95,16 @@ public class RobotContainer {
     // operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
     //operatorController.L1().onTrue(new EatUntilCoral(m_gripper2, 0.5));
     // operatorController.povDown().onTrue(new HomingElevator(m_elevator));
+    operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
+    operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
+
 
     // SCORE AND INTAKE&
+    SmartDashboard.putData("hasgamepieceTrue", new InstantCommand(() -> m_gripper.HasGamePieceTrue()));
+    SmartDashboard.putData("hasgamepieceFalse", new InstantCommand(() -> m_gripper.HasGamePieceFalse()));
+
+
+    // drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, presetState.getPresetState(PresetState.L3)));
     drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
@@ -111,10 +120,10 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Intake Arm" ,new InstantCommand(() -> m_intakeArm.resetPosition(0.0)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Brake" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Brake)).ignoringDisable(true));
-    SmartDashboard.putData("L1", new InstantCommand(() -> m_state = PresetState.AlgeL2));
-    SmartDashboard.putData("L2", new InstantCommand(() -> m_state = PresetState.L2));
-    SmartDashboard.putData("L3", new InstantCommand(() -> m_state = PresetState.L3));
-    SmartDashboard.putData("L4", new InstantCommand(() -> m_state = PresetState.L4));
+    // SmartDashboard.putData("L1", new InstantCommand(() -> m_state = PresetState.AlgeL2));
+    // SmartDashboard.putData("L2", new InstantCommand(() -> m_state = PresetState.L2));
+    // SmartDashboard.putData("L3", new InstantCommand(() -> m_state = PresetState.L3));
+    // SmartDashboard.putData("L4", new InstantCommand(() -> m_state = PresetState.L4));
   }
 
   public void disableMotors() {
@@ -137,11 +146,11 @@ public class RobotContainer {
 
   public void auto(){
     //add commands 
-    m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    m_swerveAutoBuilder.addCommand("l2", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    m_swerveAutoBuilder.addCommand("l1", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    m_swerveAutoBuilder.addCommand("human", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    // m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    // m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    // m_swerveAutoBuilder.addCommand("l2", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    // m_swerveAutoBuilder.addCommand("l1", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
+    // m_swerveAutoBuilder.addCommand("human", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
     m_swerveAutoBuilder.addCommand("Score", new GripperSet(m_gripper2, 0.5));
     //  m_swerveAutoBuilder.addCommand("IntakeUntilHasCoral", new EatUntilCoral(m_gripper2, 0.5));
     /* EXAMPLE 

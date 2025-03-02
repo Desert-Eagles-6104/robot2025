@@ -156,7 +156,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
     m_odometry.update(m_gyro.getYaw() ,getModulesPositions());
     m_field.setRobotPose(m_odometry.getEstimatedPosition());
-  } 
+  }
 
   public void zeroHeading(){
     Rotation2d heading = (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red)) ? Rotation2d.fromDegrees(180) : new Rotation2d();

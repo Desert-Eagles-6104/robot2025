@@ -13,9 +13,8 @@ import frc.robot.Constants;
 
 public class Gripper2Subsystem extends SubsystemBase {
   TalonFX Gripper;
- // private BeamBreak m_beamBreak;
-  //private boolean m_hasGamePiece;
-
+ private BeamBreak m_beamBreak;
+ private boolean m_hasGamePiece;
 
   DutyCycle dutyCycleRequest;
   /** Creates a new Gripper2Subsystem. */
@@ -24,14 +23,14 @@ public class Gripper2Subsystem extends SubsystemBase {
   //  m_beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
   }
 
-  //public boolean HasGamePiece(){
-    //return m_hasGamePiece;
-  //}
+  public boolean HasGamePiece(){
+    return m_hasGamePiece;
+  }
 
   @Override
   public void periodic() {
-   // m_beamBreak.update();
-    //m_hasGamePiece = m_beamBreak.get();
+  //  m_beamBreak.update();
+    // m_hasGamePiece = m_beamBreak.get();
   }
 
   public void setPercent(double Percent){

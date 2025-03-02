@@ -24,8 +24,8 @@ public class ResetAllSubsystems extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.setMotionMagicPosition(0.04);
-    m_gripperArm.setMotionMagicPosition(-89.384765625);
+    m_elevator.setMotionMagicPosition(0.01);
+    m_gripperArm.setMotionMagicPosition(-79.384765625);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

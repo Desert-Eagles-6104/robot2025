@@ -115,7 +115,7 @@ public class TeleopDrive extends Command {
       Rotation2d target = PoseEstimatorSubsystem.getInterpolatedPose(VisionSubsystem.getTotalLatency()).getRotation().plus(Rotation2d.fromDegrees(errorDegrees));
       m_headingController.setSetpoint(target);
     }
-  }  
+  }
 
     /**
    * @param hasTarget camera sees target 
