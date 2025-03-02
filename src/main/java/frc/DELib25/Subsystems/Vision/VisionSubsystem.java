@@ -5,10 +5,12 @@
 package frc.DELib25.Subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
+import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.LimelightTarget_Barcode;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
 
 public class VisionSubsystem extends SubsystemBase {
@@ -34,24 +36,25 @@ public class VisionSubsystem extends SubsystemBase {
   
   int regularPipeline = 0;
   int pipelineX2 = 1;
-
+  
   int[] visionID = {7};
-
+  
   int[] localizationVisionID = {7,8,6};
-
+  
   //second limelight values
   private static double m_TxNote = 0;
   private static double m_TyNote = 0; 
   private double m_LastTyNote = 0;
   private double m_LastTxNote = 0;
   private static boolean m_TvNote = false; 
-
+  
   //*create a new VisionSubsystem constructor to apply the subsystem's properties */
   public VisionSubsystem(CameraSettings aprilTagCameraSettings, CameraSettings gamePieceCameraSettings) {
     m_aprilTagCameraSettings = aprilTagCameraSettings;
     if(aprilTagCameraSettings != null){
       LimelightHelpers.setCameraPose_RobotSpace(CameraType.AprilTagCamera.getCameraName(), aprilTagCameraSettings.m_forward, aprilTagCameraSettings.m_Side, aprilTagCameraSettings.m_up, aprilTagCameraSettings.m_roll, aprilTagCameraSettings.m_pitch, aprilTagCameraSettings.m_yaw);
     }
+    LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
   }
 
   @Override
@@ -65,6 +68,9 @@ public class VisionSubsystem extends SubsystemBase {
       m_lastTy = m_ty;
       m_lastTx = m_tx;
     }
+
+    SmartDashboard.putString("limeName", CameraType.AprilTagCamera.getCameraName());
+
 
    // m_TvNote = LimelightHelpers.getTV(CameraType.GamePieceCamera.getCameraName());
    // if(m_TvNote){
@@ -163,20 +169,19 @@ public class VisionSubsystem extends SubsystemBase {
     if(m_tv){
       // cropXMin = (m_tx - outerLayer) / (precentX * _xFOV);
       // cropXMax = (m_tx + outerLayer) / (precentX * _xFOV);
-      cropYMin = (m_ty - outerLayer) / (precentY * _yFOV);
-      cropYMax = (m_ty + outerLayer) / (precentY * _yFOV);
+      // cropYMin = (m_ty - outerLayer) / (precentY * _yFOV);
+      // cropYMax = (m_ty + outerLayer) / (precentY * _yFOV);
     }
     else{
-      cropXMin = -1.0;
-      cropXMax = 1.0;
-      cropYMin = -1.0;
-      cropYMax = 1.0;
+      cropXMin = -1.5;
+      cropXMax = 1.5;
+      cropYMin = -1.5;
+      cropYMax = 1.5;
     }
     crop( cropXMin , cropXMax , cropYMin , cropYMax );
   }
 
-  public void changePiplne(int pipeline){
-    LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), pipeline);
+  public void changePiplne(){
   }
 
   public enum CameraType{

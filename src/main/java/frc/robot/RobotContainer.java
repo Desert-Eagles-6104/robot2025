@@ -98,10 +98,7 @@ public class RobotContainer {
     operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
     operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
 
-
     // SCORE AND INTAKE&
-    SmartDashboard.putData("hasgamepieceTrue", new InstantCommand(() -> m_gripper.HasGamePieceTrue()));
-    SmartDashboard.putData("hasgamepieceFalse", new InstantCommand(() -> m_gripper.HasGamePieceFalse()));
 
 
     // drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, presetState.getPresetState(PresetState.L3)));
@@ -117,7 +114,6 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Odometry From Limelight", new InstantCommand(() -> PoseEstimatorSubsystem.resetPositionFromCamera()));
     SmartDashboard.putData("Reset Elevator" , new InstantCommand(() -> m_elevator.resetPosition(0)).ignoringDisable(true));
     SmartDashboard.putData("Reset Gripper Arm" , new InstantCommand(() -> m_gripperArm.resetPosition(37)).ignoringDisable(true));
-    SmartDashboard.putData("Reset Intake Arm" ,new InstantCommand(() -> m_intakeArm.resetPosition(0.0)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Brake" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Brake)).ignoringDisable(true));
     // SmartDashboard.putData("L1", new InstantCommand(() -> m_state = PresetState.AlgeL2));

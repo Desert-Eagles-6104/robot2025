@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.BooleanUtil.LatchedBolean;
@@ -79,11 +80,18 @@ public class TeleopDrive extends Command {
       }
       
       setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
-      chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), false, chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
+      chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw), true, chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
 
       chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading(), m_isLeft.getAsBoolean() ,m_isRight.getAsBoolean());
 
       m_swerve.drive(chassisSpeeds, true, m_fieldRelativeToggle.update(!m_fieldRelative.getAsBoolean()), m_centerOfRotation);
+
+      SmartDashboard.putNumber("omegaRadiansPerSecond", chassisSpeeds.omegaRadiansPerSecond);
+      SmartDashboard.putNumber("vxMetersPerSecond", chassisSpeeds.vxMetersPerSecond);
+      SmartDashboard.putNumber("vyMetersPerSecond", chassisSpeeds.vyMetersPerSecond);
+
+
+      
   }
 
   // Called once the command ends or is interrupted.

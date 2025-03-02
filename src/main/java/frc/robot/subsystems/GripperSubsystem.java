@@ -61,7 +61,7 @@ public class GripperSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // m_beamBreak.update();
+    m_beamBreak.update();
     m_hasGamePiece = m_beamBreak.get();
     SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
   }
@@ -80,9 +80,9 @@ public class GripperSubsystem extends SubsystemBase {
 
 
   public boolean HasGamePiece(){
-    if(m_motor.getSupplyCurrent().getValueAsDouble()>15.0){
-      m_hasGamePiece= true;
-    }
+    // if(m_motor.getSupplyCurrent().getValueAsDouble()>15.0){
+    //   m_hasGamePiece= true;
+    // }
     return m_hasGamePiece;
   }
 

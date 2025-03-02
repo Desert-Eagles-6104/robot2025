@@ -154,6 +154,7 @@ public class SwerveSubsystem extends SubsystemBase {
     Pose2d currentPose = m_odometry.update(m_gyro.getYaw(), getModulesPositions());
     m_pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
+    
     m_odometry.update(m_gyro.getYaw() ,getModulesPositions());
     m_field.setRobotPose(m_odometry.getEstimatedPosition());
   }
