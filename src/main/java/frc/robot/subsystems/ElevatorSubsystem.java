@@ -3,16 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class ElevatorSubsystem extends ServoSubsystemTalon {
+  private BeamBreak m_ElevatorMagnet;
+  private boolean magnetState = false;
   /** Creates a new Elevator. */
   public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
-    super(configuration);  }
-
+    super(configuration);  
+    m_ElevatorMagnet = new BeamBreak(2);
+  }
    public void periodic() {
     super.periodic();
+    magnetState = magnetUpdate();
   }
 
   @Override
@@ -24,6 +29,16 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
       super.setMotionMagicPosition(position);
     }
   }
+
+  public boolean magnetUpdate(){
+    m_ElevatorMagnet.update();
+    return m_ElevatorMagnet.get();
+  }
+
+  public boolean getMagnetState(){
+    return magnetState;
+  }
+
 
  
 }
