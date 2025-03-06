@@ -147,7 +147,7 @@ public final class Constants {
 
       FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(0.110840), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
       FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(0.265869), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
-      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(-0.277832), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
+      BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(-0.259766), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos);  //TODO: update  the module offsets
       BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(-0.158936), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
 
       // filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
@@ -320,7 +320,7 @@ public final class Constants {
 
   public static final class Gripper{
       public static final int motorId = 2;
-      public static final int beamBreakPort = 2;
+      public static final int beamBreakPort = 9;
       public static final double intakeOutput = 0.6;
       public static final double OutTakeOutput = 0.7;
       public static final double Ks = 0.0; 

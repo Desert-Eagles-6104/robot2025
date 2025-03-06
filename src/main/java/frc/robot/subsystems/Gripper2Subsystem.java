@@ -20,7 +20,7 @@ public class Gripper2Subsystem extends SubsystemBase {
   /** Creates a new Gripper2Subsystem. */
   public Gripper2Subsystem() {
     Gripper = new TalonFX(2);
-  //  m_beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
+   m_beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
   }
 
   public boolean HasGamePiece(){
@@ -29,8 +29,8 @@ public class Gripper2Subsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-  //  m_beamBreak.update();
-    // m_hasGamePiece = m_beamBreak.get();
+   m_beamBreak.update();
+    m_hasGamePiece = m_beamBreak.get();
   }
 
   public void setPercent(double Percent){

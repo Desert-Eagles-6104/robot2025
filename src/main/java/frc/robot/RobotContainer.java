@@ -25,6 +25,7 @@ import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.Commands.SetState;
+import frc.robot.Commands.Climb.SetPercenbt;
 import frc.robot.Commands.ElevatorCommands.HomingElevator;
 //import frc.robot.Commands.GripperCommands.EatUntilCoral;
 import frc.robot.Commands.GripperCommands.GripperSet;
@@ -32,6 +33,7 @@ import frc.robot.Commands.GripperCommands.GripperSetPrecent;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.presetState.PresetState;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
 
@@ -50,6 +52,7 @@ public class RobotContainer {
   private DriverStationController driverStationController = new DriverStationController(2);
   private SwerveSubsystem m_swerve;
   private VisionSubsystem m_vision;
+  private Climb m_climb;
   private ElevatorSubsystem m_elevator;
   private GripperArmSubsystem m_gripperArm;
   private GripperSubsystem m_gripper;
@@ -67,6 +70,7 @@ public class RobotContainer {
     m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
     m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
     m_intakeArm = new IntakeArmSubsystem(Constants.IntakeArm.configuration);
+    m_climb = new Climb();
     m_gripper = new GripperSubsystem();
     m_gripper2 = new Gripper2Subsystem();
     m_vision = new VisionSubsystem(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
@@ -83,6 +87,9 @@ public class RobotContainer {
     // drivercontroller.povDown().onTrue(new HomingElevator(m_elevator));
     drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
+    drivercontroller.povLeft().whileTrue(new SetPercenbt(m_climb, -0.2));
+    drivercontroller.povRight().whileTrue(new SetPercenbt(m_climb, 0.2));
+    
 
     //operator
     // operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));

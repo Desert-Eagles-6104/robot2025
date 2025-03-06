@@ -15,8 +15,8 @@ public class Climb extends SubsystemBase {
   TalonFX leftTalonFX;
   /** Creates a new Climb. */
   public Climb() {
-    rightTalonFX = new TalonFX(45);
-    leftTalonFX = new TalonFX(46);
+    rightTalonFX = new TalonFX(8 , "Canivore");
+    leftTalonFX = new TalonFX(7 , "Canivore");
   }
 
   public void setPercent(double percent){

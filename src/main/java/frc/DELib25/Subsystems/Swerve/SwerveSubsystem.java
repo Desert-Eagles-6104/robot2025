@@ -43,6 +43,9 @@ public class SwerveSubsystem extends SubsystemBase {
   
   private Field2d m_field = new Field2d();
 
+  private Translation2d translation2d;
+  private Pose2d RobotPose2d;
+
   private SwerveDriveKinematics m_kinematics;
   private SwerveDrivePoseEstimator m_odometry;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> m_pastPoses;
@@ -81,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     int k_maxPoseHistorySize = 51;
     m_pastPoses = new InterpolatingTreeMap<>(k_maxPoseHistorySize);
+  
   }
 
   public void drive(ChassisSpeeds chassisSpeeds , boolean openLoop , boolean fieldRelative, Translation2d centerOfRtation){
@@ -154,9 +158,15 @@ public class SwerveSubsystem extends SubsystemBase {
     Pose2d currentPose = m_odometry.update(m_gyro.getYaw(), getModulesPositions());
     m_pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
+    SmartDashboard.putNumber("robotX", getPose().getX());
+    SmartDashboard.putNumber("robotY ", getPose().getY());
+    SmartDashboard.putNumber("robotorientation", getPose().getRotation().getDegrees());
     
     m_odometry.update(m_gyro.getYaw() ,getModulesPositions());
     m_field.setRobotPose(m_odometry.getEstimatedPosition());
+
+    getPose();
+
   }
 
   public void zeroHeading(){
