@@ -37,9 +37,9 @@ public class VisionSubsystem extends SubsystemBase {
   int regularPipeline = 0;
   int pipelineX2 = 1;
   
-  int[] visionID = {7};
+  // int[] visionID = {7};
   
-  int[] localizationVisionID = {7,8,6};
+  // int[] localizationVisionID = {7,8,6};
   
   //second limelight values
   private static double m_TxNote = 0;
@@ -129,7 +129,7 @@ public class VisionSubsystem extends SubsystemBase {
     LimelightHelpers.setCropWindow(CameraType.AprilTagCamera.getCameraName(), cropXMin, cropXMax, cropYMin, cropYMax);
   }
   
-  /**   
+  /**
    * @return Total vision latency (photons -> robot) in seconds
    */
   public static double getTotalLatency() {

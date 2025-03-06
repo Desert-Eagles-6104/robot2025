@@ -25,7 +25,7 @@ import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.Commands.SetState;
-import frc.robot.Commands.Climb.SetPercenbt;
+import frc.robot.Commands.Climb.SetPercent;
 import frc.robot.Commands.ElevatorCommands.HomingElevator;
 //import frc.robot.Commands.GripperCommands.EatUntilCoral;
 import frc.robot.Commands.GripperCommands.GripperSet;
@@ -79,36 +79,40 @@ public class RobotContainer {
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
+
     // controls
     dashboardResets();
     SwerveBinding();
     auto();
-    drivercontroller.povUp().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+
     // drivercontroller.povDown().onTrue(new HomingElevator(m_elevator));
     drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
-    drivercontroller.povLeft().whileTrue(new SetPercenbt(m_climb, -0.2));
-    drivercontroller.povRight().whileTrue(new SetPercenbt(m_climb, 0.2));
+    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.2));
+    drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.2));
     
-
+    
     //operator
-    // operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    // operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    // operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    // operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    // operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    // operatorController.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
-    // operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
-    // operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
-    //operatorController.L1().onTrue(new EatUntilCoral(m_gripper2, 0.5));
-    // operatorController.povDown().onTrue(new HomingElevator(m_elevator));
-    operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
-    operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
+    operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    operatorController.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
+    operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    
+    
+    // operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
+    // operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
 
+    // Arab Score&intake
+    drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
+    drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    
     // SCORE AND INTAKE&
-
-
-    // drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, presetState.getPresetState(PresetState.L3)));
     drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
     drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
@@ -123,19 +127,28 @@ public class RobotContainer {
     SmartDashboard.putData("Reset Gripper Arm" , new InstantCommand(() -> m_gripperArm.resetPosition(37)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Brake" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Brake)).ignoringDisable(true));
-    // SmartDashboard.putData("L1", new InstantCommand(() -> m_state = PresetState.AlgeL2));
-    // SmartDashboard.putData("L2", new InstantCommand(() -> m_state = PresetState.L2));
-    // SmartDashboard.putData("L3", new InstantCommand(() -> m_state = PresetState.L3));
-    // SmartDashboard.putData("L4", new InstantCommand(() -> m_state = PresetState.L4));
   }
 
   public void disableMotors() {
     m_swerve.disableModules();
-  
+    
   }
+  
+    public void SwerveBinding(){
+      m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
+    }
 
   public Command getAuto() {
     return m_swerveAutoBuilder.getAuto();
+  }
+
+  public void DriverResets(){
+    drivercontroller.povUp().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
+    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
+    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.2));
+    drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.2));
+    
   }
   
   /**
@@ -160,9 +173,5 @@ public class RobotContainer {
     swerveAutoBuilder.addCommand("InatkeUntilHasNote", new IntakeEatUntilHasNote(m_intake, 0.8, true).withTimeout(2));*/
     
     m_swerveAutoBuilder.buildAutos();
-  }
-
-  public void SwerveBinding(){
-    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
   }
 }

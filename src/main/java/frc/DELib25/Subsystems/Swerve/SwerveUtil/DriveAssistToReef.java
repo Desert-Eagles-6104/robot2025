@@ -21,7 +21,7 @@ public class DriveAssistToReef {
         m_filterForward = LinearFilter.movingAverage(4);
     }
 
-        public ChassisSpeeds update(ChassisSpeeds chassisSpeeds, Rotation2d robotHeading, boolean isLeft, Boolean isRight){
+        public ChassisSpeeds update(ChassisSpeeds chassisSpeeds, Rotation2d robotHeading, Boolean isLeft, Boolean isRight){
             ChassisSpeeds toReturn = new ChassisSpeeds();
             if(VisionSubsystem.getTv() && (isLeft || isRight)){
                 Translation2d leftError = PoseEstimatorSubsystem.getRobotPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointLeft());

@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class SetPercenbt extends Command {
+public class SetPercent extends Command {
   Climb m_climb;
   double m_percent;
   /** Creates a new SetPercenbt. */
-  public SetPercenbt(Climb climb , double percent) {
+  public SetPercent(Climb climb , double percent) {
     m_climb = climb;
     m_percent = percent;
     addRequirements(m_climb);
