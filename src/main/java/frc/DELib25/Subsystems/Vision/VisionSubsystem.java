@@ -37,9 +37,9 @@ public class VisionSubsystem extends SubsystemBase {
   int regularPipeline = 0;
   int pipelineX2 = 1;
   
-  // int[] visionID = {7};
+  int[] visionID = {17,18,19,20,21,22,6,7,8,9,10,11};
   
-  // int[] localizationVisionID = {7,8,6};
+  int[] localizationVisionID = {17,18,19,20,21,22,6,7,8,9,10,11};
   
   //second limelight values
   private static double m_TxNote = 0;
@@ -67,6 +67,7 @@ public class VisionSubsystem extends SubsystemBase {
       m_estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());
       m_lastTy = m_ty;
       m_lastTx = m_tx;
+      getID();
     }
 
     SmartDashboard.putString("limeName", CameraType.AprilTagCamera.getCameraName());

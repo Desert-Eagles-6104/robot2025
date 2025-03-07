@@ -33,6 +33,9 @@ public class DriveAssistToReef {
                 else{
                     finalPoint = leftError;
                 }
+                //Shorter way To if else
+                //finalPoint = isRight ? RightError : leftError;
+        
 
                 if(Robot.s_Alliance == Alliance.Red){
                     toReturn = ChassisSpeeds.fromRobotRelativeSpeeds(-m_filterForward.calculate(-finalPoint.getX())*m_kpForward, -m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, robotHeading);

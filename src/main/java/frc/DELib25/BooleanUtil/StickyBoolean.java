@@ -1,5 +1,7 @@
 package frc.DELib25.BooleanUtil;
 
+import java.util.function.BooleanSupplier;
+
 // Read a provided input
 // When the input becomes true, output true until manually cleared
 // Useful for latching
@@ -12,8 +14,8 @@ public class StickyBoolean {
         mOn = false;
     }
 
-    public boolean update(boolean input) {
-        mOn |= input;
+    public boolean update(boolean useVision) {
+        mOn |= useVision;
         return mOn;
     }
 
