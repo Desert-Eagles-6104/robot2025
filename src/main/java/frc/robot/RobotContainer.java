@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
+import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistAuto;
+import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistToReef;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.ReefAssist;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
@@ -108,7 +110,7 @@ public class RobotContainer {
     drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
     drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
     drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    //drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
     drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
     drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     
