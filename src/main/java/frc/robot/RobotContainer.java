@@ -136,6 +136,7 @@ public class RobotContainer {
   }
   
     public void SwerveBinding(){
+      drivercontroller.PS().onTrue(new ReefAssist(m_swerve));
       m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
     }
 
@@ -147,8 +148,8 @@ public class RobotContainer {
     drivercontroller.povUp().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
-    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.2));
-    drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.2));
+    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.25));
+    drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.25));
     
   }
   

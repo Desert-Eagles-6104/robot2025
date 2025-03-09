@@ -18,8 +18,8 @@ import frc.robot.Robot;
 
 public class ReefAssist extends Command {
   private SwerveSubsystem m_swerveSubsystem;
-  private double m_kpSide = 0.0;
-  private double m_kpForward = 0.0;
+  private double m_kpSide = 3.0;
+  private double m_kpForward = 3.0;
   private LinearFilter m_filterSide;
   private LinearFilter m_filterForward;
   private ChassisSpeeds chassisSpeeds;
@@ -33,6 +33,7 @@ public class ReefAssist extends Command {
     m_filterForward = LinearFilter.movingAverage(4);
     chassisSpeeds = new ChassisSpeeds();
     dontSeesAprilTagForTime = new StableBoolean(0.5);
+    
   }
 
   @Override

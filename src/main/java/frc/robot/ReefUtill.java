@@ -56,7 +56,7 @@ public class ReefUtill extends SubsystemBase {
     
         public static ReefFace getFaceFromVision(){
             
-            double id = VisionSubsystem.getCurrentID();//TODO Chnage frim switch to ifs
+            double id = VisionSubsystem.getID();//TODO add && to ifs
         if(id == 17){
             return ReefFace.F6;
         }

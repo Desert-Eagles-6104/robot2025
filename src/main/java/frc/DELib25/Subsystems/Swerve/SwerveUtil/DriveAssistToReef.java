@@ -11,8 +11,8 @@ import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
 public class DriveAssistToReef {    
-  private double m_kpSide = 0.05;
-  private double m_kpForward = 0.1;
+  private double m_kpSide = 0.09;
+  private double m_kpForward = 0.2;
   private LinearFilter m_filterSide;
   private LinearFilter m_filterForward;
 
