@@ -13,7 +13,7 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   /** Creates a new Elevator. */
   public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
     super(configuration);  
-    m_ElevatorMagnet = new BeamBreak(2);
+    m_ElevatorMagnet = new BeamBreak(1);
   }
    public void periodic() {
     super.periodic();

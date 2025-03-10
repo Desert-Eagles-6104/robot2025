@@ -9,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 
 /** Add your docs here. */
 public class ReefUtill extends SubsystemBase {
+    private  static ReefFace lastFace = ReefFace.F1;
     private Translation2d m_pointLeft;
     private Translation2d m_pointRight;
     private Rotation2d m_robotAngle;
@@ -51,62 +53,104 @@ public class ReefUtill extends SubsystemBase {
     
         @Override
       public void periodic() {
-        //m_currentID = VisionSubsystem.getCurrentID();
+        m_currentID = VisionSubsystem.getCurrentID();
       }
     
+      
+      public static double SetID(){
+       double id = VisionSubsystem.getID();
+       return id;
+    }
+
         public static ReefFace getFaceFromVision(){
+
+            // double id = VisionSubsystem.getID();//TODO add && to ifs
+            double id = SetID();
+            SmartDashboard.putNumber("RealID", id);
+
             
-            double id = VisionSubsystem.getID();//TODO add && to ifs
+            
         if(id == 17){
+            lastFace = ReefFace.F6;
             return ReefFace.F6;
         }
         else if(id == 18){
+            lastFace = ReefFace.F1;
+
             return ReefFace.F1;
         }
         else if(id == 19){
+            lastFace = ReefFace.F2;
+
             return ReefFace.F2;
         }
         else if(id == 20){
+            lastFace = ReefFace.F3;
+
             return ReefFace.F3;
         }
         else if(id == 21){
+            lastFace = ReefFace.F4;
+
             return ReefFace.F4;
         }
         else if(id == 22){
+            lastFace = ReefFace.F5;
+
             return ReefFace.F5;
         }
         else if(id == 6){
+            lastFace = ReefFace.F6;
+
             return ReefFace.F6;
         }
         else if(id == 7){
+            lastFace = ReefFace.F1;
+
             return ReefFace.F1;
         }
         else if(id == 8){
+            lastFace = ReefFace.F2;
+
             return ReefFace.F2;
         }
         else if(id == 9){
+            lastFace = ReefFace.F3;
+
             return ReefFace.F3;
         }
         else if(id == 10){
+            lastFace = ReefFace.F4;
+
             return ReefFace.F4;
         }
         else if(id == 11){
+            lastFace = ReefFace.F5;
+
             return ReefFace.F5;
         }
         else if(id == 12){
+            lastFace = ReefFace.HR;
+
             return ReefFace.HR;
         }
         else if(id == 1){
+            lastFace = ReefFace.HR;
+
             return ReefFace.HR;
         }
         else if(id == 2){
+            lastFace = ReefFace.HL;
+
             return ReefFace.HL;
         }
         else if(id == 13){
+            lastFace = ReefFace.HL;
+
             return ReefFace.HL;
         }
         else{
-            return ReefFace.F1;
+            return lastFace;
         }
     }
 
@@ -141,7 +185,7 @@ public class ReefUtill extends SubsystemBase {
                     return new ReefUtill(new Translation2d(fieldLength - 5.77, 3.87), new Translation2d(fieldLength - 5.77, 4.2), Rotation2d.fromDegrees(0.0).rotateBy(Rotation2d.k180deg));
                 }
                 else{
-                    return new ReefUtill(new Translation2d(5.77, 3.87), new Translation2d(5.77, 4.2), Rotation2d.fromDegrees(0.0));
+                    return new ReefUtill(new Translation2d(5.77, 3.87), new Translation2d(5.77, 4.2), Rotation2d.fromDegrees(180.0));
                 }
 
             case F5:
@@ -149,7 +193,7 @@ public class ReefUtill extends SubsystemBase {
                     return new ReefUtill(new Translation2d(fieldLength - 4.98 , 2.83), new Translation2d(fieldLength - 5.26 , 3), Rotation2d.fromDegrees(120.0).rotateBy(Rotation2d.k180deg));
                 }
                 else{
-                    return new ReefUtill(new Translation2d(4.98 , 2.83), new Translation2d(5.26 , 3), Rotation2d.fromDegrees(60.0));
+                    return new ReefUtill(new Translation2d(4.98 , 2.83), new Translation2d(5.26 , 3), Rotation2d.fromDegrees(240.0));
                 }
 
             case F6:
@@ -157,7 +201,7 @@ public class ReefUtill extends SubsystemBase {
                     return new ReefUtill(new Translation2d(fieldLength - 3.69, 3.0), new Translation2d(fieldLength - 3.97, 2.83), Rotation2d.fromDegrees(60.0).rotateBy(Rotation2d.k180deg));
                 }
                 else{
-                    return new ReefUtill(new Translation2d(3.69, 3.0), new Translation2d(3.97, 2.83), Rotation2d.fromDegrees(120.0));
+                    return new ReefUtill(new Translation2d(3.69, 3.0), new Translation2d(3.97, 2.83), Rotation2d.fromDegrees(300.0));
                 }
                 case HR:
                 if(Robot.s_Alliance == Alliance.Red){//TODO put right pos

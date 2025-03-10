@@ -28,6 +28,7 @@ import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.Commands.SetState;
 import frc.robot.Commands.Climb.SetPercent;
+import frc.robot.Commands.ElevatorCommands.ElevatorMagneticHoming;
 import frc.robot.Commands.ElevatorCommands.HomingElevator;
 //import frc.robot.Commands.GripperCommands.EatUntilCoral;
 import frc.robot.Commands.GripperCommands.GripperSet;
@@ -102,17 +103,18 @@ public class RobotContainer {
     operatorController.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
     operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     
-    
     // operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
     // operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
 
     // Arab Score&intake
-    drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    //drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
-    drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    // drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    // drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    // drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    // drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    // drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
+    // drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    // drivercontroller.L3().onTrue(new ElevatorMagneticHoming(m_elevator));
+    
     
     // SCORE AND INTAKE&
    // drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
@@ -121,6 +123,8 @@ public class RobotContainer {
    // drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
    // drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
    // drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+    drivercontroller.R3().onTrue(new InstantCommand(() -> ReefUtill.SetID()));
+
   }
 
   public void dashboardResets(){
@@ -138,7 +142,6 @@ public class RobotContainer {
   }
   
     public void SwerveBinding(){
-      drivercontroller.PS().onTrue(new ReefAssist(m_swerve));
       m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
     }
 

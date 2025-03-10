@@ -320,7 +320,7 @@ public final class Constants {
 
   public static final class Gripper{
       public static final int motorId = 2;
-      public static final int beamBreakPort = 9;
+      public static final int beamBreakPort = 2;
       public static final double intakeOutput = 0.6;
       public static final double OutTakeOutput = 0.7;
       public static final double Ks = 0.0; 
