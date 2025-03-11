@@ -182,6 +182,10 @@ public class VisionSubsystem extends SubsystemBase {
     crop( cropXMin , cropXMax , cropYMin , cropYMax );
   }
 
+  public static double LockID(){
+    return getCurrentID();
+ }
+
   public void changePiplne(){
   }
 
@@ -198,6 +202,7 @@ public class VisionSubsystem extends SubsystemBase {
     public String getCameraName() {
         return m_cameraName;
     }
+
   }
 }
 

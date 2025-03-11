@@ -1,5 +1,7 @@
 package frc.DELib25.Subsystems.Swerve.SwerveUtil;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -11,8 +13,8 @@ import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
 public class DriveAssistToReef {    
-  private double m_kpSide = 2.0;
-  private double m_kpForward = 2.0;
+  private double m_kpSide = 3.0;
+  private double m_kpForward = 2.5;
   private LinearFilter m_filterSide;
   private LinearFilter m_filterForward;
 

@@ -47,6 +47,8 @@ public class ResetAllSubsystems extends Command {
     m_gripperArm.resetPosition(0);
     m_elevator.setPrecentOutput(0);
     m_gripperArm.setPrecentOutput(0);
+    m_elevator.ControlSoftLimit(true);
+    m_gripperArm.ControlSoftLimit(true);
   }
 
   // Returns true when the command should end.

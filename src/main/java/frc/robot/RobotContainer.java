@@ -107,23 +107,22 @@ public class RobotContainer {
     // operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
 
     // Arab Score&intake
-    // drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    // drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    // drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    // drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    // drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
-    // drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
-    // drivercontroller.L3().onTrue(new ElevatorMagneticHoming(m_elevator));
-    
-    
+    drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    drivercontroller.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    drivercontroller.povDown().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Home));
+    drivercontroller.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+    drivercontroller.L3().onTrue(new ElevatorMagneticHoming(m_elevator));
+
     // SCORE AND INTAKE&
-   // drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
-   // drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
-   // drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
-   // drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
-   // drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
-   // drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
-    drivercontroller.R3().onTrue(new InstantCommand(() -> ReefUtill.SetID()));
+   drivercontroller.R1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+   drivercontroller.L1().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state));
+  //  drivercontroller.R1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+  //  drivercontroller.R1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+  //  drivercontroller.L1().debounce(0.4).and(() -> m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, 0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+  //  drivercontroller.L1().debounce(0.4).and(() -> !m_gripper.HasGamePiece()).whileTrue(new GripperSetPrecent(m_gripper2, -0.4).andThen(new GripperSetPrecent(m_gripper2, 0.0)));
+    drivercontroller.R3().whileTrue(new InstantCommand(() -> VisionSubsystem.LockID()));
 
   }
 
@@ -142,6 +141,7 @@ public class RobotContainer {
   }
   
     public void SwerveBinding(){
+      drivercontroller.R3().toggleOnTrue(new InstantCommand(() -> ReefUtill.Update(drivercontroller.R3())));
       m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
     }
 
