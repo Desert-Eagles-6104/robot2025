@@ -1,6 +1,5 @@
 package frc.DELib25.BooleanUtil;
 
-import java.util.function.BooleanSupplier;
 
 // Read a provided input
 // When the input becomes true, output true until manually cleared

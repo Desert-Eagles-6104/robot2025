@@ -6,11 +6,8 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.GripperArmSubsystem;
-import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.presetState;
 import frc.robot.presetState.PresetState;
-import frc.robot.subsystems.ElevatorSubsystem;
 
 public class SmartPreset extends Command {
   private ElevatorSubsystem m_Elevator;

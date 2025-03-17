@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.lang.Thread.State;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -15,9 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistAuto;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistToReef;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.ReefAssist;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
@@ -26,14 +22,10 @@ import frc.DELib25.Util.SwerveAutoBuilder;
 import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
-import frc.robot.Commands.SetState;
 import frc.robot.Commands.Climb.SetPercent;
 import frc.robot.Commands.ElevatorCommands.ElevatorMagneticHoming;
-import frc.robot.Commands.ElevatorCommands.HomingElevator;
-//import frc.robot.Commands.GripperCommands.EatUntilCoral;
 import frc.robot.Commands.GripperCommands.GripperSet;
 import frc.robot.Commands.GripperCommands.GripperSetForAuto;
-import frc.robot.Commands.GripperCommands.GripperSetPrecent;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.presetState.PresetState;
@@ -95,7 +87,6 @@ public class RobotContainer {
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
     
-    
     //operator
     operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
     operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
@@ -106,9 +97,8 @@ public class RobotContainer {
     operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     operatorController.povDown().onTrue(new ElevatorMagneticHoming(m_elevator));
     // operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
-    // operatorController.square().onTrue( new SetState(presetState.getPresetState(PresetState.L4)));
 
-    // Arab Score&intake
+    // driver Score&intake
     //drivercontroller.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
     //drivercontroller.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
     //drivercontroller.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
@@ -151,10 +141,10 @@ public class RobotContainer {
     return m_swerveAutoBuilder.getAuto();
   }
 
-  public void DriverResets(){
+  public void DriverManuals(){
     drivercontroller.povUp().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
     drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, -0.7));
-    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.6));
+    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.4));
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
     
