@@ -4,6 +4,8 @@
 
 package frc.robot.Commands.ElevatorCommands;
 
+import edu.wpi.first.networktables.TimestampedString;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -11,6 +13,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorMagneticHoming extends Command {
   ElevatorSubsystem m_elevator;
   StableBoolean isAtResetPoint;
+  private Timer m_timer;
   boolean done = false;
   boolean skipSetPosition = false;
   /** Creates a new ArmHoming. */
@@ -18,11 +21,13 @@ public class ElevatorMagneticHoming extends Command {
     m_elevator = Elevator;
     isAtResetPoint = new StableBoolean(0.2);
     addRequirements(Elevator);
+    m_timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.reset();
     m_elevator.ControlSoftLimit(false);
     done = false;
     if(m_elevator.getPosition()<20){
@@ -40,8 +45,14 @@ public class ElevatorMagneticHoming extends Command {
       m_elevator.setPrecentOutput(-0.07);
     }
     if (isAtResetPoint.get(m_elevator.getMagnetState())) {
-      m_elevator.setPosition(0);
+      m_timer.reset();
+      if(m_timer.hasElapsed(1)){
+      m_elevator.resetPosition(0);
       m_elevator.disableMotors();
+      }
+      else{
+        m_elevator.disableMotors();
+      }
       done = true;
     }
   }
@@ -52,7 +63,7 @@ public class ElevatorMagneticHoming extends Command {
     m_elevator.disableMotors();
     skipSetPosition = false;
     done = false;
-    m_elevator.ControlSoftLimit(true);
+   // m_elevator.ControlSoftLimit(true);
   }
 
   // Returns true when the command should end.

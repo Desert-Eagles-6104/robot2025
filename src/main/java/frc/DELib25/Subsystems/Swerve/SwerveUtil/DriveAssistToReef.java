@@ -40,10 +40,10 @@ public class DriveAssistToReef {
         
 
                 if(Robot.s_Alliance == Alliance.Red){
-                    toReturn = ChassisSpeeds.fromRobotRelativeSpeeds(-m_filterForward.calculate(-finalPoint.getX())*m_kpForward, -m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, robotHeading);
+                    toReturn = ChassisSpeeds.fromFieldRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, robotHeading);
                 }
                 else{
-                    toReturn = ChassisSpeeds.fromRobotRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, robotHeading);
+                    toReturn = ChassisSpeeds.fromFieldRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, robotHeading);
                 }
             }
             chassisSpeeds.vxMetersPerSecond = toReturn.vxMetersPerSecond + chassisSpeeds.vxMetersPerSecond;

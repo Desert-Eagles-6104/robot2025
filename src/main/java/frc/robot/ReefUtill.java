@@ -171,14 +171,14 @@ public class ReefUtill extends SubsystemBase {
 
             case F1:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 3.18, 4.2), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(180.0).rotateBy(Rotation2d.k180deg) , m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 3.18, 4.2), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(180.0) , m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(0.0), m_bool);
                 }
             case F2:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 3.97, 5.23), new Translation2d(fieldLength - 3.69 , 5.07), Rotation2d.fromDegrees(240.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 3.97, 5.23), new Translation2d(fieldLength - 3.69 , 5.07), Rotation2d.fromDegrees(240.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.97, 5.23), new Translation2d(3.69 , 5.07), Rotation2d.fromDegrees(60.0) , m_bool);
@@ -186,7 +186,7 @@ public class ReefUtill extends SubsystemBase {
 
             case F3:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 5.26, 5.07), new Translation2d(fieldLength - 4.98, 5.23), Rotation2d.fromDegrees(300.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 5.26, 5.07), new Translation2d(fieldLength - 4.98, 5.23), Rotation2d.fromDegrees(300.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(5.26, 5.07), new Translation2d(4.98, 5.23), Rotation2d.fromDegrees(120.0) , m_bool);
@@ -194,7 +194,7 @@ public class ReefUtill extends SubsystemBase {
 
             case F4:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 5.77, 3.87), new Translation2d(fieldLength - 5.77, 4.2), Rotation2d.fromDegrees(0.0).rotateBy(Rotation2d.k180deg) , m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 5.77, 3.87), new Translation2d(fieldLength - 5.77, 4.2), Rotation2d.fromDegrees(0.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(5.77, 3.87), new Translation2d(5.77, 4.2), Rotation2d.fromDegrees(180.0) ,m_bool);
@@ -202,7 +202,7 @@ public class ReefUtill extends SubsystemBase {
 
             case F5:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 4.98 , 2.83), new Translation2d(fieldLength - 5.26 , 3), Rotation2d.fromDegrees(120.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 4.98 , 2.83), new Translation2d(fieldLength - 5.26 , 3), Rotation2d.fromDegrees(120.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(4.98 , 2.83), new Translation2d(5.26 , 3), Rotation2d.fromDegrees(-120.0), m_bool);
@@ -210,28 +210,28 @@ public class ReefUtill extends SubsystemBase {
 
             case F6:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 3.69, 3.0), new Translation2d(fieldLength - 3.97, 2.83), Rotation2d.fromDegrees(60.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 3.69, 3.0), new Translation2d(fieldLength - 3.97, 2.83), Rotation2d.fromDegrees(60.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.69, 3.0), new Translation2d(3.97, 2.83), Rotation2d.fromDegrees(-60.0), m_bool);
                 }
                 case HR:
                 if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
-                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 1.02), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(50.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 1.02), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(50.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(50.0), m_bool);
                 }
                 case HL:
                 if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
-                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 7.04), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 7.04), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
                 }
             default:
                 if(Robot.s_Alliance == Alliance.Red){
-                    return new ReefUtill(new Translation2d(fieldLength - 0.0, 0.0), new Translation2d(fieldLength - 0.0, 0.0), Rotation2d.fromDegrees(90.0).rotateBy(Rotation2d.k180deg), m_bool);
+                    return new ReefUtill(new Translation2d(fieldLength - 0.0, 0.0), new Translation2d(fieldLength - 0.0, 0.0), Rotation2d.fromDegrees(90.0), m_bool);
                 }
                 else{
                     return new ReefUtill(new Translation2d(0.0, 0.0), new Translation2d(0.0, 0.0), Rotation2d.fromDegrees(90.0), m_bool);

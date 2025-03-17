@@ -45,13 +45,13 @@ public class presetState extends SubsystemBase {
                 return new presetState(0.37,-15.208984375);//first stage   
             
             case L2:
-                return new presetState(0.13,-44.208984375);//second stage   
+                return new presetState(0.18,-44.208984375);//second stage   
             
             case L3:
-                return new presetState(0.35,-44.208984375);//thired stage   
+                return new presetState(0.38,-44.208984375);//thired stage   
             
             case L4:
-                return new presetState(0.67,-42.208984375);//4 stage   
+                return new presetState(0.70,-42.208984375);//4 stage   
             
             case Home:
                 return new presetState(0.04,-89.384765625);//home stage   

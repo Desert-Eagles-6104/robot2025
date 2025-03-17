@@ -21,6 +21,8 @@ public class PresetUtil {
         L4,
         Home,
         Human,
+        AlgeL2,
+        AlgeL3,
         Intake;
     }
 
@@ -35,14 +37,20 @@ public class PresetUtil {
     public static PresetUtil getPresetState(PresetState state){
         switch (state) {
 
+            case AlgeL3:
+                return new PresetUtil(0.17, -15.208984375);
+                
+            case AlgeL2:
+                return new PresetUtil(0.37, -15.208984375);
+
             case L1:
                 return new PresetUtil(0.2,-54.208984375);//first stage   
             
             case L2:
-                return new PresetUtil(0.6,-54.208984375);//second stage   
+                return new PresetUtil(0.65,-54.208984375);//second stage   
             
             case L3:
-                return new PresetUtil(0.8,-54.208984375);//thired stage   
+                return new PresetUtil(0.85,-54.408984375);//thired stage   
             
             case L4:
                 return new PresetUtil(0.9,-54.208984375);//4 stage   

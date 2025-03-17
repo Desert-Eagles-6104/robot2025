@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Sensors.BeamBreak;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
@@ -18,6 +19,7 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
    public void periodic() {
     super.periodic();
     magnetState = magnetUpdate();
+    SmartDashboard.putBoolean("magneticSee", magnetState);
   }
 
   @Override
