@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.ReefUtill;
@@ -31,6 +32,9 @@ public class DriveAssistToReef {
                 Translation2d finalPoint;
                 if(isRight){
                     finalPoint = RightError;
+                    SmartDashboard.putNumber("FinalPoint getx", finalPoint.getX());
+                    SmartDashboard.putNumber("FinalPoint gety", finalPoint.getY());
+
                 }
                 else{
                     finalPoint = leftError;
