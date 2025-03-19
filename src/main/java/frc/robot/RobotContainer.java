@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.lang.management.OperatingSystemMXBean;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -26,6 +27,10 @@ import frc.robot.Commands.Climb.SetPercent;
 import frc.robot.Commands.ElevatorCommands.ElevatorMagneticHoming;
 import frc.robot.Commands.GripperCommands.GripperSet;
 import frc.robot.Commands.GripperCommands.GripperSetForAuto;
+import frc.robot.Commands.integrationCommands.Human;
+import frc.robot.Commands.integrationCommands.L2Score;
+import frc.robot.Commands.integrationCommands.L3Score;
+import frc.robot.Commands.integrationCommands.L4Score;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.presetState.PresetState;
@@ -87,15 +92,22 @@ public class RobotContainer {
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
     
-    //operator
-    operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
-    operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
-    operatorController.povDown().onTrue(new ElevatorMagneticHoming(m_elevator));
+    //operator integration commands
+    operatorController.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    operatorController.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    operatorController.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    operatorController.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+
+    //operator Manual commands
+    //operatorController.circle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));//TODO RETURB THOSE
+    //operatorController.triangle().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));//TODO RETURB THOSE
+    //operatorController.square().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));//TODO RETURB THOSE
+    //operatorController.R3().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));//TODO RETURB THOSE
+    //operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));//TODO RETURB THOSE
+    //operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));//TODO RETURB THOSE
+    //operatorController.options().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));//TODO RETURB THOSE
+    //operatorController.povDown().onTrue(new ElevatorMagneticHoming(m_elevator));
+
     // operatorController.cross().onTrue( new SetState(presetState.getPresetState(PresetState.Home)));
 
     // driver Score&intake

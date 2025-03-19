@@ -196,7 +196,7 @@ public class ReefUtill extends SubsystemBase {
                     return new ReefUtill(new Translation2d(fieldLength - 5.77, 3.87), new Translation2d(fieldLength - 5.77, 4.2), Rotation2d.fromDegrees(0.0), m_bool);
                 }
                 else{
-                    return new ReefUtill(new Translation2d(5.77, 3.87), new Translation2d(5.77, 4.2), Rotation2d.fromDegrees(180.0) ,m_bool);
+                    return new ReefUtill(new Translation2d(5.77, 3.87), new Translation2d(5.77, 4.2), Rotation2d.fromDegrees(180) ,m_bool);
                 }
 
             case F5:
@@ -214,20 +214,21 @@ public class ReefUtill extends SubsystemBase {
                 else{
                     return new ReefUtill(new Translation2d(3.69, 3.0), new Translation2d(3.97, 2.83), Rotation2d.fromDegrees(-60.0), m_bool);
                 }
-                case HR:
-                if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
+            case HR:
+            if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
                     return new ReefUtill(new Translation2d(fieldLength - 1.1, 1.02), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(50.0), m_bool);
-                }
-                else{
-                    return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(50.0), m_bool);
-                }
-                case HL:
-                if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
-                    return new ReefUtill(new Translation2d(fieldLength - 1.1, 7.04), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
-                }
-                else{
-                    return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
-                }
+             }
+             else{
+            return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(50.0), m_bool);
+            }
+            case HL:
+            if(Robot.s_Alliance == Alliance.Red){//TODO put right pos
+            return new ReefUtill(new Translation2d(fieldLength - 1.1, 7.04), new Translation2d(fieldLength - 3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
+            }
+            else{
+            return new ReefUtill(new Translation2d(3.18, 4.2), new Translation2d(3.18, 3.87), Rotation2d.fromDegrees(310.0), m_bool);
+            }
+
             default:
                 if(Robot.s_Alliance == Alliance.Red){
                     return new ReefUtill(new Translation2d(fieldLength - 0.0, 0.0), new Translation2d(fieldLength - 0.0, 0.0), Rotation2d.fromDegrees(90.0), m_bool);

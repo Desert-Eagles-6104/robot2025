@@ -24,6 +24,7 @@ public class presetState extends SubsystemBase {
         Home,
         Human,
         AlgeL3,
+        ZERO,
         Intake;
     }
 
@@ -37,6 +38,9 @@ public class presetState extends SubsystemBase {
 
     public static presetState getPresetState(PresetState state){
         switch (state) {
+
+            case ZERO:
+                return new presetState(0,-86);
 
             case AlgeL2:
                 return new presetState(0.17,-15.208984375);//first stage  

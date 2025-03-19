@@ -111,7 +111,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return getPose().getRotation();
   }
 
-  public Pose2d getPose() {
+  public Pose2d getPose(){
     return m_odometry.getEstimatedPosition();
   }
 

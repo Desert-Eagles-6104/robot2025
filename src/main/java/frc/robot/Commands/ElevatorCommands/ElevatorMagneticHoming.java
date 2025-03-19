@@ -41,7 +41,7 @@ public class ElevatorMagneticHoming extends Command {
   @Override
   public void execute() {
     if (m_elevator.isAtSetpoint() || skipSetPosition){
-      m_elevator.setPrecentOutput(-0.07);
+      m_elevator.setPrecentOutput(-0.1);
     }
     if (isAtResetPoint.get(m_elevator.getMagnetState())) {
       m_timer.reset();
