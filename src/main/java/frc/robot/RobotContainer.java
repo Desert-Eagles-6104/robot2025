@@ -82,7 +82,6 @@ public class RobotContainer {
 
     // controls
     dashboardResets();
-    resets();
     SwerveBinding();
     auto();
 
