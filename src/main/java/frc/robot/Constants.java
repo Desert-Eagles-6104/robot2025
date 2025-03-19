@@ -242,11 +242,14 @@ public final class Constants {
       forwardSoftLimit = 37;
 
       reverseSoftLimit = -88;
+
       //#endregion sofr limits
 
       allowableError = 4.0;
 
-      homePosition = 37.0;
+      homePosition = -89.0;
+
+      angleOffset = 0.163;
     }};
   }
 

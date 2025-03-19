@@ -51,4 +51,6 @@ public class ServoSubsystemConfiguration {
     public double allowableError = 6.0;
 
     public double homePosition = 0.0;
+
+    public double angleOffset = 0.0;
 }

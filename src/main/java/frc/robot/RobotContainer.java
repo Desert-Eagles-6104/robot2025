@@ -58,7 +58,6 @@ public class RobotContainer {
   private GripperArmSubsystem m_gripperArm;
   private GripperSubsystem m_gripper;
   private Gripper2Subsystem m_gripper2;
-  private IntakeArmSubsystem m_intakeArm;
   private PoseEstimatorSubsystem m_poseEstimator;
   private PhoneixSysid m_sysid;
   private SwerveAutoBuilder m_swerveAutoBuilder;
@@ -70,7 +69,6 @@ public class RobotContainer {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
     m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
     m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
-    m_intakeArm = new IntakeArmSubsystem(Constants.IntakeArm.configuration);
     m_climb = new Climb();
     m_gripper = new GripperSubsystem();
     m_gripper2 = new Gripper2Subsystem();
@@ -80,9 +78,11 @@ public class RobotContainer {
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
+    
 
     // controls
     dashboardResets();
+    resets();
     SwerveBinding();
     auto();
 
@@ -130,6 +130,12 @@ public class RobotContainer {
 
   }
 
+  public void resets(){
+    m_gripperArm.resetSubsystemToInitialState();
+  }
+
+  
+
   public void dashboardResets(){
     SmartDashboard.putData("Reset Odometry From Limelight", new InstantCommand(() -> PoseEstimatorSubsystem.resetPositionFromCamera()));
     SmartDashboard.putData("Reset Elevator" , new InstantCommand(() -> m_elevator.resetPosition(0)).ignoringDisable(true));
@@ -159,7 +165,7 @@ public class RobotContainer {
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, 0.4));
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
-    
+  
   }
   
   /**
