@@ -173,12 +173,16 @@ public class RobotContainer {
 
   public void auto(){
     //add commands 
-    m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
-    m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
-    m_swerveAutoBuilder.addCommand("l2", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
-    m_swerveAutoBuilder.addCommand("l1", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    m_swerveAutoBuilder.addCommand("human", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
-    m_swerveAutoBuilder.addCommand("Score", new GripperSetForAuto(m_gripper2, 0.6));
+    m_swerveAutoBuilder.addCommand("L4", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    m_swerveAutoBuilder.addCommand("L3", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    m_swerveAutoBuilder.addCommand("L2", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    m_swerveAutoBuilder.addCommand("HUMAN", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    // m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
+    // m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
+    // m_swerveAutoBuilder.addCommand("l2", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));
+    // m_swerveAutoBuilder.addCommand("l1", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
+    // m_swerveAutoBuilder.addCommand("human", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human));
+    // m_swerveAutoBuilder.addCommand("Score", new GripperSetForAuto(m_gripper2, 0.6));
     //  m_swerveAutoBuilder.addCommand("IntakeUntilHasCoral", new EatUntilCoral(m_gripper2, 0.5));
     /* EXAMPLE 
     swerveAutoBuilder.addCommand("InatkeUntilHasNote", new IntakeEatUntilHasNote(m_intake, 0.8, true).withTimeout(2));*/

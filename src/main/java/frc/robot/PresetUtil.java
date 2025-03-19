@@ -59,7 +59,7 @@ public class PresetUtil {
                 return new PresetUtil(0.1,89.384765625);//home stage   
             
             case Human:
-                return new PresetUtil(0.10,37);//coralStation   0.07 elevator pos
+                return new PresetUtil(0.115,37);//coralStation   0.07 elevator pos
             
             case Intake:
                 return new PresetUtil(0.1,-54.208984375);   

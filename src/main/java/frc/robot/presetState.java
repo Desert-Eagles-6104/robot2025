@@ -40,7 +40,7 @@ public class presetState extends SubsystemBase {
         switch (state) {
 
             case ZERO:
-                return new presetState(0,-86);
+                return new presetState(0.00001,-86);
 
             case AlgeL2:
                 return new presetState(0.17,-15.208984375);//first stage  
@@ -61,7 +61,7 @@ public class presetState extends SubsystemBase {
                 return new presetState(0.04,-89.384765625);//home stage   
             
             case Human:
-                return new presetState(0.07,35.5);//coralStation   
+                return new presetState(0.09,35.8);//coralStation   
             
             case Intake:
                 return new presetState(0.1,-54.208984375);   

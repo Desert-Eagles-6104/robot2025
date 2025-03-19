@@ -7,6 +7,7 @@ package frc.robot.Commands.integrationCommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.presetState.PresetState;
+import frc.robot.Constants;
 import frc.robot.Commands.ElevatorCommands.ElevatorSetPosition;
 import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -20,6 +21,6 @@ import frc.robot.subsystems.GripperSubsystem;
 public class L4Score extends SequentialCommandGroup {
   /** Creates a new L4Score. */
   public L4Score(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2) {
-    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4)),(new WaitCommand(0.1)),(new IntakeForTime(m_gripper, 0.6, 0.3)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new ResetSubsystems(m_elevator, m_gripperArm, m_gripper2)));
+    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4)),(new WaitCommand(0.1)),(new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new ResetSubsystems(m_elevator, m_gripperArm, m_gripper2)));
   }
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.26,
-        "y": 5.07
+        "x": 7.71,
+        "y": 6.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.76,
-        "y": 4.203974596215562
+        "x": 6.571168032786885,
+        "y": 5.914190573770492
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.689959016393443,
-        "y": 4.774231557377049
+        "x": 5.26,
+        "y": 5.07
       },
       "prevControl": {
-        "x": 12.689959016393443,
-        "y": 4.774231557377049
+        "x": 5.76,
+        "y": 5.936025403784439
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "L3Left"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -121.03386633689817
   },
   "reversed": false,
-  "folder": null,
+  "folder": "CoolScoringAutos",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -118.46700038071505
+    "rotation": 1.1966581383668728
   },
   "useDefaultConstraints": true
 }

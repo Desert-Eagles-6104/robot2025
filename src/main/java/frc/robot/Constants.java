@@ -314,6 +314,8 @@ public final class Constants {
     public static final double DutyCycleNeutralDeadband = 0.0;
     public static final InvertedValue motorInverted = InvertedValue.CounterClockwise_Positive;
     public static final int frequencyHz = 0;
+    //Integration
+    public static final double TimeToDropIntegraion = 0.5;
     }
 
 

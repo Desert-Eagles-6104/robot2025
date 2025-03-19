@@ -17,13 +17,14 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
 public class GripperSubsystem extends SubsystemBase {
   private static GripperSubsystem m_instance = null;
 
    private TalonFX m_motor;
-  //  private BeamBreak m_beamBreak;
+  // private BeamBreak m_beamBreak;
    private boolean m_isBroken;
    private boolean m_hasGamePiece;
 
@@ -54,7 +55,7 @@ public class GripperSubsystem extends SubsystemBase {
     m_closedLoopErrorSignal = m_motor.getClosedLoopError();
     BaseStatusSignal.setUpdateFrequencyForAll(Constants.Gripper.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
 
-    // m_beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
+    //m_beamBreak = new BeamBreak(2);
   }
 
   @Override
@@ -62,7 +63,7 @@ public class GripperSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // m_beamBreak.update();
     // m_hasGamePiece = m_beamBreak.get();
-    SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
+    // SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
   }
   
   public void disableMotors(){
