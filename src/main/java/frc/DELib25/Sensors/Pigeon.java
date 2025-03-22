@@ -12,22 +12,22 @@ import edu.wpi.first.units.measure.AngularVelocity;
 
 public class Pigeon {
 
-	private static Pigeon mInstance;
+	private static Pigeon m_Instance;
 
 	public static void CreateInstance(int ID) {
-		if (mInstance == null) {
-			mInstance = new Pigeon(ID, "Canivore");
+		if (m_Instance == null) {
+			m_Instance = new Pigeon(ID, "Canivore");
 		}
 	}
 
     public static void CreateInstance(int ID, String bus) {
-		if (mInstance == null) {
-			mInstance = new Pigeon(ID, bus);
+		if (m_Instance == null) {
+			m_Instance = new Pigeon(ID, bus);
 		}
 	}
 
     public static Pigeon getInstance() {
-		return mInstance;
+		return m_Instance;
 	}
 
 	// Actual pigeon object
@@ -47,7 +47,7 @@ public class Pigeon {
 		mGyro.getConfigurator().apply(new Pigeon2Configuration());
         mGyro.optimizeBusUtilization();
 	}
-
+	
 	public Rotation2d getYaw() {
 		Rotation2d angle = getUnadjustedYaw().rotateBy(yawAdjustmentAngle.unaryMinus());
 		if (inverted) {

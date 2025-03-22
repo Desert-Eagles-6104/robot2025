@@ -5,9 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
-
-import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

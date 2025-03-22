@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.function.BooleanSupplier;
-
-import org.opencv.core.Mat.Tuple2;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,19 +19,14 @@ import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
 import frc.DELib25.Util.SwerveAutoBuilder;
-import frc.robot.subsystems.IntakeArmSubsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.Commands.Climb.SetPercent;
-import frc.robot.Commands.ElevatorCommands.ElevatorMagneticHoming;
 import frc.robot.Commands.GripperCommands.GripperSet;
-import frc.robot.Commands.GripperCommands.GripperSetForAuto;
 import frc.robot.Commands.integrationCommands.Human;
 import frc.robot.Commands.integrationCommands.L2Score;
 import frc.robot.Commands.integrationCommands.L3Score;
 import frc.robot.Commands.integrationCommands.L4Score;
-import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
-import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.presetState.PresetState;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -141,9 +133,9 @@ public class RobotContainer {
 
   public void auto(){
     //add commands 
-    m_swerveAutoBuilder.addCommand("L4", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,AutoApprove));
-    m_swerveAutoBuilder.addCommand("L3", new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,AutoApprove));
-    m_swerveAutoBuilder.addCommand("L2", new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,AutoApprove));
+    m_swerveAutoBuilder.addCommand("L4", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
+    m_swerveAutoBuilder.addCommand("L3", new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
+    m_swerveAutoBuilder.addCommand("L2", new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
     m_swerveAutoBuilder.addCommand("HUMAN", new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     // m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
     // m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));

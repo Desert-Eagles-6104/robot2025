@@ -5,16 +5,11 @@
 package frc.robot.Commands.integrationCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Commands.ElevatorCommands.ElevatorMagneticHoming;
-import frc.robot.Commands.ElevatorCommands.ElevatorSetPosition;
 import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
-import frc.robot.Commands.GripperArmCommands.GripperArmPercent;
 import frc.robot.Commands.GripperCommands.GripperSet;
-import frc.robot.Commands.GripperCommands.GripperSetPrecent;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
 import frc.robot.subsystems.GripperArmSubsystem;
-import frc.robot.subsystems.GripperSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

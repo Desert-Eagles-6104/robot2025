@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;

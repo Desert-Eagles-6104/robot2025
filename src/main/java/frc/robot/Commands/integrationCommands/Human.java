@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.presetState.PresetState;
 import frc.robot.Commands.IntakeCommands.EatUntilCoral;
-import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
 import frc.robot.subsystems.GripperArmSubsystem;

@@ -72,7 +72,7 @@ public class TalonFXFactory {
         config.CurrentLimits.SupplyCurrentLowerLimit = 60.0;
         config.CurrentLimits.SupplyCurrentLowerTime = 0.1;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimitEnable = false;
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
 
         config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
         config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0.0;

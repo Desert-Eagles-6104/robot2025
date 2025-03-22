@@ -43,8 +43,8 @@ public final class Constants {
     public static final CameraSettings gamePieceCameraSettings = new CameraSettings(0, 0, 0, 0, 0, 0, false); 
 
     public static final double cameraHeight = 0.10689;//TODO: This must be tuned to specific robot
-    public static final double tragetHeight = 0.307975;//high of april tag center from floor - reef april tag
-    public static final double cameraPitch = 15.13;//liemlight 3 cameraPitch
+    public static final double tragetHeight = 0.307975;//height of april tag center from the floor - reef april tag
+    public static final double cameraPitch = 15.13;//limelight 3 cameraPitch
 
   }
 
@@ -196,7 +196,7 @@ public final class Constants {
       forwardSoftLimit = 0.70;
 
       reverseSoftLimit = 0.0;
-      //#endregion sofr limits
+      //#endregion soft limits
 
       allowableError = 0.8;
 
@@ -243,7 +243,7 @@ public final class Constants {
 
       reverseSoftLimit = -88;
 
-      //#endregion sofr limits
+      //#endregion soft limits
 
       allowableError = 0.8;
 
