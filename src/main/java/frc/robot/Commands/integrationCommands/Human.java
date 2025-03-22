@@ -17,7 +17,7 @@ import frc.robot.subsystems.GripperSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Human extends SequentialCommandGroup {
-  /** Creates a new Human. */
+  /**  sequential command group to get the elevator and arm to the corect positions to be able to intake from human. */
   public Human(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2) {
     addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.Human)),(new WaitCommand(0.1)),(new EatUntilCoral(m_gripper2)));//TODO change to intake until beambreak sees
   }
