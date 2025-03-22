@@ -26,12 +26,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.IServoSubsystemBase;
 
+/**
+ * here we create a servoSubsytem for a talonFX motorController
+ *  a servo is a motor that gets to a certain position within an input in range of the specific system. */
+
 public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsystemBase{
   /** Creates a new ServoSubsystem. */
   public ServoSubsystemConfiguration m_configuration;
   
-  private TalonFX m_masterFx;
-  private TalonFX[] m_slaveFX;
+  private TalonFX m_masterFx; // creation of the master motor controller this is the controller we give all the command to.
+  private TalonFX[] m_slaveFX; // creation of the slave controller this motor follows everything the master does.
   public double setpoint;
 
     // Requests
@@ -47,7 +51,11 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
   private final StatusSignal<Current> m_statorCurrentSignal;
   private final StatusSignal<Double> m_closedLoopError;
   private final StatusSignal<Voltage> m_appliedVoltageSignal;
- 
+
+  /**
+   *  creation of the servoSubsytem constructor to define the objects and constants in the subsystem
+   *  @param configuration the configuration holds all of the values of the subsystem.
+   */
   public ServoSubsystemTalon(ServoSubsystemConfiguration configuration) {
     m_configuration =  configuration;
     m_masterFx = ServoSubsystemMotorFactory.createTalonFX(configuration);
@@ -87,11 +95,13 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
       SmartDashboard.putBoolean(m_configuration.subsystemName + " AtSetpint", isAtSetpoint());
   }
 
+ 
   @Override
   public void resetSubsystemToInitialState() {
     resetPosition(m_configuration.homePosition);
   }
 
+  
   @Override
   public void disableMotors() {
     m_masterFx.disable();

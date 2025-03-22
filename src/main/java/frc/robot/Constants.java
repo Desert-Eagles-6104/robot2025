@@ -245,7 +245,7 @@ public final class Constants {
 
       //#endregion sofr limits
 
-      allowableError = 4.0;
+      allowableError = 0.8;
 
       homePosition = -89.0;
 
@@ -301,6 +301,7 @@ public final class Constants {
   }
 
   public static final class Intake{
+    
     public static final int motorId = 3;
     public static final int beamBreakPort = 0;
     public static final double intakeOutput = 0.6;

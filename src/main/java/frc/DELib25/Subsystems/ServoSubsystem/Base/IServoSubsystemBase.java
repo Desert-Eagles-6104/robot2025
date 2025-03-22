@@ -19,8 +19,16 @@ public interface IServoSubsystemBase {
      */
     public abstract double fromRotations(double rotations);
 
+    /**
+     * set the wanted position of mechanism to the given position using a motion magic profile.
+     * @param position wanted position.
+     */
     public abstract void setMotionMagicPosition(double position);
 
+     /**
+     * set the wanted position of mechanism to the given position using simple pid.
+     * @param position wanted position.
+     */
     public abstract void setPosition(double position);
 
     public abstract void setPrecentOutput(double precent);
@@ -43,6 +51,10 @@ public interface IServoSubsystemBase {
 
     public abstract void disableMotors();
 
+     /** 
+   * gets the homePosition of the subsystem from the generic Configuration
+   * and resets the physical position of the system to the home position
+   */
     public abstract void resetSubsystemToInitialState();
 
     public abstract void runCharacterization(Voltage volts);

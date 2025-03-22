@@ -4,10 +4,13 @@
 
 package frc.robot.Commands.integrationCommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.presetState.PresetState;
+import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
 import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
@@ -19,7 +22,7 @@ import frc.robot.subsystems.GripperSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class L3Score extends SequentialCommandGroup {
   /** Creates a new L3Score. */
-  public L3Score(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2) {
-  addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3)),(new WaitCommand(0.1)),(new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new ResetSubsystems(m_elevator, m_gripperArm, m_gripper2)));
+  public L3Score(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2, BooleanSupplier approve) {
+  addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3)),(new WaitCommand(0.3)),(new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion, approve)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new DisableGripperArm(m_gripperArm)));
   }
 }

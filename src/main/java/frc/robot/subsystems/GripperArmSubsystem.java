@@ -21,7 +21,7 @@ public class GripperArmSubsystem extends ServoSubsystemTalon {
     m_angleOffset = m_configuration.angleOffset;
 
     m_angleOffset = m_configuration.angleOffset;
-    setAngleOffset(m_configuration.angleOffset);
+    // setAngleOffset(m_configuration.angleOffset);
   }
 
   @Override

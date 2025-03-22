@@ -4,6 +4,8 @@
 
 package frc.robot.Commands.IntakeCommands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.GripperSubsystem;
@@ -14,20 +16,25 @@ public class IntakeForTime extends Command {
   private double m_power;
   private double m_timeToFinish;
   private Timer m_timer;
-  public IntakeForTime(GripperSubsystem gripper, double power, double timeToFinish) {
+  private BooleanSupplier m_approve;
+
+  public IntakeForTime(GripperSubsystem gripper, double power, double timeToFinish , BooleanSupplier Approve) {
     m_gripper = gripper;
     m_power = power;
     m_timeToFinish = timeToFinish;
     m_timer = new Timer();
     addRequirements(gripper);
+    m_approve = Approve;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(m_approve.getAsBoolean()){
     m_timer.reset();
     m_timer.start();
     m_gripper.setMotorPercent(m_power);
+    }
   }
 
   // Called once the command ends or is interrupted.
