@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FromMiddleCageToFace3Left"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "byebye"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "zero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FromL4LeftTOHuman"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "HUMAN"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.2
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "CoolAutos",
+  "choreoAuto": false
+}

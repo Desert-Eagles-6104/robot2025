@@ -48,7 +48,7 @@
   "folder": "CoolScoringAutos",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 1.1966581383668728
+    "rotation": 1.196658138366873
   },
   "useDefaultConstraints": true
 }

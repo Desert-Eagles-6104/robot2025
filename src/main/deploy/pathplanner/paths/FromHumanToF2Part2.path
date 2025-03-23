@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4862534441009423,
-        "y": 6.891505407570929
+        "x": 2.4934426229508198,
+        "y": 6.728227459016393
       },
       "isLocked": false,
       "linkedName": "Human"
     },
     {
       "anchor": {
-        "x": 3.97,
-        "y": 5.23
+        "x": 3.69,
+        "y": 5.07
       },
       "prevControl": {
-        "x": 2.9542480494326018,
-        "y": 6.384498283852568
+        "x": 2.7451844262295078,
+        "y": 6.488473360655737
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "f2"
+      "linkedName": "F2Part2"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -61.51730680874927
+    "rotation": -59.343280856071615
   },
   "reversed": false,
   "folder": "CoolScoringAutos",

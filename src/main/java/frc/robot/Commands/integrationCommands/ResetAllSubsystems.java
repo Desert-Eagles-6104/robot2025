@@ -41,12 +41,12 @@ public class ResetAllSubsystems extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_elevator.resetPosition(0);
-    m_gripperArm.resetPosition(0);
+    // m_elevator.resetPosition(0);
+    // m_gripperArm.resetPosition(0);
     m_elevator.setPrecentOutput(0);
     m_gripperArm.setPrecentOutput(0);
-    m_elevator.ControlSoftLimit(true);
-    m_gripperArm.ControlSoftLimit(true);
+    // m_elevator.ControlSoftLimit(true);
+    // m_gripperArm.ControlSoftLimit(true);
   }
 
   // Returns true when the command should end.

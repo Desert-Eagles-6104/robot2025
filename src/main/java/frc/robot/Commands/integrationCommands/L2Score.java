@@ -23,6 +23,6 @@ import frc.robot.subsystems.GripperSubsystem;
 public class L2Score extends SequentialCommandGroup {
   /** Creates a new L2. */
   public L2Score(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2,BooleanSupplier approve) {
-    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3)),(new WaitCommand(0.3)),(new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion, approve)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new DisableGripperArm(m_gripperArm)));
+    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2)),(new WaitCommand(0.3)),(new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion, approve)),(new WaitCommand(0.3)),new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO),(new DisableGripperArm(m_gripperArm)));
   }
 }
