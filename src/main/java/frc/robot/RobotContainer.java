@@ -26,7 +26,9 @@ import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
 import frc.robot.Commands.GripperCommands.GripperSet;
 import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.Commands.IntakeCommands.IntakeForTimeAuto;
+import frc.robot.Commands.integrationCommands.HomingElevatorAuto;
 import frc.robot.Commands.integrationCommands.Human;
+import frc.robot.Commands.integrationCommands.HumanAuto;
 import frc.robot.Commands.integrationCommands.L2Score;
 import frc.robot.Commands.integrationCommands.L3Score;
 import frc.robot.Commands.integrationCommands.L4Score;
@@ -127,10 +129,10 @@ public class RobotContainer {
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
-    drivercontroller.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
-    drivercontroller.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
-    drivercontroller.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
-    drivercontroller.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    // drivercontroller.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
+    // drivercontroller.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
+    // drivercontroller.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
+    // drivercontroller.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     drivercontroller.povDown().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
   }
   
@@ -145,12 +147,12 @@ public class RobotContainer {
 
   public void auto(){
     //add commands 
-    m_swerveAutoBuilder.addCommand("L4", new L4ScoreAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    m_swerveAutoBuilder.addCommand("L4", new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, ()-> true));
     m_swerveAutoBuilder.addCommand("L3", new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
     m_swerveAutoBuilder.addCommand("L2", new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
-    m_swerveAutoBuilder.addCommand("HUMAN", new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
+    m_swerveAutoBuilder.addCommand("HUMAN", new HumanAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     m_swerveAutoBuilder.addCommand("byebye", new IntakeForTimeAuto(m_gripper, -0.6, 0.5));
-    m_swerveAutoBuilder.addCommand("zero", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO));
+    m_swerveAutoBuilder.addCommand("zero", new HomingElevatorAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     // m_swerveAutoBuilder.addCommand("l4", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L4));
     // m_swerveAutoBuilder.addCommand("l3", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L3));
     // m_swerveAutoBuilder.addCommand("l2", new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.L2));

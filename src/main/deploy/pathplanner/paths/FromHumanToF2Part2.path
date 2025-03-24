@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4934426229508198,
-        "y": 6.728227459016393
+        "x": 2.3877401399610116,
+        "y": 6.550101475230606
       },
       "isLocked": false,
       "linkedName": "Human"
@@ -20,8 +20,8 @@
         "y": 5.07
       },
       "prevControl": {
-        "x": 2.7451844262295078,
-        "y": 6.488473360655737
+        "x": 2.338305204589071,
+        "y": 6.670353510150725
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,11 +30,22 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.5,
+        "y": 4.0
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.04,
+      "maxWaypointRelativePos": 0.75,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

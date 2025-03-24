@@ -14,8 +14,8 @@ import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
 public class DriveAssistToReef {    
-  private double m_kpSide = 3.0;
-  private double m_kpForward = 3.0;
+  private double m_kpSide = 2.6;
+  private double m_kpForward = 2.6;
   private LinearFilter m_filterSide;
   private LinearFilter m_filterForward;
 
@@ -56,6 +56,8 @@ public class DriveAssistToReef {
             chassisSpeeds.vyMetersPerSecond = toReturn.vyMetersPerSecond + chassisSpeeds.vyMetersPerSecond;
             return chassisSpeeds;
         }
+
+
 
         private double getAngleToreef(Rotation2d wantedAngle) {
             try {

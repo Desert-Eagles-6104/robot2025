@@ -61,7 +61,7 @@ public class presetState extends SubsystemBase {
                 return new presetState(0.04,-89.384765625);//home stage   
             
             case Human:
-                return new presetState(0.09,35.8);//coralStation   
+                return new presetState(0.09,34);//coralStation   
             
             case Intake:
                 return new presetState(0.1,-54.208984375);   

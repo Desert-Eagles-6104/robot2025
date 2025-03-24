@@ -3,41 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.97,
-        "y": 5.23
+        "x": 7.715112327938669,
+        "y": 0.79
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2826148998872813,
-        "y": 5.945381045544835
+        "x": 6.948169681131533,
+        "y": 1.3503488949626146
       },
       "isLocked": false,
-      "linkedName": "f2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.726,
-        "y": 7.376
+        "x": 5.282751564510464,
+        "y": 2.923807347589263
       },
       "prevControl": {
-        "x": 2.3410603582707816,
-        "y": 6.649916895941254
+        "x": 5.220199831907155,
+        "y": 2.6817592516489643
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Human"
+      "linkedName": "F5RIGHT"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.542876434841323,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.3,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [
     {
       "fieldPosition": {
-        "x": 1.726,
-        "y": 7.376
+        "x": 4.5,
+        "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.04,
+      "minWaypointRelativePos": 0.038709677419353467,
       "maxWaypointRelativePos": 0.75,
       "name": "Point Towards Zone"
     }
@@ -53,13 +67,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 128.3968321093042
+    "rotation": 120.11373315098244
   },
   "reversed": false,
   "folder": "CoolScoringAutos",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -61.51730680874927
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

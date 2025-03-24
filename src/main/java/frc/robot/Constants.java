@@ -112,14 +112,14 @@ public final class Constants {
       angleKD = chosenModule.angleKD;
 
       /* Drive Motor PID Values */
-      driveKP = 3.5; //TODO: This must be tuned to specific robot (sysid bratan)
+      driveKP = 3.0; //TODO: This must be tuned to specific robot (sysid bratan)
       driveKI = 0.0;
       driveKD = 0.0;
       driveKS = 1.2;
       driveKV = 0.0;
 
       /* Heading PID Values */
-      HeadingKP = 0.3;
+      HeadingKP = 0.5;
       HeadingKI = 0.0;
       HeadingKD = 0.0;
       HeadingTolerence = 1.5;
@@ -225,27 +225,27 @@ public final class Constants {
       
       motionMagicAcceleration = 30000;
 
-      motionMagicJerk = 350;
+      motionMagicJerk = 360;
       //#endregion motion magic values
 
       //#region cuurent limit
-      supplyCurrentLimit = 60; 
+      supplyCurrentLimit = 55;
 
       enableSupplyCurrentLimit = true;
 
-      statorCurrentLimit = 40;
+      statorCurrentLimit = 35;
 
       enableStatorCurrentLimit = false;
       //#endregion current limit
 
-      //#region soft limits 
-      forwardSoftLimit = 37;
+      //#region soft limits
+      forwardSoftLimit = 36.5;
 
-      reverseSoftLimit = -88;
+      reverseSoftLimit = -89.5;
 
       //#endregion soft limits
 
-      allowableError = 0.8;
+      allowableError = 3.5;
 
       homePosition = -89.0;
 
@@ -279,7 +279,7 @@ public final class Constants {
       //#endregion motion magic values
 
       //#region cuurent limit
-      supplyCurrentLimit = 60; 
+      supplyCurrentLimit = 60;
 
       enableSupplyCurrentLimit = true;
 
