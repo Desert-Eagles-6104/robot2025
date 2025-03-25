@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FromMiddleCageToFace3Left"
+            "pathName": "FromMiddleToF4"
           }
         },
         {
@@ -17,9 +17,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "byebye"
+            "pathName": "FromL4ToDefence"
           }
         }
       ]

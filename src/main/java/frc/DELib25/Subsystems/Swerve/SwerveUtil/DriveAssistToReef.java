@@ -1,7 +1,5 @@
 package frc.DELib25.Subsystems.Swerve.SwerveUtil;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -9,7 +7,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
@@ -46,7 +43,7 @@ public class DriveAssistToReef {
         
 
                 if(Robot.s_Alliance == Alliance.Red){
-                    toReturn = ChassisSpeeds.fromFieldRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0,Rotation2d.fromDegrees(getAngleToreef(robotHeading)));
+                    toReturn = ChassisSpeeds.fromFieldRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0,robotHeading);
                 }
                 else{
                     toReturn = ChassisSpeeds.fromFieldRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0,Rotation2d.fromDegrees(getAngleToreef(robotHeading)));

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.068319443081522,
-        "y": 0.8789931942477722
+        "x": 2.0217214088319038,
+        "y": 0.6699557438792606
       },
       "isLocked": false,
       "linkedName": "HumanSecond"
     },
     {
       "anchor": {
-        "x": 4.018265330106655,
-        "y": 2.778362420918993
+        "x": 3.69,
+        "y": 2.95
       },
       "prevControl": {
-        "x": 1.666688795490865,
-        "y": 0.3066909006936296
+        "x": 2.010143315832726,
+        "y": 1.1944338626201898
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "F6RIGHT"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -37,7 +37,7 @@
         "y": 4.0
       },
       "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.07,
+      "minWaypointRelativePos": 0.05856079404466469,
       "maxWaypointRelativePos": 0.75,
       "name": "Point Towards Zone"
     }
@@ -53,7 +53,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 63.34771627575449
+    "rotation": 59.85198017652201
   },
   "reversed": false,
   "folder": "CoolScoringAutos",

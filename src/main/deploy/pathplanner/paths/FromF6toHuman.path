@@ -3,45 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.726229508196721,
-        "y": 0.68
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.068319443081522,
-        "y": 0.8789931942477722
-      },
-      "isLocked": false,
-      "linkedName": "HumanSecond"
-    },
-    {
-      "anchor": {
         "x": 4.018265330106655,
         "y": 2.778362420918993
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.1492500000000003,
+        "y": 1.77275
+      },
+      "isLocked": false,
+      "linkedName": "F6RIGHT"
+    },
+    {
+      "anchor": {
+        "x": 1.726,
+        "y": 0.68
+      },
       "prevControl": {
-        "x": 1.666688795490865,
-        "y": 0.3066909006936296
+        "x": 2.50575,
+        "y": 1.3925
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "F6RIGHT"
+      "linkedName": "HumanSecond"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "pointTowardsZones": [
-    {
-      "fieldPosition": {
-        "x": 4.5,
-        "y": 4.0
-      },
-      "rotationOffset": 0.0,
-      "minWaypointRelativePos": 0.07,
-      "maxWaypointRelativePos": 0.75,
-      "name": "Point Towards Zone"
-    }
-  ],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
@@ -53,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 63.34771627575449
+    "rotation": -126.76892932851145
   },
   "reversed": false,
   "folder": "CoolScoringAutos",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -126.76892932851145
+    "velocity": 0.0,
+    "rotation": 63.34771627575449
   },
   "useDefaultConstraints": true
 }

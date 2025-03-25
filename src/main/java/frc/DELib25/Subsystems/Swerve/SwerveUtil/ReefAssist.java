@@ -7,7 +7,6 @@ package frc.DELib25.Subsystems.Swerve.SwerveUtil;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.LinearFilter;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
