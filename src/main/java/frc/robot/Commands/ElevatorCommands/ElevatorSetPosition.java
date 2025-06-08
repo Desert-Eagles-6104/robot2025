@@ -11,4 +11,5 @@ import frc.DELib25.Subsystems.ServoSubsystem.Commands.ServoSubsystemSetPosition;
 public class ElevatorSetPosition extends ServoSubsystemSetPosition {
     public ElevatorSetPosition(ServoSubsystemTalon ServoSubsystemTalon, double Position, boolean motionMagic) {
         super(ServoSubsystemTalon, Position, motionMagic);
-    }}
+    }
+}
