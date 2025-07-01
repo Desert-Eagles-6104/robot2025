@@ -1,4 +1,4 @@
-package frc.DELib25.Motors;
+package frc.DELib25.Archive;
 
 public enum MotorType {
     sparkMax,

@@ -46,4 +46,20 @@ public class Conversions {
         double wheelRotations = wheelMeters / circumference;
         return wheelRotations;
     }
+    /**
+     * @param seconds Time: (in Seconds)
+     * @return Time: (in Milliseconds)
+     */
+    public static double millToSeconds(double milliSeconds){
+        double seconds = milliSeconds / 1000.0;
+        return seconds;
+    }
+    /**
+     * @param seconds Time: (in Seconds)
+     * @return Time: (in Milliseconds)
+     */
+    public static double ticksToSeconds(double ticks, double ticksPerSecond){
+        double seconds = ticks / ticksPerSecond;
+        return seconds;
+    }
 }

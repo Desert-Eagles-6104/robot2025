@@ -42,7 +42,6 @@ public class ServoSubsystemHoming extends Command {
   public void end(boolean interrupted) {
     m_ServoSubsystemTalon.ControlSoftLimit(true);
     m_ServoSubsystemTalon.disableMotors();
-    System.out.println(m_ServoSubsystemTalon.m_configuration.subsystemName + ": successfull homing");
   }
 
   // Returns true when the command should end.

@@ -6,10 +6,9 @@ package frc.DELib25.Subsystems.ServoSubsystem;
 
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.MotorConstants;
-import frc.DELib25.Motors.MotorType;
 /** Add your docs here. */
 public class ServoSubsystemConfiguration {
-    public MotorType motorType = MotorType.talonFX; // definiton of the type of the motor controller.
+    //public MotorType motorType = MotorType.talonFX; // definiton of the type of the motor controller.
 
     public String subsystemName = ""; 
 

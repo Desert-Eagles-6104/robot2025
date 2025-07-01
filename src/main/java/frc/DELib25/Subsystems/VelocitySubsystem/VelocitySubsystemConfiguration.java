@@ -6,10 +6,9 @@ package frc.DELib25.Subsystems.VelocitySubsystem;
 
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.MotorConstants;
-import frc.DELib25.Motors.MotorType;
 /** Add your docs here. */
 public class VelocitySubsystemConfiguration {
-    public MotorType motorType = MotorType.talonFX;
+    //public MotorType motorType = MotorType.talonFX;
 
     public String subsystemName = "";
 

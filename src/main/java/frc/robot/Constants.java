@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.DELib25.Motors.MotorConstants;
 import frc.DELib25.Motors.PIDContainer;
-import frc.DELib25.Motors.MotorType;
 import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.Swerve.SwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
@@ -159,7 +158,7 @@ public final class Constants {
   public final class Elevator {
     public static final ServoSubsystemConfiguration ElevatorConfiguration = new ServoSubsystemConfiguration(){{
      
-      motorType = MotorType.talonFX;
+      //motorType = MotorType.talonFX;
 
       subsystemName = "Elevator";
 
@@ -206,7 +205,7 @@ public final class Constants {
 
   public final class GripperArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
-      motorType = MotorType.talonFX;
+      //motorType = MotorType.talonFX;
 
       subsystemName = "gripperArm";
 
@@ -255,7 +254,7 @@ public final class Constants {
 
   public final class IntakeArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
-      motorType = MotorType.talonFX;
+      //motorType = MotorType.talonFX;
 
       subsystemName = "intakeArm";
 
