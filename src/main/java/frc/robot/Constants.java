@@ -158,8 +158,6 @@ public final class Constants {
   public final class Elevator {
     public static final ServoSubsystemConfiguration ElevatorConfiguration = new ServoSubsystemConfiguration(){{
      
-      //motorType = MotorType.talonFX;
-
       subsystemName = "Elevator";
 
       slaves = new MotorConstants[]{new MotorConstants(50,"rio",true,true)};
@@ -205,8 +203,6 @@ public final class Constants {
 
   public final class GripperArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
-      //motorType = MotorType.talonFX;
-
       subsystemName = "gripperArm";
 
       master = new MotorConstants(1,"rio",true ,true);
@@ -254,7 +250,6 @@ public final class Constants {
 
   public final class IntakeArm {
     public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
-      //motorType = MotorType.talonFX;
 
       subsystemName = "intakeArm";
 

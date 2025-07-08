@@ -8,8 +8,6 @@ import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.MotorConstants;
 /** Add your docs here. */
 public class VelocitySubsystemConfiguration {
-    //public MotorType motorType = MotorType.talonFX;
-
     public String subsystemName = "";
 
     public MotorConstants master = new MotorConstants(-1,"",false,false);

@@ -8,8 +8,6 @@ import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.MotorConstants;
 /** Add your docs here. */
 public class ServoSubsystemConfiguration {
-    //public MotorType motorType = MotorType.talonFX; // definiton of the type of the motor controller.
-
     public String subsystemName = ""; 
 
     public MotorConstants master = new MotorConstants(-1,"",false,false); // generic config of the master
