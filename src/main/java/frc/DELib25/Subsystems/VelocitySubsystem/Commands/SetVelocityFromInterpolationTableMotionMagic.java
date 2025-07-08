@@ -9,12 +9,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.Subsystems.VelocitySubsystem.Base.Motor.VelocitySubsystemTalon;
 
-public class SetVelocity extends Command {
-	private DoubleSupplier velocityRpmSupplier;
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+public class SetVelocityFromInterpolationTableMotionMagic extends Command {
+	private DoubleSupplier distanceMetersSupplier;
 	private VelocitySubsystemTalon subsystemTalon;
 
-	public SetVelocity(DoubleSupplier velocityRpmSupplier, VelocitySubsystemTalon subsystemTalon) {
-		this.velocityRpmSupplier = velocityRpmSupplier;
+	public SetVelocityFromInterpolationTableMotionMagic(DoubleSupplier distanceMetersSupplier,
+			VelocitySubsystemTalon subsystemTalon) {
+		this.distanceMetersSupplier = distanceMetersSupplier;
 		this.subsystemTalon = subsystemTalon;
 		addRequirements(subsystemTalon);
 	}
@@ -22,13 +24,13 @@ public class SetVelocity extends Command {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		this.subsystemTalon.setVelocity(this.velocityRpmSupplier.getAsDouble());
+		this.subsystemTalon.setUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		this.subsystemTalon.setVelocity(this.velocityRpmSupplier.getAsDouble());
+		this.subsystemTalon.setUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	// Called once the command ends or is interrupted.

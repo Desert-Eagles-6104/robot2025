@@ -24,7 +24,9 @@ public interface IVelocitySubsystemBase {
 
     public abstract void setPrecentOutput(double precent);
 
-    public abstract void setUsingInterpulation(double value, boolean useMotionMagic);
+    public abstract void setUsingInterpulation(double value);
+
+    public abstract void setUsingInterpulationMotionMagic(double value);
 
     public abstract double getInterpulationVelocity(double value);
 
