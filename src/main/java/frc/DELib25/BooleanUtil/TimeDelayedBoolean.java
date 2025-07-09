@@ -2,20 +2,19 @@ package frc.DELib25.BooleanUtil;
 
 import edu.wpi.first.wpilibj.Timer;
 
-/**
- * This class contains a boolean value and a timer. It can set its boolean value and return whether the timer is within
- * a set timeout. This returns true if the stored value is true and the timeout has expired.
+/** 
+ * A time-delayed boolean that returns true if the value is true for a specified duration.
  */
 public class TimeDelayedBoolean {
-    private Timer t = new Timer();
-    private boolean m_old = false;
+    private Timer timer = new Timer();
+    private boolean last = false;
 
     public boolean update(boolean value, double timeout) {
-        if (!m_old && value) {
-            t.reset();
-            t.start();
+        if (!this.last && value) {
+            this.timer.reset();
+            this.timer.start();
         }
-        m_old = value;
-        return value && t.get() >= timeout;
+        this.last = value;
+        return value && this.timer.get() >= timeout;
     }
 }
