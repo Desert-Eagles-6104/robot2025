@@ -2,8 +2,7 @@ package frc.DELib25.BooleanUtil;
 
 /**
  * An iterative boolean latch.
- * <p>
- * Returns true once if and only if the value of newValue changes from false to true.
+ * Returns true if the value of newValue changes last from false to true.
  */
 public class IterativeLatchedBoolean {
     private boolean last = false;
