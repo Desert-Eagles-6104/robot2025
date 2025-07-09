@@ -6,9 +6,9 @@ package frc.DELib25.BooleanUtil;
 public class MultiTrigger {
     private final double timeout;
     private boolean lastPressed = false;
+    private boolean lastTapped = false;
     private final IterativeLatchedBoolean wasTapped = new IterativeLatchedBoolean();
     private final IterativeLatchedBoolean wasHeld = new IterativeLatchedBoolean();
-    private boolean lastTapped = false;
     private final TimeDelayedBoolean isHeld = new TimeDelayedBoolean();
 
     public MultiTrigger(double timeout) {
@@ -16,24 +16,24 @@ public class MultiTrigger {
     }
 
     public void update(boolean pressed) {
-        lastPressed = pressed;
-        lastTapped = wasTapped.update(pressed);
-        isHeld.update(pressed, timeout);
+        this.lastPressed = pressed;
+        this.lastTapped = this.wasTapped.update(pressed);
+        this.isHeld.update(pressed, this.timeout);
     }
 
     public boolean wasTapped() {
-        return lastTapped;
+        return this.lastTapped;
     }
 
     public boolean isPressed() {
-        return lastPressed;
+        return this.lastPressed;
     }
 
     public boolean isHeld() {
-        return isHeld.update(lastPressed, timeout);
+        return this.isHeld.update(this.lastPressed, this.timeout);
     }
 
     public boolean holdStarted() {
-        return wasHeld.update(isHeld());
+        return this.wasHeld.update(this.isHeld());
     }
 }
