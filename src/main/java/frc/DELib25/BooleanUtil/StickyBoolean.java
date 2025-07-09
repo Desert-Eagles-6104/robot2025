@@ -1,19 +1,12 @@
 package frc.DELib25.BooleanUtil;
 
 
-/*  
-    Read a provided input
-    When the input becomes true, output true until manually cleared
-    Useful for latching
+/** 
+ * A sticky boolean that retains its true state once set to true.
+ * It will remain so until reset.
 */
 public class StickyBoolean {
-
     private boolean on = false;
-
-    public StickyBoolean() {
-        super();
-        on = false;
-    }
 
     public boolean update(boolean useVision) {
         on |= useVision;
