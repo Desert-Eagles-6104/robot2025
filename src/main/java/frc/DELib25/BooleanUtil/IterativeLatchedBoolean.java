@@ -6,14 +6,14 @@ package frc.DELib25.BooleanUtil;
  * Returns true once if and only if the value of newValue changes from false to true.
  */
 public class IterativeLatchedBoolean {
-    private boolean mLast = false;
+    private boolean last = false;
 
     public boolean update(boolean newValue) {
-        boolean ret = false;
-        if (newValue && !mLast) {
+    	boolean ret = false;
+        if (newValue && !this.last) {
             ret = true;
         }
-        mLast = newValue;
+        this.last = newValue;
         return ret;
     }
 }

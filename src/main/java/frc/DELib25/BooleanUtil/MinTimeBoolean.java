@@ -5,23 +5,23 @@ package frc.DELib25.BooleanUtil;
  * based on timestamp.
  */
 public class MinTimeBoolean {
-    private IterativeLatchedBoolean mLatchedBoolean;
-    private final double mMinTime;
-    private double mRisingEdgeTime;
+    private IterativeLatchedBoolean latchedBoolean;
+    private final double minTime;
+    private double risingEdgeTime;
 
     public MinTimeBoolean(double minTime) {
-        mLatchedBoolean = new IterativeLatchedBoolean();
-        mMinTime = minTime;
-        mRisingEdgeTime = Double.NaN;
+        latchedBoolean = new IterativeLatchedBoolean();
+        this.minTime = minTime;
+        risingEdgeTime = Double.NaN;
     }
 
     public boolean update(boolean value, double timestamp) {
-        if (mLatchedBoolean.update(value)) {
-            mRisingEdgeTime = timestamp;
+        if (latchedBoolean.update(value)) {
+            risingEdgeTime = timestamp;
         }
 
-        if (!value && !Double.isNaN(mRisingEdgeTime)
-                && (timestamp - mRisingEdgeTime < mMinTime)) {
+        if (!value && !Double.isNaN(risingEdgeTime)
+                && (timestamp - risingEdgeTime < minTime)) {
             return true;
         }
         return value;
