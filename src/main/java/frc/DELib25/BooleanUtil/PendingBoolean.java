@@ -9,23 +9,35 @@ public class PendingBoolean {
     private boolean lastValue;
     private final double minTime;
     private double lastChangeTime;
+    private boolean pending;
 
     public PendingBoolean(double minTime, boolean defaultValue) {
         this.minTime = minTime;
         this.defaultValue = defaultValue;
         this.lastValue = defaultValue;
         this.lastChangeTime = Double.NaN;
+        this.pending = false;
+    }
+    
+    public boolean update(boolean value, double timeStamp) {
+        if (value == this.lastValue) {
+            this.pending = false;
+            return this.lastValue;
+        }
+
+        if (!this.pending) {
+            this.pending = true;
+            this.lastChangeTime = timeStamp;
+            return this.defaultValue;
+        }
+        // The time has passed, the change gose into effect
+        if (timeStamp - this.lastChangeTime >= this.minTime) {
+            this.lastValue = value;
+            this.pending = false;
+            return this.lastValue;
+        }
+
+        return this.defaultValue;
     }
 
-    public boolean update(boolean value, double timeStamp) {
-        if (value != lastValue && Double.isNaN(lastChangeTime)) {
-            lastChangeTime = timeStamp;
-        }
-        // If the time has passed return the value
-        if (!Double.isNaN(this.lastChangeTime) && (timeStamp - this.lastChangeTime >= this.minTime)) {
-            this.lastValue = value;
-            this.lastChangeTime = Double.NaN;
-        }
-        return (Double.isNaN(this.lastChangeTime)) ? value : this.defaultValue;
-    }
 }
