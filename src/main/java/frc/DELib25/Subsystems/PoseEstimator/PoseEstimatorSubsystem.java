@@ -83,16 +83,4 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
   public static Pose2d getInterpolatedPose(double latencySeconds){
     return m_swerve.getInterpolatedPose(latencySeconds);
   }
-
-   /**
-  @param value clamped value
-  @param min min value
-  @param max max value
-  @return sets a range for the value if its between the max and min points
-  */
-  private static double clamp(double value, double min, double max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-
 }

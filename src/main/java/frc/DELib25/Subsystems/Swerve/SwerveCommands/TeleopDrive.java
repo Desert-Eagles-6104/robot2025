@@ -21,7 +21,6 @@ import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistToReef;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.HeadingController;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper.DriveMode;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.Constants;
 import frc.robot.ReefUtill;
 import frc.robot.Robot;
@@ -110,19 +109,6 @@ public class TeleopDrive extends Command {
   }
 
   /**
-   * @param hasTarget camera sees target 
-   * @param errorFromTarget error from target in degrees
-   * @param latency camera total latency
-   */
-  private void setVisionTarget(boolean hasTarget, double errorFromTarget, double latency){
-    if(m_useVisionLatch.get()){
-      double errorDegrees = hasTarget ? -errorFromTarget : 0;
-      Rotation2d target = PoseEstimatorSubsystem.getInterpolatedPose(VisionSubsystem.getTotalLatency()).getRotation().plus(Rotation2d.fromDegrees(errorDegrees));
-      m_headingController.setSetpoint(target);
-    }
-  }
-
-    /**
    * @param hasTarget camera sees target 
    * @param errorFromTarget error from target in degrees
    */

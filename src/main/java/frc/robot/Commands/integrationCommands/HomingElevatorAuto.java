@@ -17,6 +17,6 @@ import frc.robot.subsystems.GripperSubsystem;
 public class HomingElevatorAuto extends SequentialCommandGroup {
   /** Creates a new L4Score. */
   public HomingElevatorAuto(ElevatorSubsystem m_elevator , GripperArmSubsystem m_gripperArm, GripperSubsystem m_gripper ,PresetState m_state,Gripper2Subsystem m_gripper2) {
-    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.ZERO)));
+    addCommands((new SmartPreset(m_elevator, m_gripperArm, m_gripper, PresetState.ZERO)));
   }
 }

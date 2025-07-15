@@ -43,9 +43,6 @@ public class SwerveSubsystem extends SubsystemBase {
   
   private Field2d m_field = new Field2d();
 
-  private Translation2d translation2d;
-  private Pose2d RobotPose2d;
-
   private SwerveDriveKinematics m_kinematics;
   private SwerveDrivePoseEstimator m_odometry;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> m_pastPoses;

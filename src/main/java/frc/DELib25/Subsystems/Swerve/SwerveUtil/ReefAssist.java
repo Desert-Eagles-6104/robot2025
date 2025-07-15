@@ -12,10 +12,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
-import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
-import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
 public class ReefAssist extends Command {
@@ -28,7 +26,6 @@ public class ReefAssist extends Command {
   private Translation2d centerOfRobot = new Translation2d();
   private StableBoolean dontSeesAprilTagForTime;
   private boolean isRight = false;
-  private HeadingController m_headingController;
   Translation2d leftError;
   Translation2d RightError;
   Translation2d finalPoint;
@@ -45,11 +42,7 @@ public class ReefAssist extends Command {
 
   @Override
   public void initialize() {
-    if(VisionSubsystem.getTv()){
-      Translation2d leftError = PoseEstimatorSubsystem.getRobotPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointLeft());
-      Translation2d RightError = PoseEstimatorSubsystem.getRobotPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointRight());
-      Translation2d finalPoint;
-    }
+
   }
 
   @Override

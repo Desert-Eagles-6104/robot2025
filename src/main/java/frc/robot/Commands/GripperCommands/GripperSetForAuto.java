@@ -13,7 +13,6 @@ public class GripperSetForAuto extends Command {
   Gripper2Subsystem m_gripper;
   double m_output;
   private Timer m_Timer;
-  private boolean done = false;
   /** Creates a new GripperSet. */
   public GripperSetForAuto(Gripper2Subsystem gripper , double output ) {
     m_gripper = gripper;

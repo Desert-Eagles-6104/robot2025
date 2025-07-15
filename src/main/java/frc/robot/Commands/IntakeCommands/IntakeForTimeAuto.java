@@ -4,11 +4,8 @@
 
 package frc.robot.Commands.IntakeCommands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.GripperSubsystem;
 
 public class IntakeForTimeAuto extends Command {

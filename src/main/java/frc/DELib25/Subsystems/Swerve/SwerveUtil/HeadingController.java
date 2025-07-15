@@ -194,7 +194,7 @@ public class HeadingController  {
     double velocity = new Translation2d(robotRelativeVelocity.vxMetersPerSecond, robotRelativeVelocity.vyMetersPerSecond).getNorm();
     if(m_useVisionLatch.get()){
       // vision
-      if(m_pidController.getPositionError() < 1){
+      if(m_pidController.getError() < 1){
         setPIDSettings(m_pidContainerVisionLowError);
       }
       else{
