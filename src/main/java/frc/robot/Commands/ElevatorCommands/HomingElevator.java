@@ -5,7 +5,7 @@
 package frc.robot.Commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.DELib25.BooleanUtil.TimeDelayedBoolean;
+import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class HomingElevator extends Command {
@@ -13,12 +13,12 @@ public class HomingElevator extends Command {
   private ServoSubsystemTalon m_elevator;
   private double m_currentThreshold = 0.98; //TODO: need to be in const
   private double m_velocityThreshold = 0.1; //TODO: need to be in const
-  private TimeDelayedBoolean m_condition;
+  private StableBoolean m_condition;
   public HomingElevator(ServoSubsystemTalon elevator) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
     m_elevator = elevator;
-    m_condition = new TimeDelayedBoolean();
+    m_condition = new StableBoolean(0.2);
   }
 
   // Called when the command is initially scheduled.
@@ -45,6 +45,6 @@ public class HomingElevator extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_condition.update(m_elevator.getMotorCurrent() > m_currentThreshold && m_elevator.getVelocity() < m_velocityThreshold, 0.2);
+    return m_condition.update(m_elevator.getMotorCurrent() > m_currentThreshold && m_elevator.getVelocity() < m_velocityThreshold);
   }
 }

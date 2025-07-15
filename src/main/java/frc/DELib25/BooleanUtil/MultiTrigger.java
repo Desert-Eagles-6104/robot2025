@@ -9,16 +9,18 @@ public class MultiTrigger {
     private boolean lastTapped = false;
     private final IterativeLatchedBoolean wasTapped = new IterativeLatchedBoolean();
     private final IterativeLatchedBoolean wasHeld = new IterativeLatchedBoolean();
-    private final TimeDelayedBoolean isHeld = new TimeDelayedBoolean();
+    private final StableBoolean isHeld;
 
     public MultiTrigger(double timeout) {
         this.timeout = timeout;
+        this.isHeld = new StableBoolean(timeout);
+        this.isHeld.setTimeout(this.timeout);
     }
 
     public void update(boolean pressed) {
         this.lastPressed = pressed;
         this.lastTapped = this.wasTapped.update(pressed);
-        this.isHeld.update(pressed, this.timeout);
+        this.isHeld.update(pressed);
     }
 
     public boolean wasTapped() {
@@ -30,7 +32,7 @@ public class MultiTrigger {
     }
 
     public boolean isHeld() {
-        return this.isHeld.update(this.lastPressed, this.timeout);
+        return this.isHeld.update(this.lastPressed);
     }
 
     public boolean holdStarted() {

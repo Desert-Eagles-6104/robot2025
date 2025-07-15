@@ -7,25 +7,24 @@ import edu.wpi.first.wpilibj.Timer;
  * for at least the specified time threshold.
  */
 public class StableBoolean {
-    private final double timeThreshold;
+    private double timeThreshold;
     private Timer timer;
-    private boolean previousValue = false;
+    private boolean lastValue = false;
 
-    public StableBoolean(double timeThreshold){
+    public StableBoolean(double timeThreshold) {
         this.timeThreshold = timeThreshold;
         this.timer = new Timer();
         this.timer.start();
     }
-
-    public boolean get(boolean input){
-        if(!this.previousValue && input){
-            this.timer.reset();
-        }
-        this.previousValue = input;
-        return input && this.timer.hasElapsed(this.timeThreshold);
+    public void setTimeout(double timeThreshold) {
+        this.timeThreshold = timeThreshold;
     }
 
-    public void reset(){
-        this.timer.reset();
+    public boolean update(boolean value){
+        if(!this.lastValue && value){
+            this.timer.restart();
+        }
+        this.lastValue = value;
+        return value && this.timer.hasElapsed(this.timeThreshold);
     }
 }
