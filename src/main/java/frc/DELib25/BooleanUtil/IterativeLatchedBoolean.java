@@ -5,14 +5,14 @@ package frc.DELib25.BooleanUtil;
  * Returns true if the value of newValue changes last from false to true.
  */
 public class IterativeLatchedBoolean {
-    private boolean last = false;
+    private boolean lastValue = false;
 
     public boolean update(boolean newValue) {
     	boolean ret = false;
-        if (newValue && !this.last) {
+        if (newValue && !this.lastValue) {
             ret = true;
         }
-        this.last = newValue;
+        this.lastValue = newValue;
         return ret;
     }
 }

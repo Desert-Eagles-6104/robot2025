@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.DELib25.BooleanUtil.StickyBoolean;
+import frc.DELib25.BooleanUtil.LatchedBolean;
 import frc.DELib25.Motors.PIDContainer;
 import frc.robot.Constants;
 
@@ -25,7 +25,7 @@ public class HeadingController  {
 
     private Rotation2d m_lastHeading;
     private boolean m_shouldSaveHeading = true;
-    private StickyBoolean m_useVisionLatch;
+    private LatchedBolean m_useVisionLatch;
     private boolean firstRun = true;
 
    /**
@@ -38,7 +38,7 @@ public class HeadingController  {
         m_pidController = new PIDController(kp, ki, kd);
         m_pidController.enableContinuousInput(-180, 180);
         m_pidController.setIntegratorRange(-1*(9.9*Math.E+30), (9.9*Math.E+30));
-        m_useVisionLatch = new StickyBoolean();
+        m_useVisionLatch = new LatchedBolean();
     }
 
     /**
@@ -51,7 +51,7 @@ public class HeadingController  {
         m_pidController = new PIDController(pidSettings.kP, pidSettings.kI, pidSettings.kD);
         m_pidController.enableContinuousInput(-180, 180);
         m_pidController.setIntegratorRange(-1*(9.9*Math.E+30), (9.9*Math.E+30));
-        m_useVisionLatch = new StickyBoolean();
+        m_useVisionLatch = new LatchedBolean();
     }
 
         /**
@@ -64,7 +64,7 @@ public class HeadingController  {
         m_pidController = new PIDController(stabalize.kP, stabalize.kI, stabalize.kD);
         m_pidController.enableContinuousInput(-180, 180);
         m_pidController.setIntegratorRange(-1*(9.9*Math.E+30), (9.9*Math.E+30));
-        m_useVisionLatch = new StickyBoolean();
+        m_useVisionLatch = new LatchedBolean();
 
         m_pidContainerStabalize = stabalize;
         m_pidContainerSnap = snap;

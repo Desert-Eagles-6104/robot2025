@@ -7,10 +7,9 @@ package frc.DELib25.BooleanUtil;
 public class LatchedBolean {
     private boolean isLatched = false;
 
-    public void update(boolean newValue) {
-        if (newValue) {
-            this.isLatched = true;
-        }
+    public boolean update(boolean newValue) {
+        this.isLatched |= newValue;
+        return this.isLatched;
     }
 
     public void reset(){
