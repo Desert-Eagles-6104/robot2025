@@ -49,6 +49,6 @@ public class RotateToTarget extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinish.get(Math.abs(target.getDegrees() - PoseEstimatorSubsystem.getHeading().getDegrees()) < 2);
+    return isFinish.update(Math.abs(target.getDegrees() - PoseEstimatorSubsystem.getHeading().getDegrees()) < 2);
   }
 }

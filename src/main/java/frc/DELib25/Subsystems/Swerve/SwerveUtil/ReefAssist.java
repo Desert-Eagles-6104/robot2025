@@ -68,7 +68,7 @@ public class ReefAssist extends Command {
         chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, m_swerveSubsystem.getHeading());
       }
 
-     if(dontSeesAprilTagForTime.get(!VisionSubsystem.getTv())){
+     if(dontSeesAprilTagForTime.update(!VisionSubsystem.getTv())){
       chassisSpeeds.vxMetersPerSecond = 0;
       chassisSpeeds.vyMetersPerSecond = 0;
       chassisSpeeds.omegaRadiansPerSecond = 0;

@@ -46,7 +46,7 @@ public class DriveAssistAuto extends Command {
         chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(m_filterForward.calculate(-VisionSubsystem.getTyNote())*m_kpForward, m_filterSide.calculate(-VisionSubsystem.getTxNote())*m_kpSide, 0, m_swerveSubsystem.getHeading());
       }
     }
-    else if(dontSeesNoteForTime.get(!VisionSubsystem.getTvNote())){
+    else if(dontSeesNoteForTime.update(!VisionSubsystem.getTvNote())){
       chassisSpeeds.vxMetersPerSecond = 0;
       chassisSpeeds.vyMetersPerSecond = 0;
       chassisSpeeds.omegaRadiansPerSecond = 0;

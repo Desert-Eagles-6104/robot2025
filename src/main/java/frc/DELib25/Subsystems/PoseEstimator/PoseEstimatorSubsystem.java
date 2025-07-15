@@ -45,7 +45,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
       if(Math.abs(m_gyro.getRateStatusSignalWorld().getValueAsDouble()) > 360 || limelightMesermentMT2.pose == null){
         rejectUpdate = true;
       }
-      if(!rejectUpdate && tvStableBoolean.get(VisionSubsystem.getTv()) && limelightMesermentMT2.pose != null){
+      if(!rejectUpdate && tvStableBoolean.update(VisionSubsystem.getTv()) && limelightMesermentMT2.pose != null){
         m_swerve.addVisionMeasurement(limelightMesermentMT2.pose, limelightMesermentMT2.timestampSeconds);
       }
     }

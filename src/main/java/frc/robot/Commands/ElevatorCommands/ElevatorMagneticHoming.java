@@ -43,7 +43,7 @@ public class ElevatorMagneticHoming extends Command {
     if (m_elevator.isAtSetpoint() || skipSetPosition){
       m_elevator.setPrecentOutput(-0.1);
     }
-    if (isAtResetPoint.get(m_elevator.getMagnetState())) {
+    if (isAtResetPoint.update(m_elevator.getMagnetState())) {
       m_timer.reset();
       if(m_timer.hasElapsed(1)){
       m_elevator.resetPosition(0);

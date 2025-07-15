@@ -1,10 +1,10 @@
 package frc.DELib25.BooleanUtil;
 
 /**
- * An iterative boolean latch.
+ * An rising edge boolean latch.
  * Returns true if the value of newValue changes last from false to true.
  */
-public class IterativeLatchedBoolean {
+public class RisingEdgeBoolean {
     private boolean lastValue = false;
 
     public boolean update(boolean newValue) {
