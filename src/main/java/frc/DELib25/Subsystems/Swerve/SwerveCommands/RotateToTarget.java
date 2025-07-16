@@ -14,13 +14,15 @@ import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.HeadingController;
 
 public class RotateToTarget extends Command {
-  SwerveSubsystem m_swerve;
-  HeadingController m_headingController;
-  Rotation2d target = new Rotation2d();
-  StableBoolean isFinish;
+  private SwerveSubsystem swerve;
+  private HeadingController m_headingController;
+  private Rotation2d target = new Rotation2d();
+  private StableBoolean isFinish;
+  private PoseEstimatorSubsystem poseEstimator;
   /** Creates a new RotateToTarget. */
-  public RotateToTarget(SwerveSubsystem swerve) {
-    m_swerve = swerve;
+  public RotateToTarget(SwerveSubsystem swerve,PoseEstimatorSubsystem poseEstimator) {
+    this.swerve = swerve;
+    this.poseEstimator = poseEstimator;
     m_headingController = new HeadingController(0.2, 0, 0);
     isFinish = new StableBoolean(0.3);
   }
@@ -36,8 +38,8 @@ public class RotateToTarget extends Command {
   public void execute() {
     //target = PoseEstimatorSubsystem.getAngleToReef().unaryMinus();
     m_headingController.setSetpoint(target);
-    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0,0,m_headingController.update(PoseEstimatorSubsystem.getHeading()));
-    m_swerve.drive(chassisSpeeds, true, true, new Translation2d());
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0,0,m_headingController.update(this.poseEstimator.getHeading()));
+    this.swerve.drive(chassisSpeeds, true, true, new Translation2d());
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +51,6 @@ public class RotateToTarget extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinish.update(Math.abs(target.getDegrees() - PoseEstimatorSubsystem.getHeading().getDegrees()) < 2);
+    return isFinish.update(Math.abs(target.getDegrees() - this.poseEstimator.getHeading().getDegrees()) < 2);
   }
 }

@@ -39,12 +39,12 @@ public class TeleopDrive extends Command {
  private Translation2d m_centerOfRotation;
  private BooleanSupplier m_isRight;
  private BooleanSupplier m_isLeft;
+ private PoseEstimatorSubsystem poseEstimator;
 
-  public TeleopDrive(SwerveSubsystem swerve ,CommandPS5Controller joystick, BooleanSupplier lowPower, BooleanSupplier fieldRelative, BooleanSupplier resetYaw, BooleanSupplier useVision, BooleanSupplier isRight, BooleanSupplier isLeft) {
+  public TeleopDrive(SwerveSubsystem swerve,PoseEstimatorSubsystem poseEstimator,CommandPS5Controller joystick, BooleanSupplier lowPower, BooleanSupplier fieldRelative, BooleanSupplier resetYaw, BooleanSupplier useVision, BooleanSupplier isRight, BooleanSupplier isLeft) {
     m_swerve = swerve;
     m_joystick = joystick;
     m_headingController = new HeadingController(new PIDContainer(0.06, 0, 0, "stablize"), new PIDContainer(0.09, 0, 0, "snap"), new PIDContainer(0.05, 0.0, 0.0, "vision"), new PIDContainer(0.03, 0.00001, 0.0, "visionLowError")); //vision note: p=0.1  visionNoteLowError: p =0.1 i = 0.00001
-    m_driveAssistToReefController = new DriveAssistToReef();
     m_lowPower = lowPower;
     m_fieldRelative = fieldRelative;
     m_shouldResetYaw = resetYaw;
@@ -54,6 +54,8 @@ public class TeleopDrive extends Command {
     m_centerOfRotation = new Translation2d();
     m_isRight = isRight;
     m_isLeft = isLeft;
+    this.poseEstimator = poseEstimator;
+    m_driveAssistToReefController = new DriveAssistToReef(this.poseEstimator);
     addRequirements(swerve);
   }
 
@@ -79,9 +81,9 @@ public class TeleopDrive extends Command {
       }
       
       setVisionTargetlocalization(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getRobotAngleToFace().getDegrees());
-      chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw ), m_useVision.getAsBoolean(), chassisSpeeds, PoseEstimatorSubsystem.getHeading(), PoseEstimatorSubsystem.getRobotPose().getRotation(), m_swerve.getRobotRelativeVelocity());
+      chassisSpeeds = m_headingController.calculateOmegaSpeed2(!Robot.s_isAuto ,shouldResetAngle(m_shouldResetYaw ), m_useVision.getAsBoolean(), chassisSpeeds, this.poseEstimator.getHeading(), this.poseEstimator.getPose().getRotation(), m_swerve.getRobotRelativeVelocity());
 
-      chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, PoseEstimatorSubsystem.getHeading(), m_isLeft.getAsBoolean() ,m_isRight.getAsBoolean());
+      chassisSpeeds = m_driveAssistToReefController.update(chassisSpeeds, this.poseEstimator.getHeading(), m_isLeft.getAsBoolean() ,m_isRight.getAsBoolean());
 
       m_swerve.drive(chassisSpeeds, true, m_fieldRelativeToggle.update(!m_fieldRelative.getAsBoolean()), m_centerOfRotation);
 
@@ -102,7 +104,7 @@ public class TeleopDrive extends Command {
 
   private boolean shouldResetAngle(BooleanSupplier shouldResetYaw){
     if(shouldResetYaw.getAsBoolean()){
-      m_swerve.zeroHeading();
+      //m_swerve.zeroHeading();
       return true;
     }
     return false;

@@ -11,41 +11,23 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 
 public class Pigeon {
-
-	private static Pigeon m_Instance;
-
-	public static void CreateInstance(int ID) {
-		if (m_Instance == null) {
-			m_Instance = new Pigeon(ID, "Canivore");
-		}
-	}
-
-    public static void CreateInstance(int ID, String bus) {
-		if (m_Instance == null) {
-			m_Instance = new Pigeon(ID, bus);
-		}
-	}
-
-    public static Pigeon getInstance() {
-		return m_Instance;
-	}
-
-	// Actual pigeon object
-	private final Pigeon2 mGyro;
-
+	private final Pigeon2 gyro;
 	// Configs
-	
 	private boolean inverted = false;
 	private Rotation2d yawAdjustmentAngle = Rotation2d.fromDegrees(0);
 	private Rotation2d rollAdjustmentAngle = new Rotation2d();
 	private Rotation2d pitchAdjustmentAngle = new Rotation2d();
 
-	private Pigeon(int port, String bus) {
-		mGyro = new Pigeon2(port, bus);
-		BaseStatusSignal.setUpdateFrequencyForAll(50, mGyro.getRoll(), mGyro.getPitch(), mGyro.getYaw());
-        mGyro.reset();
-		mGyro.getConfigurator().apply(new Pigeon2Configuration());
-        mGyro.optimizeBusUtilization();
+	public Pigeon(int port, String bus) {
+		this.gyro = new Pigeon2(port, bus);
+		BaseStatusSignal.setUpdateFrequencyForAll(50, this.gyro.getRoll(), this.gyro.getPitch(), this.gyro.getYaw());
+		this.gyro.reset();
+		this.gyro.getConfigurator().apply(new Pigeon2Configuration());
+		this.gyro.optimizeBusUtilization();
+	}
+	
+	public Pigeon(int port) {
+		this(port, "Canivore");
 	}
 	
 	public Rotation2d getYaw() {
@@ -101,22 +83,22 @@ public class Pigeon {
 	}
 
 	public Rotation2d getUnadjustedPitch() {
-		return Rotation2d.fromDegrees(mGyro.getPitch().getValueAsDouble());
+		return Rotation2d.fromDegrees(this.gyro.getPitch().getValueAsDouble());
 	}
 
 	public Rotation2d getUnadjustedRoll() {
-		return Rotation2d.fromDegrees(mGyro.getRoll().getValueAsDouble());
+		return Rotation2d.fromDegrees(this.gyro.getRoll().getValueAsDouble());
 	}
 
 	public StatusSignal<Angle> getYawStatusSignal() {
-		return mGyro.getYaw();
+		return this.gyro.getYaw();
 	}
 
 	public StatusSignal<AngularVelocity> getRateStatusSignal() {
-		return mGyro.getAngularVelocityZDevice();
+		return this.gyro.getAngularVelocityZDevice();
 	}
 
 	public StatusSignal<AngularVelocity> getRateStatusSignalWorld(){
-		return mGyro.getAngularVelocityZWorld();
+		return this.gyro.getAngularVelocityZWorld();
 	}
 }

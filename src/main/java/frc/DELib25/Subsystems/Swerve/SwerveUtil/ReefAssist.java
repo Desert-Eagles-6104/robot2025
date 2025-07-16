@@ -12,32 +12,30 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
+import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.robot.Robot;
 
 public class ReefAssist extends Command {
-  private SwerveSubsystem m_swerveSubsystem;
-  private double m_kpSide = 2.0;
-  private double m_kpForward = 2.7;
-  private LinearFilter m_filterSide;
-  private LinearFilter m_filterForward;
-  private ChassisSpeeds chassisSpeeds;
+  private SwerveSubsystem swerveSubsystem;
+  private double kpSide = 2.0;
+  private double kpForward = 2.7;
+  private LinearFilter filterSide = LinearFilter.movingAverage(4);
+  private LinearFilter filterForward = LinearFilter.movingAverage(4);
+  private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
   private Translation2d centerOfRobot = new Translation2d();
-  private StableBoolean dontSeesAprilTagForTime;
+  private StableBoolean dontSeesAprilTagForTime = new StableBoolean(0.5);
   private boolean isRight = false;
+  private PoseEstimatorSubsystem poseEstimator;
   Translation2d leftError;
   Translation2d RightError;
   Translation2d finalPoint;
 
-  public ReefAssist(SwerveSubsystem swerveSubsystem , BooleanSupplier right , BooleanSupplier left){
-    m_swerveSubsystem = swerveSubsystem;
-    m_filterSide = LinearFilter.movingAverage(4);
-    m_filterForward = LinearFilter.movingAverage(4);
-    chassisSpeeds = new ChassisSpeeds();
-    dontSeesAprilTagForTime = new StableBoolean(0.5);
+  public ReefAssist(SwerveSubsystem swerveSubsystem , PoseEstimatorSubsystem poseEstimator, BooleanSupplier right , BooleanSupplier left){
+    this.swerveSubsystem = swerveSubsystem;
+    this.poseEstimator = poseEstimator;
     isRight = right.getAsBoolean();
-    
   }
 
   @Override
@@ -55,10 +53,10 @@ public class ReefAssist extends Command {
       }
     
       if(Robot.s_Alliance == Alliance.Red){
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(-m_filterForward.calculate(-finalPoint.getX())*m_kpForward, -m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, m_swerveSubsystem.getHeading());
+        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(-this.filterForward.calculate(-finalPoint.getX())*this.kpForward, -this.filterSide.calculate(-finalPoint.getY())*this.kpSide, 0, this.poseEstimator.getHeading());
       }
       else{
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(m_filterForward.calculate(-finalPoint.getX())*m_kpForward, m_filterSide.calculate(-finalPoint.getY())*m_kpSide, 0, m_swerveSubsystem.getHeading());
+        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(this.filterForward.calculate(-finalPoint.getX())*this.kpForward, this.filterSide.calculate(-finalPoint.getY())*this.kpSide, 0, this.poseEstimator.getHeading());
       }
 
      if(dontSeesAprilTagForTime.update(!VisionSubsystem.getTv())){
@@ -67,7 +65,7 @@ public class ReefAssist extends Command {
       chassisSpeeds.omegaRadiansPerSecond = 0;
     }
 
-    m_swerveSubsystem.drive(chassisSpeeds, true, true, centerOfRobot);
+    this.swerveSubsystem.drive(chassisSpeeds, true, true, centerOfRobot);
   }
 
   @Override

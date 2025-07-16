@@ -64,7 +64,7 @@ public class RobotContainer {
   public static BooleanSupplier m_isLocalisation = ()-> false;
   public static BooleanSupplier m_isLocalisationOmega = () -> false;
   public static PresetState m_state = PresetState.Home;
-  private static BooleanSupplier AutoApprove = () -> true;
+  private static BooleanSupplier autoApprove = () -> true;
 
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
@@ -78,7 +78,7 @@ public class RobotContainer {
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
-    m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
+    m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve,m_poseEstimator);
     
     // controls
     dashboardResets();
@@ -92,7 +92,7 @@ public class RobotContainer {
   }
 
   public void dashboardResets(){
-    SmartDashboard.putData("Reset Odometry From Limelight", new InstantCommand(() -> PoseEstimatorSubsystem.resetPositionFromCamera()));
+    SmartDashboard.putData("Reset Odometry From Limelight", new InstantCommand(() -> this.m_poseEstimator.resetPositionFromCamera()));
     SmartDashboard.putData("Reset Elevator" , new InstantCommand(() -> m_elevator.resetPosition(0)).ignoringDisable(true));
     SmartDashboard.putData("Reset Gripper Arm" , new InstantCommand(() -> m_gripperArm.resetPosition(37)).ignoringDisable(true));
     SmartDashboard.putData("Set Elevator Coast" , new InstantCommand(() -> m_elevator.changeNeutralMode(NeutralModeValue.Coast)).ignoringDisable(true));
@@ -107,7 +107,7 @@ public class RobotContainer {
   
   public void SwerveBinding(){
     drivercontroller.R3().toggleOnTrue(new InstantCommand(() -> ReefUtill.Update(drivercontroller.R3())));
-    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
+    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve,m_poseEstimator, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
   }
 
   public void OperatorManuals(){
@@ -148,8 +148,8 @@ public class RobotContainer {
   public void auto(){
     //add commands 
     m_swerveAutoBuilder.addCommand("L4", new L4ScoreAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, ()-> true));
-    m_swerveAutoBuilder.addCommand("L3", new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
-    m_swerveAutoBuilder.addCommand("L2", new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, AutoApprove));
+    m_swerveAutoBuilder.addCommand("L3", new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, autoApprove));
+    m_swerveAutoBuilder.addCommand("L2", new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2, autoApprove));
     m_swerveAutoBuilder.addCommand("HUMAN", new HumanAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     m_swerveAutoBuilder.addCommand("byebye", new IntakeForTimeAuto(m_gripper, -0.6, 0.5));
     m_swerveAutoBuilder.addCommand("zero", new HomingElevatorAuto(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));

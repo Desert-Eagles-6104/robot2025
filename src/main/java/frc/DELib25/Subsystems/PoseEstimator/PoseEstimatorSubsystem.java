@@ -4,83 +4,110 @@
 
 package frc.DELib25.Subsystems.PoseEstimator;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.BooleanUtil.StableBoolean;
-import frc.DELib25.Sensors.Pigeon;
+import frc.DELib25.Intepulation.InterpolatingDouble;
+import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
-public class PoseEstimatorSubsystem extends SubsystemBase{
-  /** Creates a new PoseEstimator. */
-  private static SwerveSubsystem m_swerve;
-  private static Pigeon m_gyro;
-  private static LimelightHelpers.PoseEstimate limelightMesermentMT2;
-  private static boolean first = true;
-  private static StableBoolean tvStableBoolean;
+/** Creates a new PoseEstimator. */
+public class PoseEstimatorSubsystem extends SubsystemBase {
+
+  private SwerveSubsystem swerve;
+  private LimelightHelpers.PoseEstimate limelightMesermentMT2;
+  private boolean first = true;
+  private StableBoolean tvStableBoolean = new StableBoolean(0.15);
+  private SwerveDrivePoseEstimator odometry;
+  private Field2d field = new Field2d();
+  private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
+
   public PoseEstimatorSubsystem(SwerveSubsystem swerve) {
-    m_swerve = swerve;
-    m_gyro = Pigeon.getInstance();
-    tvStableBoolean = new StableBoolean(0.15);
+    this.swerve = swerve;
+    this.odometry = new SwerveDrivePoseEstimator(
+      this.swerve.getKinematics(),
+      Rotation2d.fromDegrees(0),
+      this.swerve.getModulesPositions(), new Pose2d(),
+      VecBuilder.fill(0.1, 0.1, 0.1),
+      VecBuilder.fill(0.3, 0.3, 9999999)
+    );
+    SmartDashboard.putData("Field", this.field);
+    this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose history size
   }
 
   @Override
   public void periodic() {
-    if(!first){
+    if (!this.first) {
       updateVisionOdometry();
+    } else {
+      this.first = false;
     }
-    else{
-      first = false;
-    }
+    this.swerve.getGyro().getYawStatusSignal().refresh();
+    Pose2d currentPose = this.updateOdometry();
+    this.pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
+    SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
+    SmartDashboard.putNumber("robotX", this.getPose().getX());
+    SmartDashboard.putNumber("robotY ", this.getPose().getY());
+    SmartDashboard.putNumber("robotorientation", this.getPose().getRotation().getDegrees());
 
+    this.updateOdometry();
+    this.field.setRobotPose(this.odometry.getEstimatedPosition());
   }
 
-  private static void updateVisionOdometry(){
-    if(!first){
+  public void updateVisionOdometry() {
+    if (!this.first) {
       boolean rejectUpdate = false;
-      LimelightHelpers.SetRobotOrientation("limelight-april", getRobotPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      limelightMesermentMT2 = VisionSubsystem.getEstimatedRobotPose();
-      if(Math.abs(m_gyro.getRateStatusSignalWorld().getValueAsDouble()) > 360 || limelightMesermentMT2.pose == null){
+      LimelightHelpers.SetRobotOrientation("limelight-april", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      this.limelightMesermentMT2 = VisionSubsystem.getEstimatedRobotPose();
+      if (Math.abs(this.swerve.getGyro().getRateStatusSignalWorld().getValueAsDouble()) > 360
+          || this.limelightMesermentMT2.pose == null) {
         rejectUpdate = true;
       }
-      if(!rejectUpdate && tvStableBoolean.update(VisionSubsystem.getTv()) && limelightMesermentMT2.pose != null){
-        m_swerve.addVisionMeasurement(limelightMesermentMT2.pose, limelightMesermentMT2.timestampSeconds);
+      if (!rejectUpdate && this.tvStableBoolean.update(VisionSubsystem.getTv())
+          && this.limelightMesermentMT2.pose != null) {
+        this.addVisionMeasurement(this.limelightMesermentMT2.pose, this.limelightMesermentMT2.timestampSeconds);
       }
+    } else {
+      this.first = false;
     }
-    else{
-      first = false;
-    }
-
-    
-
-
   }
 
-  public static Pose2d getRobotPose(){
-    return m_swerve.getPose();
+  public void resetOdometryToPose(Pose2d pose) {
+    this.odometry.resetPosition(this.swerve.getGyro().getYaw(), this.swerve.getModulesPositions(), pose);
   }
 
-  public static void resetPosition(Pose2d pose){
-    m_swerve.resetOdometry(pose);
+  public Pose2d updateOdometry() {
+    return this.odometry.update(this.swerve.getGyro().getYaw(), this.swerve.getModulesPositions());
   }
 
-  public static void resetPositionFromCamera(){
-    if(limelightMesermentMT2.pose != null){
-      resetPosition(limelightMesermentMT2.pose);
+  public void addVisionMeasurement(Pose2d visionPose, double timestamp) {
+    this.odometry.addVisionMeasurement(visionPose, timestamp, VecBuilder.fill(0.7, 0.7, 9999999));
+  }
+
+  public Pose2d getPose() {
+    return this.odometry.getEstimatedPosition();
+  }
+  
+  public Rotation2d getHeading() {
+    return this.getPose().getRotation();
+  }
+
+  public void resetPositionFromCamera() {
+    if (this.limelightMesermentMT2.pose != null) {
+      this.resetOdometryToPose(this.limelightMesermentMT2.pose);
     }
   }
   
-  public static void zeroHeading(){
-    m_swerve.zeroHeading();
-  }
-
-    public static Rotation2d getHeading() {
-    return getRobotPose().getRotation();
-  }
-
-  public static Pose2d getInterpolatedPose(double latencySeconds){
-    return m_swerve.getInterpolatedPose(latencySeconds);
+  public Pose2d getInterpolatedPose(double latencySeconds) {
+    double timestamp = Timer.getFPGATimestamp() - latencySeconds;
+    return this.pastPoses.getInterpolated(new InterpolatingDouble(timestamp));
   }
 }
