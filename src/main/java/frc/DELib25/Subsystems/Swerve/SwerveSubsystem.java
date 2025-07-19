@@ -120,6 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
     for (SwerveModule module : this.swerveModules) {
       module.refreshAllSignals();
     }
+    this.gyro.getYawStatusSignal().refresh();
   }
   /** TODO: rewrite this function properly
   public void zeroHeading(){

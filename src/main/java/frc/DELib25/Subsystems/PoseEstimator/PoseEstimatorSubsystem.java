@@ -45,12 +45,13 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     if (!this.first) {
       updateVisionOdometry();
     } else {
       this.first = false;
     }
-    this.swerve.getGyro().getYawStatusSignal().refresh();
+    
     Pose2d currentPose = this.updateOdometry();
     this.pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
