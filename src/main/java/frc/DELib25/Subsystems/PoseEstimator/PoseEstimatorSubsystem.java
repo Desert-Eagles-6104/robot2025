@@ -24,14 +24,15 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
   private SwerveSubsystem swerve;
   private LimelightHelpers.PoseEstimate limelightMesermentMT2;
-  private boolean first = true;
-  private StableBoolean tvStableBoolean = new StableBoolean(0.15);
+  private boolean first;
+  private StableBoolean tvStableBoolean;
   private SwerveDrivePoseEstimator odometry;
-  private Field2d field = new Field2d();
+  private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
 
   public PoseEstimatorSubsystem(SwerveSubsystem swerve) {
     this.swerve = swerve;
+
     this.odometry = new SwerveDrivePoseEstimator(
       this.swerve.getKinematics(),
       Rotation2d.fromDegrees(0),
@@ -39,13 +40,19 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       VecBuilder.fill(0.1, 0.1, 0.1),
       VecBuilder.fill(0.3, 0.3, 9999999)
     );
+
     SmartDashboard.putData("Field", this.field);
+    
+    this.first = true;
+    this.tvStableBoolean = new StableBoolean(0.15);
+    this.field = new Field2d();
+
     this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose history size
   }
 
   @Override
   public void periodic() {
-    
+
     if (!this.first) {
       updateVisionOdometry();
     } else {
