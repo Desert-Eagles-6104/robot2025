@@ -4,8 +4,8 @@
 
 package frc.robot.Commands.ElevatorCommands;
 
-import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
-import frc.DELib25.Subsystems.ServoSubsystem.Commands.ServoSubsystemSetPosition;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Commands.ServoSubsystemSetPosition;
 
 /** Add your docs here. */
 public class ElevatorSetPosition extends ServoSubsystemSetPosition {

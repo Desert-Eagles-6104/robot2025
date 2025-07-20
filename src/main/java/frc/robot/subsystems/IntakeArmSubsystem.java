@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class IntakeArmSubsystem extends ServoSubsystemTalon {
   /** Creates a new AlgaeArmSubsystem. */

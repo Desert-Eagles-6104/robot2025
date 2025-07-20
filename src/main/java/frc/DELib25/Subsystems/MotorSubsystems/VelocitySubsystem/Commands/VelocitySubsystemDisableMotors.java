@@ -1,7 +1,7 @@
-package frc.DELib25.Subsystems.VelocitySubsystem.Commands;
+package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.DELib25.Subsystems.VelocitySubsystem.Base.Motor.VelocitySubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base.Motor.VelocitySubsystemTalon;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 public class VelocitySubsystemDisableMotors extends InstantCommand {

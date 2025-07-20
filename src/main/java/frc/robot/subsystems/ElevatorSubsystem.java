@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Sensors.BeamBreak;
-import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
 
 public class ElevatorSubsystem extends ServoSubsystemTalon {
   private BeamBreak m_ElevatorMagnet;

@@ -1,4 +1,4 @@
-package frc.DELib25.Subsystems.ServoSubsystem.Base;
+package frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 

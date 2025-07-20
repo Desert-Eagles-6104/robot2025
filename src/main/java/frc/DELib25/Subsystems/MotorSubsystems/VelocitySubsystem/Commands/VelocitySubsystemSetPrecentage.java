@@ -1,9 +1,9 @@
-package frc.DELib25.Subsystems.VelocitySubsystem.Commands;
+package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Commands;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.DELib25.Subsystems.VelocitySubsystem.Base.Motor.VelocitySubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base.Motor.VelocitySubsystemTalon;
 
 public class VelocitySubsystemSetPrecentage extends InstantCommand {
 	private VelocitySubsystemTalon subsystemTalon;

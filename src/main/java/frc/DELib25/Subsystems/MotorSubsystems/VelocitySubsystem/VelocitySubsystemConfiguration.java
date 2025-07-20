@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.DELib25.Subsystems.VelocitySubsystem;
+package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem;
 
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.MotorConstants;

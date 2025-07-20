@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.DELib25.Subsystems.VelocitySubsystem.Base.Motor;
+package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base.Motor;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.CSV.CSVReader;
 import frc.DELib25.Intepulation.LinearInterpolator;
-import frc.DELib25.Subsystems.VelocitySubsystem.VelocitySubsystemConfiguration;
-import frc.DELib25.Subsystems.VelocitySubsystem.Base.IVelocitySubsystemBase;
+import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.VelocitySubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base.IVelocitySubsystemBase;
 
 public class VelocitySubsystemTalon extends SubsystemBase implements IVelocitySubsystemBase {
 	/** Creates a new ServoSubsystem. */
