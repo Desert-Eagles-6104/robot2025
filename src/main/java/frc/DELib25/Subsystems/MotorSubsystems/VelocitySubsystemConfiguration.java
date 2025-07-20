@@ -13,22 +13,22 @@ public class VelocitySubsystemConfiguration {
     public MotorConstants master = new MotorConstants(-1,"",false,false);
 
     public MotorConstants slaves[] = null;
-
+    /**
+     * The ratio between the rotations of the motor to the position of the system.
+     * i.e in an elevator it is the ratio between the rotation of the motor to the height of the carriage.
+     */
     public double rotationsPerPositionUnit = 1.0;
 
     public double sensorToMechanismRatio = 1.0;
     
     public PIDContainer pidContainer = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-    //#region motion magic values
-    public double motionMagicCruiseVelocity = 0.0;
+    public double motionMagicCruiseVelocity = 0.0; // the cruise velocity in a motion magic profile
     
-    public double motionMagicAcceleration = 0.0;
+    public double motionMagicAcceleration = 0.0; // the acceleration in a motion magic profile
 
-    public double motionMagicJerk = 0.0;
-    //#endregion motion magic values
+    public double motionMagicJerk = 0.0; // the jerk in a motion magic profile
 
-    //#region cuurent limit
     public int supplyCurrentLimit = 60; 
 
     public boolean enableSupplyCurrentLimit = false;
@@ -36,9 +36,25 @@ public class VelocitySubsystemConfiguration {
     public int statorCurrentLimit = 40;
 
     public boolean enableStatorCurrentLimit = false;
-    //#endregion current limit
-
-    public double allowableError = 0.0;
-
+    /**
+     * The allowable error of the PID algorithm from the actual current position.
+     */
+    public double allowableError = 6.0;
+    
     public String fileLocation  = "";
+
+    public PIDContainer pidContainerSlot0 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+    public PIDContainer pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+    //#region soft limits 
+    public double forwardSoftLimit = -99999; // the forward range limit of the mechanism.
+
+    public double reverseSoftLimit = -99999; // the reverse range limit of the mechanism.
+    //#endregion sofr limits
+
+
+    public double homePosition = 0.0;
+
+    public double angleOffset = 0.0;
 }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.DELib25.Subsystems.MotorSubsystems.Base.Motor;
+package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -24,13 +24,11 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.MotorSubsystems.Base.IServoSubsystemBase;
-
 /**
  * here we create a servoSubsytem for a talonFX motorController
  *  a servo is a motor that gets to a certain position within an input in range of the specific system. */
 
-public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsystemBase{
+public class ServoSubsystemTalon extends SubsystemBase {
   /** Creates a new ServoSubsystem. */
   public ServoSubsystemConfiguration m_configuration;
   
@@ -51,7 +49,7 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
   private final StatusSignal<Current> m_statorCurrentSignal;
   private final StatusSignal<Double> m_closedLoopError;
   private final StatusSignal<Voltage> m_appliedVoltageSignal;
-
+  
   /**
    *  creation of the servoSubsytem constructor to define the objects and constants in the subsystem
    *  @param configuration the configuration holds all of the values of the subsystem.
@@ -63,7 +61,6 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
       m_slaveFX = ServoSubsystemMotorFactory.createSlaveTalonFX(configuration);
     }
     
-
     // Init signals
     m_positionSignal = m_masterFx.getPosition();
     m_velocitySignal = m_masterFx.getVelocity();
@@ -95,64 +92,50 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
       SmartDashboard.putBoolean(m_configuration.subsystemName + " AtSetpint", isAtSetpoint());
   }
 
- 
-  @Override
   public void resetSubsystemToInitialState() {
     resetPosition(m_configuration.homePosition);
   }
 
-  
-  @Override
   public void disableMotors() {
     m_masterFx.disable();
   }
 
-  @Override
   public void runCharacterization(Voltage volts) {
     m_masterFx.setControl(m_sysidControlRequest.withOutput(volts.in(Volts)));
   }
 
-  @Override
   public double toRotations(double units) {
     return units * m_configuration.rotationsPerPositionUnit;
   }
 
-  @Override
   public double fromRotations(double rotations) {
     return rotations / m_configuration.rotationsPerPositionUnit;  
   }
 
-  @Override
   public void setMotionMagicPosition(double position) {
     setpoint = position;
     m_masterFx.setControl(m_motiongMagicVoltageRequest.withPosition(toRotations(position)).withSlot(0));
   }
 
-  @Override
   public void setPosition(double position) {
     setpoint = position;
     m_masterFx.setControl(m_PositionVoltageRequest.withPosition(toRotations(position)).withSlot(1));
   }
 
-  
-  @Override
   public void ControlSoftLimit(boolean enableSoftLimit) {  
     m_masterFx.getConfigurator().apply(new SoftwareLimitSwitchConfigs()
     .withForwardSoftLimitEnable(enableSoftLimit)
     .withForwardSoftLimitThreshold(m_configuration.forwardSoftLimit));
   }
 
-  @Override
   public void setPrecentOutput(double precent) {
     m_masterFx.setControl(m_dutyCycleRequest.withOutput(precent));
   }
 
-  @Override
   public double getPosition(){
     return fromRotations(m_positionSignal.getValueAsDouble()); 
   }
 
-  @Override
   public void resetPosition(double position) {
     m_masterFx.setPosition(toRotations(position));
     if(m_slaveFX != null){
@@ -162,27 +145,22 @@ public class ServoSubsystemTalon extends SubsystemBase implements IServoSubsyste
     }
   }
 
-  @Override
   public boolean isAtSetpoint() {
     return Math.abs(setpoint - getPosition()) < m_configuration.allowableError;
   }
 
-  @Override
   public double getMotorCurrent() {
     return m_masterFx.getSupplyCurrent().getValueAsDouble();
   }
 
-  @Override
   public double getClosedLoopError() {
     return setpoint - getPosition();
   }
 
-  @Override
   public double getVelocity() {
     return fromRotations(m_masterFx.getVelocity().getValueAsDouble());
   }
 
-  @Override
   public void changeNeutralMode(NeutralModeValue NeutralMode) {
     m_masterFx.setNeutralMode(NeutralMode);
     if(m_slaveFX != null){
