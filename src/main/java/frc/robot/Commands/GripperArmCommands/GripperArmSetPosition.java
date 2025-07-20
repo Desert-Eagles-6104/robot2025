@@ -4,8 +4,8 @@
 
 package frc.robot.Commands.GripperArmCommands;
 
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Commands.ServoSubsystemSetPosition;
+import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.Commands.ServoSubsystemSetPosition;
 
 /** Add your docs here. */
 public class GripperArmSetPosition extends ServoSubsystemSetPosition {

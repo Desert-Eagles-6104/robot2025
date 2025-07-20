@@ -6,7 +6,7 @@ package frc.robot.Commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
 
 public class HomingElevator extends Command {
   /** Creates a new HomingElevator. */

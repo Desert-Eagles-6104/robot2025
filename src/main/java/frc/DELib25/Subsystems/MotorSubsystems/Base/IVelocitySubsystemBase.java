@@ -1,4 +1,4 @@
-package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base;
+package frc.DELib25.Subsystems.MotorSubsystems.Base;
 
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.units.measure.Voltage;

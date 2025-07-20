@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.Base.Motor;
+package frc.DELib25.Subsystems.MotorSubsystems.Base.Motor;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -14,7 +14,7 @@ import frc.DELib25.Motors.PIDContainer;
 // import frc.DELib25.Motors.SparkFlexFactory;
 // import frc.DELib25.Motors.SparkMaxFactory;
 import frc.DELib25.Motors.TalonFXFactory;
-import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystem.VelocitySubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.VelocitySubsystemConfiguration;
 
 /** Add your docs here. */
 public class VelocitySubsystemMotorFactory {

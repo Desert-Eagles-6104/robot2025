@@ -7,8 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
 
 public class GripperArmSubsystem extends ServoSubsystemTalon {
   CANcoder m_absoluteEncoder;

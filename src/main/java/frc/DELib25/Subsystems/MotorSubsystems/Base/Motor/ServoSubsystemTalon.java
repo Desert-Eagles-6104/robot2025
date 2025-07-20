@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.Motor;
+package frc.DELib25.Subsystems.MotorSubsystems.Base.Motor;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -23,8 +23,8 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.Base.IServoSubsystemBase;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.Base.IServoSubsystemBase;
 
 /**
  * here we create a servoSubsytem for a talonFX motorController

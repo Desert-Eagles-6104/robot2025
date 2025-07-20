@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.DELib25.Motors.MotorConstants;
 import frc.DELib25.Motors.PIDContainer;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystem.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
 import frc.DELib25.Subsystems.Swerve.SwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
