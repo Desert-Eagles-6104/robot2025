@@ -17,8 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
-import frc.DELib25.Conversions;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
+import frc.DELib25.Util.Conversions;
 
 public class SwerveModule {
     /* hardware */

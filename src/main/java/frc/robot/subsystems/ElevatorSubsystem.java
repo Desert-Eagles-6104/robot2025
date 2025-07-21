@@ -5,14 +5,14 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Sensors.BeamBreak;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
-public class ElevatorSubsystem extends ServoSubsystemTalon {
+public class ElevatorSubsystem extends MotorSubsystemTalon {
   private BeamBreak m_ElevatorMagnet;
   private boolean magnetState = false;
   /** Creates a new Elevator. */
-  public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
+  public ElevatorSubsystem(MotorSubsystemConfiguration configuration) {
     super(configuration);  
     m_ElevatorMagnet = new BeamBreak(1);
   }
@@ -40,7 +40,5 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
   public boolean getMagnetState(){
     return magnetState;
   }
-
-
  
 }
