@@ -21,7 +21,7 @@ import frc.DELib25.Subsystems.Swerve.SwerveUtil.DriveAssistToReef;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.HeadingController;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveDriveHelper.DriveMode;
-import frc.robot.Constants;
+import frc.DELib25.Util.ProjectConstants;
 import frc.robot.ReefUtill;
 import frc.robot.Robot;
 
@@ -73,7 +73,7 @@ public class TeleopDrive extends Command {
       MathUtil.applyDeadband(-m_joystick.getLeftX(), 0.1),
       MathUtil.applyDeadband(-m_joystick.getRightX(), 0.1));
       chassisSpeeds = SwerveDriveHelper.updateChassisSpeeds(chassisSpeeds, m_lowPower, DriveMode.MadTown);
-      chassisSpeeds = SwerveDriveHelper.joystickToRobotUnits(chassisSpeeds, Constants.Swerve.swerveConstants.maxSpeed, Constants.Swerve.swerveConstants.maxAngularVelocity);
+      chassisSpeeds = SwerveDriveHelper.joystickToRobotUnits(chassisSpeeds, ProjectConstants.Swerve.swerveConstants.maxSpeed, ProjectConstants.Swerve.swerveConstants.maxAngularVelocity);
       //heading controller
        m_useVisionLatch.update(m_useVision.getAsBoolean());
       if (Math.abs(chassisSpeeds.omegaRadiansPerSecond) > 0.4){

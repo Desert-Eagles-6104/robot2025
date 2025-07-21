@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.BooleanUtil.LatchedBolean;
 import frc.DELib25.Motors.PIDContainer;
+import frc.DELib25.Util.ProjectConstants;
 import frc.robot.Constants;
 
 public class HeadingController  {
@@ -78,7 +79,7 @@ public class HeadingController  {
      * @return a setpoint to the pid controller
      */
     public double update(Rotation2d currentHeading){
-        return clamp(m_pidController.calculate(currentHeading.getDegrees()),-Constants.Swerve.swerveConstants.maxAngularVelocity,Constants.Swerve.swerveConstants.maxAngularVelocity);
+        return clamp(m_pidController.calculate(currentHeading.getDegrees()),-ProjectConstants.Swerve.swerveConstants.maxAngularVelocity,ProjectConstants.Swerve.swerveConstants.maxAngularVelocity);
     }
 
     /**
@@ -201,7 +202,7 @@ public class HeadingController  {
         setPIDSettings(m_pidContainerVision);
       }
     }
-    else if(velocity > Constants.Swerve.swerveConstants.maxSpeed * 0.3){
+    else if(velocity > ProjectConstants.Swerve.swerveConstants.maxSpeed * 0.3){
       // stabalize
       setPIDSettings(m_pidContainerStabalize);
     }

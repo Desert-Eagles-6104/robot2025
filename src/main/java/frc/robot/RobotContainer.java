@@ -18,6 +18,7 @@ import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
+import frc.DELib25.Util.ProjectConstants;
 import frc.DELib25.Util.SwerveAutoBuilder;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
@@ -67,7 +68,7 @@ public class RobotContainer {
   private static BooleanSupplier autoApprove = () -> true;
 
   public RobotContainer() {
-    m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
+    m_swerve = SwerveSubsystem.createInstance(ProjectConstants.Swerve.swerveConstants);
     m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
     m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
     m_climb = new Climb();
