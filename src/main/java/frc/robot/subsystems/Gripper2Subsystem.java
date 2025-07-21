@@ -12,35 +12,35 @@ import frc.DELib25.Sensors.BeamBreak;
 import frc.robot.Constants;
 
 public class Gripper2Subsystem extends SubsystemBase {
-  
-        TalonFX Gripper;
-        public BeamBreak m_beamBreak2;
-        private static boolean m_hasGamePiece;
-        private Boolean see;
-       
-         DutyCycle dutyCycleRequest;
-         /** Creates a new Gripper2Subsystem. */
-         public Gripper2Subsystem() {
-           Gripper = new TalonFX(2);
-         m_beamBreak2 = new BeamBreak(Constants.Gripper.beamBreakPort);
-         }
-    
-      public static boolean HasGamePiece(){
-        return m_hasGamePiece;
-  }
 
-  @Override
-  public void periodic() {
-    m_beamBreak2.update();
-    m_hasGamePiece = m_beamBreak2.get();
-    SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
-  }
+	TalonFX gripper;
+	public BeamBreak beamBreak;
+	private static boolean hasGamePiece;
 
-  public void setPercent(double Percent){
-  Gripper.set(Percent);
-  }
+	DutyCycle dutyCycleRequest;
 
-  public void disableMotors(){
-    Gripper.disable();
-  }
+	/** Creates a new Gripper2Subsystem. */
+	public Gripper2Subsystem() {
+		gripper = new TalonFX(2);
+		this.beamBreak = new BeamBreak(Constants.Gripper.beamBreakPort);
+	}
+
+	public static boolean HasGamePiece() {
+		return hasGamePiece;
+	}
+
+	@Override
+	public void periodic() {
+		this.beamBreak.update();
+		hasGamePiece = this.beamBreak.get();
+		SmartDashboard.putBoolean("BeamBreak", hasGamePiece);
+	}
+
+	public void setPercent(double Percent) {
+		gripper.set(Percent);
+	}
+
+	public void disableMotors() {
+		gripper.disable();
+	}
 }
