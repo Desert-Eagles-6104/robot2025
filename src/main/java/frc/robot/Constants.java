@@ -32,6 +32,7 @@ import frc.DELib25.Sysid.SysidConfiguration;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  // TODO: Nothing uses this 
   public final static class Vision{
     public static final CameraSettings aprilTagCameraSettings = new CameraSettings(0.30821, 0, 0.10689, 0, 15.13, 0, false); 
     public static final CameraSettings gamePieceCameraSettings = new CameraSettings(0, 0, 0, 0, 0, 0, false); 
@@ -41,9 +42,6 @@ public final class Constants {
     public static final double cameraPitch = 15.13;//limelight 3 cameraPitch
 
   }
-
-
-
 
   public final class Elevator {
     public static final MotorSubsystemConfiguration ElevatorConfiguration = new MotorSubsystemConfiguration(){{
@@ -92,52 +90,55 @@ public final class Constants {
   }
 
   public final class GripperArm {
-    public static final MotorSubsystemConfiguration configuration = new MotorSubsystemConfiguration(){{
-      subsystemName = "gripperArm";
+    public static final MotorSubsystemConfiguration configuration = new MotorSubsystemConfiguration() {
+      {
+        subsystemName = "gripperArm";
 
-      master = new MotorConstants(1,"rio",true ,true);
+        master = new MotorConstants(1, "rio", true, true);
 
-      rotationsPerPositionUnit = 1.0/360.0;
+        rotationsPerPositionUnit = 1.0 / 360.0;
 
-      sensorToMechanismRatio = 2.28;
-      
-      pidContainerSlot0 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
+        sensorToMechanismRatio = 2.28;
 
-      pidContainerSlot1 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
+        pidContainerSlot0 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
 
-      //#region motion magic values
-      motionMagicCruiseVelocity = 35000;
-      
-      motionMagicAcceleration = 30000;
+        pidContainerSlot1 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
 
-      motionMagicJerk = 360;
-      //#endregion motion magic values
+        //#region motion magic values
+        motionMagicCruiseVelocity = 35000;
 
-      //#region cuurent limit
-      supplyCurrentLimit = 55;
+        motionMagicAcceleration = 30000;
 
-      enableSupplyCurrentLimit = true;
+        motionMagicJerk = 360;
+        //#endregion motion magic values
 
-      statorCurrentLimit = 35;
+        //#region cuurent limit
+        supplyCurrentLimit = 55;
 
-      enableStatorCurrentLimit = false;
-      //#endregion current limit
+        enableSupplyCurrentLimit = true;
 
-      //#region soft limits
-      forwardSoftLimit = 36.5;
+        statorCurrentLimit = 35;
 
-      reverseSoftLimit = -89.5;
+        enableStatorCurrentLimit = false;
+        //#endregion current limit
 
-      //#endregion soft limits
+        //#region soft limits
+        forwardSoftLimit = 36.5;
 
-      allowableError = 3.5;
+        reverseSoftLimit = -89.5;
 
-      homePosition = -89.0;
+        //#endregion soft limits
 
-      angleOffset = 0.163;
-    }};
+        allowableError = 3.5;
+
+        homePosition = -89.0;
+
+        angleOffset = 0.163;
+      }
+    };
   }
 
+  // TODO: Nothing uses this
   public final class IntakeArm {
     public static final MotorSubsystemConfiguration configuration = new MotorSubsystemConfiguration(){{
 
@@ -206,8 +207,6 @@ public final class Constants {
     public static final double TimeToDropIntegraion = 0.5;
     }
 
-
-
   public static final class Gripper{
       public static final int motorId = 2;
       public static final int beamBreakPort = 2;
@@ -227,15 +226,17 @@ public final class Constants {
       public static final int frequencyHz = 0;
     }
 
-  public static final SysidConfiguration sysidConfiguration = new SysidConfiguration(){{
-    /** The voltage ramp rate used for quasistatic test routines. */
-    m_rampRate = Volts.of(4).div(Seconds.of(1));
+  public static final SysidConfiguration sysidConfiguration = new SysidConfiguration() {
+    {
+      /** The voltage ramp rate used for quasistatic test routines. */
+      m_rampRate = Volts.of(4).div(Seconds.of(1));
 
-    /** The step voltage output used for dynamic test routines. */
-    m_stepVoltage = Volts.of(3);
+      /** The step voltage output used for dynamic test routines. */
+      m_stepVoltage = Volts.of(3);
 
-    /** Safety timeout for the test routine commands. */
-    m_timeout = Seconds.of(2);
-    //#endregion mechanisem
-  }};
+      /** Safety timeout for the test routine commands. */
+      m_timeout = Seconds.of(2);
+      //#endregion mechanisem
+    }
+  };
 }
