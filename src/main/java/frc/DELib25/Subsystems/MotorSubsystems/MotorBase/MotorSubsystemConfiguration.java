@@ -19,15 +19,13 @@ public class MotorSubsystemConfiguration {
     public PIDContainer pidContainerSlot0 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
     public PIDContainer pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-    //#region motion magic values
+
     public double motionMagicCruiseVelocity = 0.0; // the cruise velocity in a motion magic profile
     
     public double motionMagicAcceleration = 0.0; // the acceleration in a motion magic profile
 
     public double motionMagicJerk = 0.0; // the jerk in a motion magic profile
-    //#endregion motion magic values
 
-    //#region cuurent limit
     public int supplyCurrentLimit = 60; 
 
     public boolean enableSupplyCurrentLimit = false;
@@ -35,13 +33,12 @@ public class MotorSubsystemConfiguration {
     public int statorCurrentLimit = 40;
 
     public boolean enableStatorCurrentLimit = false;
-    //#endregion current limit
 
-    //#region soft limits 
     public double forwardSoftLimit = ProjectConstance.ERROR_CODE; // the forward range limit of the mechanism.
 
     public double reverseSoftLimit = ProjectConstance.ERROR_CODE; // the reverse range limit of the mechanism.
-    //#endregion sofr limits
+
+    public String fileLocation = "";
 
     public double allowableError = 6.0; // allowable error of the pid algorithm from the actual current position
 
