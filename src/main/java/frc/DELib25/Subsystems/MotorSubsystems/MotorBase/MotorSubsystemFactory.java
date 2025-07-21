@@ -42,7 +42,7 @@ public class MotorSubsystemFactory {
         return talon;
     }
     
-    public static TalonFX[] createSlaveTalonFX(MotorSubsystemConfiguration configuration) {
+    public static TalonFX[] createSlaveTalonsFX(MotorSubsystemConfiguration configuration) {
         if (configuration.slaves != null) {
             TalonFX[] slaveFX = new TalonFX[configuration.slaves.length];
             for (int i = 0; i < configuration.slaves.length; i++) {
