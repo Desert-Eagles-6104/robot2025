@@ -27,7 +27,7 @@ import frc.DELib25.CSV.CSVReader;
 import frc.DELib25.Intepulation.LinearInterpolator;
 import frc.DELib25.Subsystems.MotorSubsystems.Base.IVelocitySubsystemBase;
 
-public class VelocitySubsystemTalon extends SubsystemBase implements IVelocitySubsystemBase {
+public class VelocitySubsystemTalon extends SubsystemBase{
 	/** Creates a new ServoSubsystem. */
 	private VelocitySubsystemConfiguration m_configuration;
 
@@ -51,7 +51,7 @@ public class VelocitySubsystemTalon extends SubsystemBase implements IVelocitySu
 
 	private double[][] m_shootingTable;
 	private LinearInterpolator linearInterpolator;
-
+	
 	public VelocitySubsystemTalon(VelocitySubsystemConfiguration configuration) {
 		m_configuration = configuration;
 		m_masterFx = VelocitySubsystemMotorFactory.createTalonFX(configuration);

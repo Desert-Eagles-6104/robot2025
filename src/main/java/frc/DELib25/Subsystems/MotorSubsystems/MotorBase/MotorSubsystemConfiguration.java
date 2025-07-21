@@ -1,9 +1,11 @@
 package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 
 import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Util.ProjectConstance;
 import frc.DELib25.Motors.PIDContainer;
-
+ 
 public class MotorSubsystemConfiguration {
+
     public String subsystemName = ""; 
 
     public MotorConstants master = new MotorConstants(-1,"",false,false); // generic config of the master
@@ -36,9 +38,9 @@ public class MotorSubsystemConfiguration {
     //#endregion current limit
 
     //#region soft limits 
-    public double forwardSoftLimit = -99999; // the forward range limit of the mechanism.
+    public double forwardSoftLimit = ProjectConstance.ERROR_CODE; // the forward range limit of the mechanism.
 
-    public double reverseSoftLimit = -99999; // the reverse range limit of the mechanism.
+    public double reverseSoftLimit = ProjectConstance.ERROR_CODE; // the reverse range limit of the mechanism.
     //#endregion sofr limits
 
     public double allowableError = 6.0; // allowable error of the pid algorithm from the actual current position
