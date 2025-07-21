@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.DELib25.Motors.MotorConstants;
 import frc.DELib25.Motors.PIDContainer;
-import frc.DELib25.Subsystems.MotorSubsystems.ServoSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
 import frc.DELib25.Subsystems.Swerve.SwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
@@ -32,11 +32,6 @@ import frc.DELib25.Sysid.SysidConfiguration;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-
-  }
-
   public final static class Vision{
     public static final CameraSettings aprilTagCameraSettings = new CameraSettings(0.30821, 0, 0.10689, 0, 15.13, 0, false); 
     public static final CameraSettings gamePieceCameraSettings = new CameraSettings(0, 0, 0, 0, 0, 0, false); 
@@ -156,7 +151,7 @@ public final class Constants {
 
 
   public final class Elevator {
-    public static final ServoSubsystemConfiguration ElevatorConfiguration = new ServoSubsystemConfiguration(){{
+    public static final MotorSubsystemConfiguration ElevatorConfiguration = new MotorSubsystemConfiguration(){{
      
       subsystemName = "Elevator";
 
@@ -202,7 +197,7 @@ public final class Constants {
   }
 
   public final class GripperArm {
-    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+    public static final MotorSubsystemConfiguration configuration = new MotorSubsystemConfiguration(){{
       subsystemName = "gripperArm";
 
       master = new MotorConstants(1,"rio",true ,true);
@@ -249,7 +244,7 @@ public final class Constants {
   }
 
   public final class IntakeArm {
-    public static final ServoSubsystemConfiguration configuration = new ServoSubsystemConfiguration(){{
+    public static final MotorSubsystemConfiguration configuration = new MotorSubsystemConfiguration(){{
 
       subsystemName = "intakeArm";
 

@@ -6,7 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import frc.DELib25.Motors.MotorConstants;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.TalonFXFactory;
-import frc.DELib25.Util.ProjectConstance;
+import frc.DELib25.Util.ProjectConstants;
 
 public class MotorSubsystemFactory {
 
@@ -18,9 +18,9 @@ public class MotorSubsystemFactory {
             .withMotionMagicJerk(configuration.motionMagicJerk * configuration.rotationsPerPositionUnit);
 
         talonConfiguration.SoftwareLimitSwitch
-            .withForwardSoftLimitEnable(configuration.forwardSoftLimit != ProjectConstance.ERROR_CODE)
+            .withForwardSoftLimitEnable(configuration.forwardSoftLimit != ProjectConstants.ERROR_CODE)
             .withForwardSoftLimitThreshold(configuration.forwardSoftLimit * configuration.rotationsPerPositionUnit)
-            .withReverseSoftLimitEnable(configuration.reverseSoftLimit != ProjectConstance.ERROR_CODE)
+            .withReverseSoftLimitEnable(configuration.reverseSoftLimit != ProjectConstants.ERROR_CODE)
             .withReverseSoftLimitThreshold(configuration.reverseSoftLimit * configuration.rotationsPerPositionUnit);
 
         talonConfiguration.CurrentLimits

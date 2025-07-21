@@ -1,7 +1,7 @@
 package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 
 import frc.DELib25.Motors.MotorConstants;
-import frc.DELib25.Util.ProjectConstance;
+import frc.DELib25.Util.ProjectConstants;
 import frc.DELib25.Motors.PIDContainer;
  
 public class MotorSubsystemConfiguration {
@@ -34,9 +34,9 @@ public class MotorSubsystemConfiguration {
 
     public boolean enableStatorCurrentLimit = false;
 
-    public double forwardSoftLimit = ProjectConstance.ERROR_CODE; // the forward range limit of the mechanism.
+    public double forwardSoftLimit = ProjectConstants.ERROR_CODE; // the forward range limit of the mechanism.
 
-    public double reverseSoftLimit = ProjectConstance.ERROR_CODE; // the reverse range limit of the mechanism.
+    public double reverseSoftLimit = ProjectConstants.ERROR_CODE; // the reverse range limit of the mechanism.
 
     public String fileLocation = "";
 
