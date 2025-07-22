@@ -8,7 +8,6 @@ import frc.DELib25.Subsystems.MotorSubsystems.Commands.MotorSubsystemDisableMoto
 import frc.DELib25.Subsystems.MotorSubsystems.Commands.MotorSubsystemSetMotionMagicPosition;
 import frc.robot.Constants;
 import frc.robot.presetState.PresetState;
-import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
 import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
@@ -25,7 +24,7 @@ public class L4ScoreAuto extends SequentialCommandGroup {
       new WaitCommand(0.3),
       new MotorSubsystemSetMotionMagicPosition(m_gripperArm, () -> -88.0),
       new SmartPreset(m_elevator, m_gripperArm, m_gripper, PresetState.ZERO),
-      new MotorSubsystemDisableMotors(m_gripperArm),
+      new MotorSubsystemDisableMotors(m_gripperArm)
     );
   }
   
