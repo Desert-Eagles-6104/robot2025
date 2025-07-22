@@ -4,10 +4,10 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.DELib25.Subsystems.MotorSubsystems.Commands.MotorSubsystemSetMotionMagicPosition;
 import frc.robot.Constants;
 import frc.robot.presetState.PresetState;
 import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
-import frc.robot.Commands.GripperArmCommands.GripperArmSetPosition;
 import frc.robot.Commands.IntakeCommands.IntakeForTime;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.Gripper2Subsystem;
@@ -22,7 +22,7 @@ public class L4ScoreAuto extends SequentialCommandGroup {
       new WaitCommand(0.9),
       new IntakeForTime(m_gripper, -0.6, Constants.Intake.TimeToDropIntegraion, approve),
       new WaitCommand(0.3),
-      new GripperArmSetPosition(m_gripperArm, -88.0),
+      new MotorSubsystemSetMotionMagicPosition(m_gripperArm, () -> -88.0),
       new SmartPreset(m_elevator, m_gripperArm, m_gripper, PresetState.ZERO),
       new DisableGripperArm(m_gripperArm)
     );
