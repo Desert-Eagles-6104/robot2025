@@ -1,14 +1,13 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.Commands.ElevatorCommands;
 
-import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
-import frc.DELib25.Subsystems.MotorSubsystems.Commands.ServoSubsystemSetPosition;
+import java.util.function.DoubleSupplier;
+
+import frc.DELib25.Subsystems.MotorSubsystems.Commands.MotorSubsystemSetPosition;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 /** Add your docs here. */
-public class ElevatorSetPosition extends ServoSubsystemSetPosition {
-    public ElevatorSetPosition(ServoSubsystemTalon ServoSubsystemTalon, double Position, boolean motionMagic) {
-        super(ServoSubsystemTalon, Position, motionMagic);
-    }}
+public class ElevatorSetPosition extends MotorSubsystemSetPosition {
+    public ElevatorSetPosition(MotorSubsystemTalon ServoSubsystemTalon, DoubleSupplier Position) {
+        super(ServoSubsystemTalon, Position);
+    }
+}
