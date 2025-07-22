@@ -11,7 +11,6 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -19,79 +18,63 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class GripperSubsystem extends SubsystemBase {
-  private static GripperSubsystem m_instance = null;
 
-   private TalonFX m_motor;
-  // private BeamBreak m_beamBreak;
-   private boolean m_isBroken;
-   private boolean m_hasGamePiece;
+	private TalonFX motor;
 
-   private TalonFXConfiguration configuration;
+	private boolean hasGamePiece;
 
-   private PositionVoltage m_PositionVoltageRequest = new PositionVoltage(0);
+	private TalonFXConfiguration configuration;
 
-  private StatusSignal<Angle> m_positionSignal;
-  private StatusSignal<AngularVelocity> m_velocitySignal;
-  private StatusSignal<Double> m_closedLoopErrorSignal;
-  
+	private StatusSignal<Angle> positionSignal;
+	private StatusSignal<AngularVelocity> velocitySignal;
+	private StatusSignal<Double> closedLoopErrorSignal;
 
-  public GripperSubsystem() {
-    configuration = new TalonFXConfiguration();
-    configuration.withMotorOutput(new MotorOutputConfigs()
-    .withInverted(Constants.Gripper.motorInverted)
-    .withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband));
-    configuration.withSlot0(new Slot0Configs().withKS(Constants.Gripper.Ks).withKV(Constants.Gripper.Kv).withKA(Constants.Gripper.Ka).withKP(Constants.Gripper.Kp).withKI(Constants.Gripper.Ki).withKD(Constants.Gripper.Kd));
-    configuration.withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(Constants.Gripper.SensorToMechanismRatio));
-    configuration.withCurrentLimits(new CurrentLimitsConfigs().withSupplyCurrentLimit(Constants.Gripper.supplyCurrentLimit).withSupplyCurrentLimitEnable(Constants.Gripper.SupplyCurrentLimitEnable));
-    m_hasGamePiece = false;
+	public GripperSubsystem() {
+		configuration = new TalonFXConfiguration();
 
-    m_motor = new TalonFX(Constants.Gripper.motorId);
-    m_motor.getConfigurator().apply(configuration);
+		configuration.withMotorOutput(new MotorOutputConfigs()
+			.withInverted(Constants.Gripper.motorInverted)
+			.withDutyCycleNeutralDeadband(Constants.Gripper.DutyCycleNeutralDeadband)
+		);
 
-    m_positionSignal = m_motor.getPosition();
-    m_velocitySignal = m_motor.getVelocity();
-    m_closedLoopErrorSignal = m_motor.getClosedLoopError();
-    BaseStatusSignal.setUpdateFrequencyForAll(Constants.Gripper.frequencyHz ,m_positionSignal, m_velocitySignal, m_closedLoopErrorSignal);
+		configuration.withSlot0(new Slot0Configs()
+			.withKS(Constants.Gripper.Ks)
+			.withKV(Constants.Gripper.Kv)
+			.withKA(Constants.Gripper.Ka)
+			.withKP(Constants.Gripper.Kp)
+			.withKI(Constants.Gripper.Ki)
+			.withKD(Constants.Gripper.Kd)
+		);
 
-    //m_beamBreak = new BeamBreak(2);
-  }
+		configuration.withFeedback(new FeedbackConfigs()
+			.withSensorToMechanismRatio(Constants.Gripper.SensorToMechanismRatio)
+		);
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    // m_beamBreak.update();
-    // m_hasGamePiece = m_beamBreak.get();
-    // SmartDashboard.putBoolean("BeamBreak", m_hasGamePiece);
-  }
-  
-  public void disableMotors(){
-    m_motor.disable();
-  }
-  
-  public void HasGamePieceTrue(){
-    m_hasGamePiece = true;
-  }
+		configuration.withCurrentLimits(new CurrentLimitsConfigs()
+			.withSupplyCurrentLimit(Constants.Gripper.supplyCurrentLimit)
+			.withSupplyCurrentLimitEnable(Constants.Gripper.SupplyCurrentLimitEnable)
+		);
+		this.hasGamePiece = false;
 
-  public void HasGamePieceFalse(){
-    m_hasGamePiece = false;
-  }
+		this.motor = new TalonFX(Constants.Gripper.motorId);
+		this.motor.getConfigurator().apply(configuration);
 
+		this.positionSignal = this.motor.getPosition();
+		this.velocitySignal = this.motor.getVelocity();
+		this.closedLoopErrorSignal = this.motor.getClosedLoopError();
 
-  public boolean HasGamePiece(){
-    // if(m_motor.getSupplyCurrent().getValueAsDouble()>15.0){
-    //   m_hasGamePiece= true;
-    // }
-    return m_hasGamePiece;
-  }
+		BaseStatusSignal.setUpdateFrequencyForAll(Constants.Gripper.frequencyHz ,this.positionSignal, this.velocitySignal, this.closedLoopErrorSignal);
+	}
 
-  public void setMotorPercent(double percent){
-    m_motor.set(percent);
-  }
+	public void disableMotors(){
+		this.motor.disable();
+	}
 
-  public static GripperSubsystem getInstance() {
-    if(m_instance == null){
-      m_instance = new GripperSubsystem();
-    }  
-    return m_instance;
-  }
+	public boolean HasGamePiece(){
+		return this.hasGamePiece;
+	}
+
+	public void setMotorPercent(double percent){
+		this.motor.set(percent);
+	}
 }
