@@ -117,8 +117,8 @@ public class RobotContainer {
     operatorController.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,operatorController.L3()));
     operatorController.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
     operatorController.povDown().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
-    operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL2));
-    operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, m_state.AlgeL3));
+    operatorController.R2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, PresetState.AlgeL2));
+    operatorController.L2().onTrue(new SmartPreset(m_elevator, m_gripperArm, m_gripper, PresetState.AlgeL3));
   }
 
   public Command getAuto() {

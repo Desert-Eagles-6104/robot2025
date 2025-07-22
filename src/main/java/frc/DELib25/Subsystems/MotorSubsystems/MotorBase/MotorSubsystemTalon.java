@@ -75,7 +75,7 @@ public class MotorSubsystemTalon extends SubsystemBase {
 		this.configuration = configuration;
 		this.masterFx = MotorSubsystemFactory.createTalonFX(configuration);
 		if (configuration.slaves != null) {
-			this.slaveFX = MotorSubsystemFactory.createSlaveTalonFX(configuration);
+			this.slaveFX = MotorSubsystemFactory.createSlaveTalonsFX(configuration);
 		}
 
 		// Init signals
@@ -202,10 +202,6 @@ public class MotorSubsystemTalon extends SubsystemBase {
 		this.masterFx.setControl(this.velocityVoltageRequest.withVelocity(this.toRotations(velocity)));
 	}
 
-	public void log(BooleanSupplier staetLog) {
-		// only for spark
-	}
-
 	public void setShootingTable(String Filelocation) {
 		try {
 			CSVReader reader = new CSVReader(Filelocation);
@@ -215,7 +211,6 @@ public class MotorSubsystemTalon extends SubsystemBase {
 
 		}
 	}
-
 
 	public void setUsingInterpulation(double value) {
 		double speed = this.linearInterpolator.getInterpolatedValue(value);

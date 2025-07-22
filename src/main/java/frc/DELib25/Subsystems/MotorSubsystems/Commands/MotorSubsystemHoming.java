@@ -8,7 +8,7 @@ import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
  * and applying a resistive output until the motor reaches a certain current threshold
  */
 public class MotorSubsystemHoming extends Command {
-  private MotorSubsystemTalon servoSubsystemTalon;
+  private MotorSubsystemTalon subsystemTalon;
   private final double resistPrecent;
   private final double currentThreshold;
   private final double velocityThreshold;
@@ -16,35 +16,35 @@ public class MotorSubsystemHoming extends Command {
   /** Creates a new ServoSubsystemHoming. 
    * @param velocityThreshold 
    */
-  public MotorSubsystemHoming(MotorSubsystemTalon motorSubsystemTalon, double resistPrecent, double currentThreshold, double velocityThreshold) {
-    this.servoSubsystemTalon = motorSubsystemTalon;
+  public MotorSubsystemHoming(MotorSubsystemTalon subsystemTalon, double resistPrecent, double currentThreshold, double velocityThreshold) {
+    this.subsystemTalon = subsystemTalon;
     this.resistPrecent = resistPrecent;
     this.currentThreshold = currentThreshold;
     this.velocityThreshold = velocityThreshold;
-    addRequirements(motorSubsystemTalon);
+    addRequirements(subsystemTalon);
   }
 
   @Override
   public void initialize() {
-    this.servoSubsystemTalon.ControlSoftLimit(false);
-    this.servoSubsystemTalon.setPosition(this.servoSubsystemTalon.configuration.homePosition);
+    this.subsystemTalon.ControlSoftLimit(false);
+    this.subsystemTalon.setPosition(this.subsystemTalon.configuration.homePosition);
   }
 
   @Override
   public void execute() {
-    if (this.servoSubsystemTalon.isAtSetpoint()) {
-      this.servoSubsystemTalon.setPrecentOutput(this.resistPrecent);
+    if (this.subsystemTalon.isAtSetpoint()) {
+      this.subsystemTalon.setPrecentOutput(this.resistPrecent);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    this.servoSubsystemTalon.ControlSoftLimit(true);
-    this.servoSubsystemTalon.disableMotors();
+    this.subsystemTalon.ControlSoftLimit(true);
+    this.subsystemTalon.disableMotors();
   }
 
   @Override
   public boolean isFinished() {
-    return this.servoSubsystemTalon.getMotorCurrent() > this.currentThreshold && this.servoSubsystemTalon.getVelocity() < this.velocityThreshold;
+    return this.subsystemTalon.getMotorCurrent() > this.currentThreshold && this.subsystemTalon.getVelocity() < this.velocityThreshold;
   }
 }
