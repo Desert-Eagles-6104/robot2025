@@ -17,12 +17,12 @@ public class MotorSubsystemSetVelocityFromInterpolationTableMotionMagic extends 
 
 	@Override
 	public void initialize() {
-		this.subsystemTalon.setUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
+		this.subsystemTalon.setVelocityUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	@Override
 	public void execute() {
-		this.subsystemTalon.setUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
+		this.subsystemTalon.setVelocityUsingInterpulationMotionMagic(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	@Override

@@ -5,12 +5,11 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
-public class MotorSubsystemSetVelocityFromInterpolationTable extends Command {
+public class MotorSubsystemSetVelocityInterpolationTable extends Command {
 	private MotorSubsystemTalon subsystemTalon;
 	private DoubleSupplier distanceMetersSupplier;
-	
 
-	public MotorSubsystemSetVelocityFromInterpolationTable(MotorSubsystemTalon subsystemTalon,DoubleSupplier distanceMetersSupplier) {
+	public MotorSubsystemSetVelocityInterpolationTable(MotorSubsystemTalon subsystemTalon, DoubleSupplier distanceMetersSupplier) {
 		this.distanceMetersSupplier = distanceMetersSupplier;
 		this.subsystemTalon = subsystemTalon;
 		addRequirements(subsystemTalon);
@@ -18,12 +17,12 @@ public class MotorSubsystemSetVelocityFromInterpolationTable extends Command {
 
 	@Override
 	public void initialize() {
-		this.subsystemTalon.setUsingInterpulation(this.distanceMetersSupplier.getAsDouble());
+		this.subsystemTalon.setVelocityUsingInterpulation(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	@Override
 	public void execute() {
-		this.subsystemTalon.setUsingInterpulation(this.distanceMetersSupplier.getAsDouble());
+		this.subsystemTalon.setVelocityUsingInterpulation(this.distanceMetersSupplier.getAsDouble());
 	}
 
 	@Override
