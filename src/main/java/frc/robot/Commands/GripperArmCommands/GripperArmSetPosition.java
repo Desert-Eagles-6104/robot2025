@@ -1,14 +1,11 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.Commands.GripperArmCommands;
 
-import frc.DELib25.Subsystems.MotorSubsystems.Base.Motor.ServoSubsystemTalon;
-import frc.DELib25.Subsystems.MotorSubsystems.Commands.ServoSubsystemSetPosition;
+import frc.DELib25.Subsystems.MotorSubsystems.Commands.MotorSubsystemSetMotionMagicPosition;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 /** Add your docs here. */
-public class GripperArmSetPosition extends ServoSubsystemSetPosition {
-    public GripperArmSetPosition(ServoSubsystemTalon ServoSubsystemTalon, double Position, boolean motionMagic) {
-        super(ServoSubsystemTalon, Position, motionMagic);
-    }}
+public class GripperArmSetPosition extends MotorSubsystemSetMotionMagicPosition {
+    public GripperArmSetPosition(MotorSubsystemTalon ServoSubsystemTalon, double Position) {
+        super(ServoSubsystemTalon, () -> Position);
+    }
+}
