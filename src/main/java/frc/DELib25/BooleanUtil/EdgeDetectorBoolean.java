@@ -5,7 +5,7 @@ package frc.DELib25.BooleanUtil;
  */
 public class EdgeDetectorBoolean {
     private boolean lastValue = false;
-    
+
     /**
      * Updates the internal state and returns true if a rising edge is detected.
      */
@@ -22,6 +22,10 @@ public class EdgeDetectorBoolean {
         boolean result = lastValue && !newValue;
         lastValue = newValue;
         return result;
+    }
+
+    public boolean getLastValue() {
+        return lastValue;
     }
 
 }
