@@ -20,30 +20,18 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.io.IOException;
-
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import frc.DELib25.CSV.CSVReader;
-import frc.DELib25.Intepulation.LinearInterpolator;
-
-/**
- * here we create a servoSubsytem for a talonFX motorController a servo is a
- * motor that gets to a certain position within an input in range of the
- * specific system.
- */
 
 public class MotorSubsystemTalon extends SubsystemBase {
 
 	/** Creates a new ServoSubsystem. */
 	public MotorSubsystemConfiguration configuration;
 
-	private TalonFX masterFx; // creation of the master motor controller this is
-								// the controller we give all the command to.
-	private TalonFX[] slaveFX; // creation of the slave controller this motor
-								// follows everything the master does.
+	private TalonFX masterFx; // creation of the master motor controller this is the controller we give all the command to.
+	private TalonFX[] slaveFX; // creation of the slave controller this motor follows everything the master does.
 
-	public double setpoint;
+	private double setpoint;
 
 	// Requests
 	private MotionMagicVoltage motiongMagicVoltageRequest = new MotionMagicVoltage(0).withSlot(0);
@@ -61,9 +49,6 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	private final StatusSignal<Current> statorCurrentSignal;
 	private final StatusSignal<Double> closedLoopError;
 	private final StatusSignal<Voltage> appliedVoltageSignal;
-
-	private double[][] shootingTable;
-	private LinearInterpolator linearInterpolator;
 
 	/**
 	 * creation of the servoSubsytem constructor to define the objects and
@@ -88,26 +73,33 @@ public class MotorSubsystemTalon extends SubsystemBase {
 		this.appliedVoltageSignal = this.masterFx.getMotorVoltage();
 		this.closedLoopError = this.masterFx.getClosedLoopError();
 
-		BaseStatusSignal.setUpdateFrequencyForAll(50,
-				this.closedLoopError, this.positionSignal, this.velocitySignal, this.accelerationSigna, this.appliedVoltageSignal, this.supplyCurrentSignal, this.statorCurrentSignal);
+		BaseStatusSignal.setUpdateFrequencyForAll(
+			50,
+			this.closedLoopError,
+			this.positionSignal,
+			this.velocitySignal,
+			this.accelerationSigna,
+			this.appliedVoltageSignal,				 
+			this.supplyCurrentSignal,
+			this.statorCurrentSignal
+		);
 
 		this.masterFx.optimizeBusUtilization();
 		this.resetSubsystemToInitialState();
-
-		this.setShootingTable(this.configuration.fileLocation);
 	}
 
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
 		BaseStatusSignal.refreshAll(
-				this.closedLoopError,
-				this.positionSignal,
-				this.velocitySignal,
-				this.accelerationSigna,
-				this.supplyCurrentSignal,
-				this.statorCurrentSignal,
-				this.appliedVoltageSignal);
+			this.closedLoopError,
+			this.positionSignal,
+			this.velocitySignal,
+			this.accelerationSigna,
+			this.supplyCurrentSignal,
+			this.statorCurrentSignal,
+			this.appliedVoltageSignal
+		);
 
 		SmartDashboard.putNumber(this.configuration.subsystemName + " Position", this.getPosition());
 		SmartDashboard.putNumber(this.configuration.subsystemName + " Velocity", this.getVelocity());
@@ -148,8 +140,9 @@ public class MotorSubsystemTalon extends SubsystemBase {
 
 	public void ControlSoftLimit(boolean enableSoftLimit) {
 		this.masterFx.getConfigurator().apply(new SoftwareLimitSwitchConfigs()
-				.withForwardSoftLimitEnable(enableSoftLimit)
-				.withForwardSoftLimitThreshold(this.configuration.forwardSoftLimit));
+			.withForwardSoftLimitEnable(enableSoftLimit)
+			.withForwardSoftLimitThreshold(this.configuration.forwardSoftLimit)
+		);
 	}
 
 	public void setPrecentOutput(double precent) {
@@ -202,27 +195,4 @@ public class MotorSubsystemTalon extends SubsystemBase {
 		this.masterFx.setControl(this.velocityVoltageRequest.withVelocity(this.toRotations(velocity)));
 	}
 
-	public void setShootingTable(String Filelocation) {
-		try {
-			CSVReader reader = new CSVReader(Filelocation);
-			this.shootingTable = reader.readAsDouble(2);
-			this.linearInterpolator = new LinearInterpolator(this.shootingTable);
-		} catch (IOException e) {
-
-		}
-	}
-
-	public void setVelocityUsingInterpulation(double value) {
-		double speed = this.getInterpulationVelocity(value);
-		this.setVelocity(speed);
-	}
-
-	public void setVelocityUsingInterpulationMotionMagic(double value) {
-		double speed = this.getInterpulationVelocity(value);
-		this.setMotionMagicVelocity(speed);
-	}
-
-	private double getInterpulationVelocity(double value) {
-		return this.linearInterpolator.getInterpolatedValue(value);
-	}
 }
