@@ -6,23 +6,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 public class MotorSubsystemSetVelocity extends Command {
-	private DoubleSupplier velocityRpmSupplier;
-	private MotorSubsystemTalon subsystemTalon;
+	protected MotorSubsystemTalon subsystemTalon;
+	protected DoubleSupplier valueSupplier;
 
-	public MotorSubsystemSetVelocity(MotorSubsystemTalon subsystemTalon,DoubleSupplier velocityRpmSupplier) {
-		this.velocityRpmSupplier = velocityRpmSupplier;
+	public MotorSubsystemSetVelocity(MotorSubsystemTalon subsystemTalon,DoubleSupplier valueSupplier) {
+		this.valueSupplier = valueSupplier;
 		this.subsystemTalon = subsystemTalon;
 		addRequirements(subsystemTalon);
 	}
 
 	@Override
-	public void initialize() {
-		this.subsystemTalon.setVelocity(this.velocityRpmSupplier.getAsDouble());
-	}
-
-	@Override
 	public void execute() {
-		this.subsystemTalon.setVelocity(this.velocityRpmSupplier.getAsDouble());
+		this.subsystemTalon.setVelocity(this.valueSupplier.getAsDouble());
 	}
 
 	@Override

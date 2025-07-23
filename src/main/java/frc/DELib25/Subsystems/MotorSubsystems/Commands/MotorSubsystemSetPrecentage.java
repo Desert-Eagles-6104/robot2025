@@ -1,20 +1,17 @@
 package frc.DELib25.Subsystems.MotorSubsystems.Commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import java.util.function.DoubleSupplier;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
-public class MotorSubsystemSetPrecentage extends InstantCommand {
-	private MotorSubsystemTalon subsystemTalon;
-	private double precentOutput;
+public class MotorSubsystemSetPrecentage extends MotorSubsystemSetVelocity {
 
-	public MotorSubsystemSetPrecentage(MotorSubsystemTalon subsystemTalon, double precentOutput) {
-		this.subsystemTalon = subsystemTalon;
-		this.precentOutput = precentOutput;
-		addRequirements(subsystemTalon);
+	public MotorSubsystemSetPrecentage(MotorSubsystemTalon subsystemTalon, DoubleSupplier valueSupplier) {
+		super(subsystemTalon, valueSupplier);
 	}
 
 	@Override
-	public void initialize() {
-		this.subsystemTalon.setPrecentOutput(this.precentOutput);
+	public void execute() {
+		this.subsystemTalon.setPrecentOutput(this.valueSupplier.getAsDouble());
 	}
+
 }
