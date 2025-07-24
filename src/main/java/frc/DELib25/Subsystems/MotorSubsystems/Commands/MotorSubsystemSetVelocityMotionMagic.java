@@ -4,7 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
-public class MotorSubsystemSetVelocityMotionMagic extends MotorSubsystemSetVelocity {
+public class MotorSubsystemSetVelocityMotionMagic extends MotorDoubleSupplierCommand {
 
 	public MotorSubsystemSetVelocityMotionMagic(MotorSubsystemTalon subsystemTalon, DoubleSupplier valueSupplier) {
 		super(subsystemTalon, valueSupplier);
