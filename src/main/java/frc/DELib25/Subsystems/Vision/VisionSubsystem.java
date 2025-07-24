@@ -1,28 +1,15 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.DELib25.Subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
+import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
 
 public abstract class VisionSubsystem extends SubsystemBase {
 	
-	public static enum CameraType {
-		AprilTagCamera("limelight-april"),
-		GamePieceCamera("limelight");
-
-		final String cameraName;
-
-		CameraType(String cameraName) {
-			this.cameraName = cameraName;
-		}
-	}
 	
 	//First AprilTag Limelight
 	private CameraSettings aprilTagCameraSettings = null;
@@ -67,7 +54,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
       this.aprilTagCameraSettings = aprilTagCameraSettings;
       if(aprilTagCameraSettings != null){
 			LimelightHelpers.setCameraPose_RobotSpace(
-				CameraType.AprilTagCamera.cameraName,
+				CameraType.AprilTagCamera.getCameraName(),
 				aprilTagCameraSettings.m_forward,
 				aprilTagCameraSettings.m_Side,
 				aprilTagCameraSettings.m_up,
@@ -76,14 +63,14 @@ public abstract class VisionSubsystem extends SubsystemBase {
 				aprilTagCameraSettings.m_yaw
 			);
       	}
-      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.cameraName, 0);
+      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
     }
   
     @Override
 	public void periodic() {
 		updateVisionData();
 
-		SmartDashboard.putString("limeName", CameraType.AprilTagCamera.cameraName);
+		SmartDashboard.putString("limeName", CameraType.AprilTagCamera.getCameraName());
 
 		orbitCalculation();
 
@@ -93,12 +80,12 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	}
 
 	protected void updateVisionData() {
-		this.tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.cameraName);
+		this.tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.getCameraName());
 		if (this.tv) {
-			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.cameraName, this.lastTx);
-			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.cameraName, this.lastTy);
-			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.cameraName);
-			this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.cameraName);
+			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName(), this.lastTx);
+			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName(), this.lastTy);
+			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
+			this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			this.lastTy = this.ty;
 			this.lastTx = this.tx;
 		}
@@ -146,7 +133,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	 * @param cropYMax
 	 */
     public void crop(double cropXMin, double cropXMax, double cropYMin, double cropYMax){
-      LimelightHelpers.setCropWindow(CameraType.AprilTagCamera.cameraName, cropXMin, cropXMax, cropYMin, cropYMax);
+      LimelightHelpers.setCropWindow(CameraType.AprilTagCamera.getCameraName(), cropXMin, cropXMax, cropYMin, cropYMax);
     }
     
     /**
@@ -154,7 +141,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
      */
     public double getTotalLatency() {
       double miliToSec = 0.001;
-      return LimelightHelpers.getLatency_Pipeline(CameraType.AprilTagCamera.cameraName) + LimelightHelpers.getLatency_Capture(CameraType.AprilTagCamera.cameraName) * miliToSec;
+      return LimelightHelpers.getLatency_Pipeline(CameraType.AprilTagCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.AprilTagCamera.getCameraName()) * miliToSec;
     }
   
     /**   
@@ -162,7 +149,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
     */
     public double getTotalLatencyNote() {
       double miliToSec = 0.001;
-      return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.cameraName) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.cameraName) * miliToSec;
+      return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.getCameraName()) * miliToSec;
     }
   
 	public double getCurrentID() {

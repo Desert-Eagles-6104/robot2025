@@ -1,6 +1,7 @@
 package frc.DELib25.Subsystems.Vision;
 
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
+import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
 public class VisionSubsystemRobot2025 extends VisionSubsystem {
@@ -22,7 +23,7 @@ public class VisionSubsystemRobot2025 extends VisionSubsystem {
         double _xFOV = xFOV;
         double _yFOV = yFOV;
 
-        if(LimelightHelpers.getCurrentPipelineIndex(CameraType.AprilTagCamera.cameraName) == pipelineX2){
+        if(LimelightHelpers.getCurrentPipelineIndex(CameraType.AprilTagCamera.getCameraName()) == pipelineX2){
             _xFOV = xFOV / 2.0;
             _yFOV = yFOV / 2.0;
             outerLayer = outerLayer / 2;
