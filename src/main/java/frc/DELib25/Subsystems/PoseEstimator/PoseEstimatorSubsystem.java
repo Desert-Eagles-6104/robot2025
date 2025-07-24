@@ -16,7 +16,7 @@ import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Intepulation.InterpolatingDouble;
 import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
+import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
 /** Creates a new PoseEstimator. */
@@ -29,9 +29,10 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator odometry;
   private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
-
-  public PoseEstimatorSubsystem(SwerveSubsystem swerve) {
+  private VisionSubsystemRobot2025 vision;
+  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystemRobot2025 vision) {
     this.swerve = swerve;
+    this.vision = vision;
 
     this.odometry = new SwerveDrivePoseEstimator(
       this.swerve.getKinematics(),
@@ -74,12 +75,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
     if (!this.first) {
       boolean rejectUpdate = false;
       LimelightHelpers.SetRobotOrientation("limelight-april", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      this.limelightMesermentMT2 = VisionSubsystem.getEstimatedRobotPose();
+      this.limelightMesermentMT2 = this.vision.getEstimatedRobotPose();
       if (Math.abs(this.swerve.getGyro().getRateStatusSignalWorld().getValueAsDouble()) > 360
           || this.limelightMesermentMT2.pose == null) {
         rejectUpdate = true;
       }
-      if (!rejectUpdate && this.tvStableBoolean.update(VisionSubsystem.getTv())
+      if (!rejectUpdate && this.tvStableBoolean.update(this.vision.getTv())
           && this.limelightMesermentMT2.pose != null) {
         this.addVisionMeasurement(this.limelightMesermentMT2.pose, this.limelightMesermentMT2.timestampSeconds);
       }

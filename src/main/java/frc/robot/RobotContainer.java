@@ -76,7 +76,7 @@ public class RobotContainer {
     m_gripper2 = new Gripper2Subsystem();
     m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
     m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
-    m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
+    m_poseEstimator = new PoseEstimatorSubsystem(m_swerve, m_vision);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
     m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve,m_poseEstimator);
