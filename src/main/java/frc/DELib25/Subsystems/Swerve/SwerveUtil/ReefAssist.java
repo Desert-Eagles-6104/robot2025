@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
+import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 import frc.robot.Robot;
 
 public class ReefAssist extends Command {
@@ -28,12 +28,14 @@ public class ReefAssist extends Command {
   private StableBoolean dontSeesAprilTagForTime = new StableBoolean(0.5);
   private boolean isRight = false;
   private PoseEstimatorSubsystem poseEstimator;
+  private VisionSubsystemRobot2025 vision;
   Translation2d leftError;
   Translation2d RightError;
   Translation2d finalPoint;
 
-  public ReefAssist(SwerveSubsystem swerveSubsystem , PoseEstimatorSubsystem poseEstimator, BooleanSupplier right , BooleanSupplier left){
+  public ReefAssist(SwerveSubsystem swerveSubsystem ,VisionSubsystemRobot2025 vision, PoseEstimatorSubsystem poseEstimator, BooleanSupplier right , BooleanSupplier left){
     this.swerveSubsystem = swerveSubsystem;
+    this.vision = vision;
     this.poseEstimator = poseEstimator;
     isRight = right.getAsBoolean();
   }
@@ -59,7 +61,7 @@ public class ReefAssist extends Command {
         chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(this.filterForward.calculate(-finalPoint.getX())*this.kpForward, this.filterSide.calculate(-finalPoint.getY())*this.kpSide, 0, this.poseEstimator.getHeading());
       }
 
-     if(dontSeesAprilTagForTime.update(!VisionSubsystem.getTv())){
+     if(dontSeesAprilTagForTime.update(!this.vision.getTv())){
       chassisSpeeds.vxMetersPerSecond = 0;
       chassisSpeeds.vyMetersPerSecond = 0;
       chassisSpeeds.omegaRadiansPerSecond = 0;
@@ -77,11 +79,5 @@ public class ReefAssist extends Command {
   public boolean isFinished() {
     return false;
   }
-  
-  public double SetID(){
-    double id = VisionSubsystem.getID();//TODO add && to ifs
-    return id;
-  }
 
-
-  }
+}
