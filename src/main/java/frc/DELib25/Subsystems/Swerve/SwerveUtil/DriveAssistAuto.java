@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.DELib25.Subsystems.Swerve.SwerveUtil;
 
 import edu.wpi.first.math.filter.LinearFilter;
@@ -12,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
+import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 import frc.robot.Robot;
 
 public class DriveAssistAuto extends Command {
@@ -25,8 +21,9 @@ public class DriveAssistAuto extends Command {
   private Translation2d centerOfRobot = new Translation2d();
   private StableBoolean dontSeesNoteForTime;
   private PoseEstimatorSubsystem poseEstimator;
+  private VisionSubsystemRobot2025 vision;
 
-  public DriveAssistAuto(SwerveSubsystem swerveSubsystem, PoseEstimatorSubsystem poseEstimator){
+  public DriveAssistAuto(SwerveSubsystem swerveSubsystem,VisionSubsystemRobot2025 vision, PoseEstimatorSubsystem poseEstimator){
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
     this.filterSide = LinearFilter.movingAverage(4);
@@ -41,15 +38,15 @@ public class DriveAssistAuto extends Command {
 
   @Override
   public void execute() {
-    if(VisionSubsystem.getTvNote()){
+    if(this.vision.getTvNote()){
       if(Robot.s_Alliance == Alliance.Red){
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(-this.filterForward.calculate(-VisionSubsystem.getTyNote())*this.kpForward, -this.filterSide.calculate(-VisionSubsystem.getTxNote())*this.kpSide, 0, this.poseEstimator.getHeading());
+        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(-this.filterForward.calculate(-this.vision.getTyNote())*this.kpForward, -this.filterSide.calculate(-this.vision.getTxNote())*this.kpSide, 0, this.poseEstimator.getHeading());
       }
       else{
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(this.filterForward.calculate(-VisionSubsystem.getTyNote())*this.kpForward, this.filterSide.calculate(-VisionSubsystem.getTxNote())*this.kpSide, 0, this.poseEstimator.getHeading());
+        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(this.filterForward.calculate(-this.vision.getTyNote())*this.kpForward, this.filterSide.calculate(-this.vision.getTxNote())*this.kpSide, 0, this.poseEstimator.getHeading());
       }
     }
-    else if(dontSeesNoteForTime.update(!VisionSubsystem.getTvNote())){
+    else if(dontSeesNoteForTime.update(!this.vision.getTvNote())){
       chassisSpeeds.vxMetersPerSecond = 0;
       chassisSpeeds.vyMetersPerSecond = 0;
       chassisSpeeds.omegaRadiansPerSecond = 0;
