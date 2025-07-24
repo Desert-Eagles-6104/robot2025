@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
+import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 
 /** Add your docs here. */
 public class ReefUtill extends SubsystemBase {
@@ -19,9 +20,9 @@ public class ReefUtill extends SubsystemBase {
     private Translation2d m_pointLeft;
     private Translation2d m_pointRight;
     private Rotation2d m_robotAngle;
+    private VisionSubsystemRobot2025 vision;
     private static double m_currentID;
     private static boolean m_bool = false;
-    private static double m_id = 0;
             private static final double fieldLength = 17.54825;
         
             public ReefUtill(Translation2d pointLeft, Translation2d pointRight ,Rotation2d robotAngle , boolean bool){
@@ -56,7 +57,7 @@ public class ReefUtill extends SubsystemBase {
         
             @Override
           public void periodic() {
-            m_currentID = VisionSubsystem.getCurrentID();
+            m_currentID = this.vision.getCurrentID();
           }
           
         //   public static double getLockedID(){
@@ -67,8 +68,8 @@ public class ReefUtill extends SubsystemBase {
 
           public static void Update(BooleanSupplier bool){
             if (bool.getAsBoolean()){
-                 m_id = m_currentID;
-                SmartDashboard.putNumber("RealID", m_id);
+                 m_currentID = m_currentID;
+                SmartDashboard.putNumber("RealID", m_currentID);
                 m_bool =  bool.getAsBoolean();
             }
           }
@@ -78,82 +79,82 @@ public class ReefUtill extends SubsystemBase {
                       // double id = VisionSubsystem.getID();//TODO add && to ifs
             if (m_bool){
                 
-        if(m_id == 17){
+        if(m_currentID == 17){
         lastFace = ReefFace.F6;
         return ReefFace.F6;
         }
 
-        else if(m_id == 18){
+        else if(m_currentID == 18){
             lastFace = ReefFace.F1;
 
             return ReefFace.F1;
         }
-        else if(m_id == 19){
+        else if(m_currentID == 19){
             lastFace = ReefFace.F2;
 
             return ReefFace.F2;
         }
-        else if(m_id == 20){
+        else if(m_currentID == 20){
             lastFace = ReefFace.F3;
 
             return ReefFace.F3;
         }
-        else if(m_id == 21){
+        else if(m_currentID == 21){
             lastFace = ReefFace.F4;
 
             return ReefFace.F4;
         }
-        else if(m_id == 22){
+        else if(m_currentID == 22){
             lastFace = ReefFace.F5;
 
             return ReefFace.F5;
         }
-        else if(m_id == 6){
+        else if(m_currentID == 6){
             lastFace = ReefFace.F6;
 
             return ReefFace.F6;
         }
-        else if(m_id == 7){
+        else if(m_currentID == 7){
             lastFace = ReefFace.F1;
 
             return ReefFace.F1;
         }
-        else if(m_id == 8){
+        else if(m_currentID == 8){
             lastFace = ReefFace.F2;
 
             return ReefFace.F2;
         }
-        else if(m_id == 9){
+        else if(m_currentID == 9){
             lastFace = ReefFace.F3;
 
             return ReefFace.F3;
         }
-        else if(m_id == 10){
+        else if(m_currentID == 10){
             lastFace = ReefFace.F4;
 
             return ReefFace.F4;
         }
-        else if(m_id == 11){
+        else if(m_currentID == 11){
             lastFace = ReefFace.F5;
 
             return ReefFace.F5;
         }
-        else if(m_id == 12){
+        else if(m_currentID == 12){
             lastFace = ReefFace.HR;
 
             return ReefFace.HR;
         }
-        else if(m_id == 1){
+        else if(m_currentID == 1){
             lastFace = ReefFace.HR;
 
             return ReefFace.HR;
         }
-        else if(m_id == 2){
+        else if(m_currentID == 2){
             lastFace = ReefFace.HL;
 
             return ReefFace.HL;
         }
-        else if(m_id == 13){
+        else if(m_currentID == 13){
             lastFace = ReefFace.HL;
 
             return ReefFace.HL;
