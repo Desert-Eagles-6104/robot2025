@@ -11,196 +11,163 @@ import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
 
-public class VisionSubsystem extends SubsystemBase {
-  /** Creates a new VisionSubsystem. */
-  
-  //First AprilTag Limelight
-  private static CameraSettings m_aprilTagCameraSettings = null;
-  private static double m_tx = 0; //Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
-  private static double m_ty = 0; //Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
-  private double m_lastTy = 0;
-  private double m_lastTx = 0;
-  private static boolean m_tv = false; //Whether the limelight has any valid targets (0 or 1)
-  private static LimelightHelpers.PoseEstimate m_estimatedRobotPose = new LimelightHelpers.PoseEstimate(); 
-  private static double m_currentID = 0;
+public abstract class VisionSubsystem extends SubsystemBase {
+	
+	public static enum CameraType {
+		AprilTagCamera("limelight-april"),
+		GamePieceCamera("limelight");
+
+		final String cameraName;
+
+		CameraType(String cameraName) {
+			this.cameraName = cameraName;
+		}
+	}
+	
+	//First AprilTag Limelight
+	private CameraSettings aprilTagCameraSettings = null;
+
+	/**
+	 * Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+	 */
+	private double tx = 0;
+
+	/**
+	 * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+	 */
+	private double ty = 0;
+	private double lastTy = 0;
+	private double lastTx = 0;
+
+	/**
+	 * Whether the limelight has any valid targets (0 or 1)
+	 */
+	protected boolean tv = false;
+	private PoseEstimate estimatedRobotPose = new PoseEstimate(); 
+	private double currentID = 0;
     
-    private double cropXMin = -1;
-    private double cropXMax = 1;
-    private double cropYMin = -1;
-    private double cropYMax = 1;
+    protected double cropXMin = -1;
+    protected double cropXMax = 1;
+    protected double cropYMin = -1;
+    protected double cropYMax = 1;
     
     double xFOV = 62.5;
     double yFOV = 48.9;
     
-    int regularPipeline = 0;
-    int pipelineX2 = 1;
     
-    int[] visionID = {17,18,19,20,21,22,6,7,8,9,10,11};
     
     int[] localizationVisionID = {17,18,19,20,21,22,6,7,8,9,10,11};
     
     //second limelight values
-    private static double m_TxNote = 0;
-    private static double m_TyNote = 0; 
-    private double m_LastTyNote = 0;
-    private double m_LastTxNote = 0;
-    private static boolean m_TvNote = false; 
+    protected double txNote, tyNote, lastTyNote, lastTxNote;
+    private boolean tvNote = false; 
     
     //*create a new VisionSubsystem constructor to apply the subsystem's properties */
     public VisionSubsystem(CameraSettings aprilTagCameraSettings, CameraSettings gamePieceCameraSettings) {
-      m_aprilTagCameraSettings = aprilTagCameraSettings;
+      this.aprilTagCameraSettings = aprilTagCameraSettings;
       if(aprilTagCameraSettings != null){
-        LimelightHelpers.setCameraPose_RobotSpace(CameraType.AprilTagCamera.getCameraName(), aprilTagCameraSettings.m_forward, aprilTagCameraSettings.m_Side, aprilTagCameraSettings.m_up, aprilTagCameraSettings.m_roll, aprilTagCameraSettings.m_pitch, aprilTagCameraSettings.m_yaw);
-      }
-      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
+			LimelightHelpers.setCameraPose_RobotSpace(
+				CameraType.AprilTagCamera.cameraName,
+				aprilTagCameraSettings.m_forward,
+				aprilTagCameraSettings.m_Side,
+				aprilTagCameraSettings.m_up,
+				aprilTagCameraSettings.m_roll,
+				aprilTagCameraSettings.m_pitch,
+				aprilTagCameraSettings.m_yaw
+			);
+      	}
+      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.cameraName, 0);
     }
   
     @Override
-    public void periodic() {
-      m_tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.getCameraName());
-      if(m_tv){
-        m_tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName(), m_lastTx);
-        m_ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName(), m_lastTy);
-        m_currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
-        m_estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());
-        m_lastTy = m_ty;
-        m_lastTx = m_tx;
-        getID();
-      }
-  
-      SmartDashboard.putString("limeName", CameraType.AprilTagCamera.getCameraName());
-  
-  
-     // m_TvNote = LimelightHelpers.getTV(CameraType.GamePieceCamera.getCameraName());
-     // if(m_TvNote){
-     //   m_TxNote = LimelightHelpers.getTX(CameraType.GamePieceCamera.getCameraName(), m_LastTxNote);
-     //   m_TyNote = LimelightHelpers.getTY(CameraType.GamePieceCamera.getCameraName(), m_LastTyNote);
-     //   m_LastTyNote = m_TyNote;
-     //   m_LastTxNote = m_TxNote;
-     // }
-  
-      //bounding april tag
-      orbitCalculation();
-      //limelight values
-      SmartDashboard.putNumber("TX", getTx());
-      SmartDashboard.putNumber("TY", getTy());
-      SmartDashboard.putBoolean("TV", getTv());
-    }
-  
-    public static LimelightHelpers.PoseEstimate getEstimatedRobotPose(){
-      if(m_estimatedRobotPose == null){
-        PoseEstimate poseEstimate = new PoseEstimate();
-        poseEstimate.pose = new Pose2d();
-        return poseEstimate;
-      }
-      return m_estimatedRobotPose;
-    }
-  
-    public static double getID(){
-      return LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
-    }
+	public void periodic() {
+		updateVisionData();
+
+		SmartDashboard.putString("limeName", CameraType.AprilTagCamera.cameraName);
+
+		orbitCalculation();
+
+		SmartDashboard.putNumber("TX", getTx());
+		SmartDashboard.putNumber("TY", getTy());
+		SmartDashboard.putBoolean("TV", getTv());
+	}
+
+	protected void updateVisionData() {
+		this.tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.cameraName);
+		if (this.tv) {
+			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.cameraName, this.lastTx);
+			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.cameraName, this.lastTy);
+			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.cameraName);
+			this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.cameraName);
+			this.lastTy = this.ty;
+			this.lastTx = this.tx;
+		}
+	}
+	
+	/*
+	 * here we are caculate our crop setting we are doing in by using the camera
+	 * fov and the limelight values to crop the pic we are doing this because
+	 * crop the full picture to maxmize the limelight FPS
+	 */
+	abstract void orbitCalculation();
+	
+	/**
+	 * Returns the estimated robot pose based on the AprilTag camera's data.
+	 * If no pose is estimated, it returns a default PoseEstimate with a zero Pose2d.
+	 * @return
+	 */
+	public PoseEstimate getEstimatedRobotPose() {
+		if (this.estimatedRobotPose == null) {
+			PoseEstimate poseEstimate = new PoseEstimate();
+			poseEstimate.pose = new Pose2d();
+			return poseEstimate;
+		}
+		return this.estimatedRobotPose;
+	}
     
-    public static double getTx(){
-      return m_tx;
-    }
     
-    public static double getTy(){
-      return m_ty + m_aprilTagCameraSettings.m_pitch;
-    }
-  
-    public static boolean getTv(){
-      return m_tv;
-    }
-  
-    public static double getTxNote(){
-      return m_TxNote;
-    }
+    public double getTx(){return this.tx;}
     
-    public static double getTyNote(){
-      return m_TyNote;
-    }
-  
-    public static boolean getTvNote(){
-      return m_TvNote;
-    }
-  
+	public double getTy() {
+		return this.ty + this.aprilTagCameraSettings.m_pitch;
+	}
+	
+	public boolean getTv(){return this.tv;}
+	public double getTxNote(){return this.txNote;}
+	public double getTyNote(){return this.tyNote;}
+	public boolean getTvNote() {return this.tvNote;}
+	
+	/**
+	 * Crops the camera image to the specified window.
+	 * The crop values are in the range of -1.0 to 1.0, where -1.0 is the left/top edge and 1.0 is the right/bottom edge.
+	 * @param cropXMin
+	 * @param cropXMax
+	 * @param cropYMin
+	 * @param cropYMax
+	 */
     public void crop(double cropXMin, double cropXMax, double cropYMin, double cropYMax){
-      LimelightHelpers.setCropWindow(CameraType.AprilTagCamera.getCameraName(), cropXMin, cropXMax, cropYMin, cropYMax);
+      LimelightHelpers.setCropWindow(CameraType.AprilTagCamera.cameraName, cropXMin, cropXMax, cropYMin, cropYMax);
     }
     
     /**
      * @return Total vision latency (photons -> robot) in seconds
      */
-    public static double getTotalLatency() {
+    public double getTotalLatency() {
       double miliToSec = 0.001;
-      return LimelightHelpers.getLatency_Pipeline(CameraType.AprilTagCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.AprilTagCamera.getCameraName()) * miliToSec;
+      return LimelightHelpers.getLatency_Pipeline(CameraType.AprilTagCamera.cameraName) + LimelightHelpers.getLatency_Capture(CameraType.AprilTagCamera.cameraName) * miliToSec;
     }
   
-      /**   
+    /**   
      * @return Total vision latency (photons -> robot) in seconds
-     */
-    public static double getTotalLatencyNote() {
+    */
+    public double getTotalLatencyNote() {
       double miliToSec = 0.001;
-      return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.getCameraName()) * miliToSec;
+      return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.cameraName) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.cameraName) * miliToSec;
     }
   
-    public static double getCurrentID(){
-      return m_currentID;
-  }
-
-  /*
-   * here we are caculate our crop setting we are doing in by using the camera fov and the limelight values to crop the pic
-   * we are doing this because crop the full picture to maxmize the limelight FPS
-   */
-  public void orbitCalculation(){
-    double precentY = 0.5;
-    double precentX = 0.0;
-    double outerLayer = 10.0;
-    double _xFOV = xFOV;
-    double _yFOV = yFOV;
-
-    if(LimelightHelpers.getCurrentPipelineIndex(CameraType.AprilTagCamera.getCameraName()) == pipelineX2){
-      _xFOV = xFOV / 2.0;
-      _yFOV = yFOV / 2.0;
-      outerLayer = outerLayer / 2;
-    }
-
-    if(m_tv){
-      // cropXMin = (m_tx - outerLayer) / (precentX * _xFOV);
-      // cropXMax = (m_tx + outerLayer) / (precentX * _xFOV);
-      // cropYMin = (m_ty - outerLayer) / (precentY * _yFOV);
-      // cropYMax = (m_ty + outerLayer) / (precentY * _yFOV);
-    }
-    else{
-      cropXMin = -1.5;
-      cropXMax = 1.5;
-      cropYMin = -1.5;
-      cropYMax = 1.5;
-    }
-    crop( cropXMin , cropXMax , cropYMin , cropYMax );
-  }
-
-  public static double LockID(){
-    return getCurrentID();
- }
-
-  public void changePiplne(){
-  }
-
-  public enum CameraType{
-    AprilTagCamera("limelight-april"),
-    GamePieceCamera("limelight");
-
-    final String m_cameraName;
-
-    CameraType(String cameraName){
-      m_cameraName = cameraName;
-    }
-
-    public String getCameraName() {
-        return m_cameraName;
-    }
-
-  }
+	public double getCurrentID() {
+		return this.currentID;
+	}
+	
 }
 

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveCommands.TeleopDrive;
-import frc.DELib25.Subsystems.Vision.VisionSubsystem;
+import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
@@ -53,7 +53,7 @@ public class RobotContainer {
   private CommandPS5Controller operatorController = new CommandPS5Controller(1);
   private DriverStationController driverStationController = new DriverStationController(2);
   private SwerveSubsystem m_swerve;
-  private VisionSubsystem m_vision;
+  private VisionSubsystemRobot2025 m_vision;
   private Climb m_climb;
   private ElevatorSubsystem m_elevator;
   private GripperArmSubsystem m_gripperArm;
@@ -74,7 +74,7 @@ public class RobotContainer {
     m_climb = new Climb();
     m_gripper = new GripperSubsystem();
     m_gripper2 = new Gripper2Subsystem();
-    m_vision = new VisionSubsystem(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
+    m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
     m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
     m_isLocalisation = driverStationController.LeftSwitch().negate();
@@ -88,7 +88,7 @@ public class RobotContainer {
     DriverManuals();
     OperatorManuals();
 
-    drivercontroller.R3().whileTrue(new InstantCommand(() -> VisionSubsystem.LockID()));
+    drivercontroller.R3().whileTrue(new InstantCommand(() -> m_vision.getCurrentID()));
 
   }
 
@@ -103,7 +103,12 @@ public class RobotContainer {
 
   public void disableMotors() {
     m_swerve.disableModules();
-    
+
+  }
+
+  // TODO: Phase this out 
+  public VisionSubsystemRobot2025 getVision() {
+    return m_vision;
   }
   
   public void SwerveBinding(){
