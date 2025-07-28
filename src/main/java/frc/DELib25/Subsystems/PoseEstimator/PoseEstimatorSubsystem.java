@@ -42,12 +42,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       VecBuilder.fill(0.1, 0.1, 0.1),
       VecBuilder.fill(0.3, 0.3, 9999999)
     );
-
-    SmartDashboard.putData("Field", this.field);
     
     this.first = true;
     this.tvStableBoolean = new StableBoolean(0.15);
     this.field = new Field2d();
+
+    SmartDashboard.putData("Field", this.field);
 
     this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose history size
   }
