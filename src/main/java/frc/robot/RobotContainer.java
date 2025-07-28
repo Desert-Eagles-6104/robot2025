@@ -113,7 +113,7 @@ public class RobotContainer {
   
   public void SwerveBinding(){
     drivercontroller.R3().toggleOnTrue(new InstantCommand(() -> ReefUtill.Update(drivercontroller.R3())));
-    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve,m_poseEstimator, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
+    m_swerve.setDefaultCommand(new TeleopDrive(m_swerve,m_poseEstimator,m_vision, drivercontroller, drivercontroller.R2(), drivercontroller.create(), drivercontroller.options(), drivercontroller.R1().or(drivercontroller.L1()), drivercontroller.R1().and(drivercontroller.L1().negate()), drivercontroller.L1().and(drivercontroller.R1().negate())));
   }
 
   public void OperatorManuals(){
