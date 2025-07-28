@@ -52,16 +52,15 @@ public class SwerveAutoBuilder {
                         new PIDConstants(6.0, 0.0, 0.0) // Rotation PID constants
                 ),
                 m_robotConfig,
-               () -> {
+               () -> { 
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                 return false;
                     // Boolean supplier that controls when the path will be mirrored for the red alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
                },
                 m_swerve // Reference to this subsystem to set requirements
         );

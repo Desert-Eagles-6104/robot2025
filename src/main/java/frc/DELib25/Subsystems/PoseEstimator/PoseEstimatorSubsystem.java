@@ -34,7 +34,6 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
     else{
       first = false;
     }
-
   }
 
   private static void updateVisionOdometry(){

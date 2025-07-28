@@ -15,42 +15,6 @@
           "data": {
             "pathName": "FromMiddleToReefF4"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "l4"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Score"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FromReefToMiddle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "human"
-          }
         }
       ]
     }

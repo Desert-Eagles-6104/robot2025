@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": " FromMiddleCageToFace3Right"
+            "pathName": "REDLEFTCAGETOFACE5LEFT"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FromL4RightTOHuman"
+                  "pathName": "F5TOHUMAN"
                 }
               },
               {
@@ -38,38 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FromHumanToF6"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "FromF6toHuman"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "HUMAN"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "FromHumanToF6LEFT"
+            "pathName": null
           }
         },
         {

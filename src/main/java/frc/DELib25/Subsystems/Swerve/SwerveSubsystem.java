@@ -116,7 +116,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void addVisionMeasurement(Pose2d visionPose, double timestamp){
-    m_odometry.addVisionMeasurement(visionPose, timestamp, VecBuilder.fill(0.7, 0.7, 9999999));
+    m_odometry.addVisionMeasurement(visionPose, timestamp, VecBuilder.fill(0.8, 0.8, 9999999));
   }
 
   public SwerveDriveKinematics getKinematics(){

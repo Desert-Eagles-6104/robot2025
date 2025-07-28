@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.282751564510464,
-        "y": 2.923807347589263
+        "x": 13.57825,
+        "y": 5.23
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.339549180327869,
-        "y": 1.9810963114754094
+        "x": 15.455660656738113,
+        "y": 5.925714616329466
       },
       "isLocked": false,
-      "linkedName": "F5RIGHT"
+      "linkedName": "REDF2RIGHT"
     },
     {
       "anchor": {
-        "x": 1.726229508196721,
-        "y": 0.68
+        "x": 15.82225,
+        "y": 7.375563524590164
       },
       "prevControl": {
-        "x": 2.2475455418831984,
-        "y": 1.028975207822922
+        "x": 14.605650475918832,
+        "y": 5.687738833294787
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "HumanSecond"
+      "linkedName": "REDHUMAN"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -126.76892932851145
+    "rotation": 53.714598993721154
   },
   "reversed": false,
   "folder": "CoolScoringAutos",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 120.11373315098244
+    "rotation": -118.32400000000001
   },
   "useDefaultConstraints": true
 }

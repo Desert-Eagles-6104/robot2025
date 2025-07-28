@@ -129,7 +129,7 @@ public class RobotContainer {
   public void DriverManuals(){
     drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, 0.6));
     drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
-    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
+    drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.50));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
     // drivercontroller.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
     // drivercontroller.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));

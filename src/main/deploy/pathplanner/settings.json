@@ -3,12 +3,15 @@
   "robotLength": 0.92,
   "holonomicMode": true,
   "pathFolders": [
-    "CoolScoringAutos"
+    "CoolScoringAutos",
+    "LeftBlue",
+    "REDLEFT",
+    "RightBlue"
   ],
   "autoFolders": [
     "CoolAutos"
   ],
-  "defaultMaxVel": 4.0,
+  "defaultMaxVel": 3.5,
   "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

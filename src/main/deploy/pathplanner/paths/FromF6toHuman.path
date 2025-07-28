@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -45,7 +45,7 @@
     "rotation": -126.76892932851145
   },
   "reversed": false,
-  "folder": "CoolScoringAutos",
+  "folder": "RightBlue",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 63.34771627575449

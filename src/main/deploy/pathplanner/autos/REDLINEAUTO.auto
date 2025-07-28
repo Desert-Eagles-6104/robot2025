@@ -7,25 +7,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 7.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FromMiddleToF4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4"
+            "pathName": "REDLINEAUTO"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "CoolAutos",
+  "folder": null,
   "choreoAuto": false
 }

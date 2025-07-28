@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": " FromMiddleCageToFace3Right"
+            "pathName": "REDFromMiddleCageToFace3Left"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FromL4RightTOHuman"
+                  "pathName": "REDFromL4LeftTOHuman"
                 }
               },
               {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FromHumanToF6"
+            "pathName": "REDfromHumanToFaceRight"
           }
         },
         {
@@ -54,7 +54,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FromF6toHuman"
+                  "pathName": "REDfromFace2ToHuman"
                 }
               },
               {
@@ -69,7 +69,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FromHumanToF6LEFT"
+            "pathName": "FromHumanToFace2Left"
           }
         },
         {

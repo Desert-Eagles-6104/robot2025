@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0217214088319038,
-        "y": 0.6699557438792606
+        "x": 2.62275,
+        "y": 1.0414999999999999
       },
       "isLocked": false,
       "linkedName": "HumanSecond"
@@ -20,8 +20,8 @@
         "y": 2.95
       },
       "prevControl": {
-        "x": 2.010143315832726,
-        "y": 1.1944338626201898
+        "x": 2.964,
+        "y": 1.3534999999999986
       },
       "nextControl": null,
       "isLocked": false,
@@ -44,7 +44,7 @@
   ],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -56,7 +56,7 @@
     "rotation": 59.85198017652201
   },
   "reversed": false,
-  "folder": "CoolScoringAutos",
+  "folder": "RightBlue",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -126.76892932851145
