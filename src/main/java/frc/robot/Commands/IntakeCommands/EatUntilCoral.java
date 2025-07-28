@@ -9,12 +9,12 @@ import frc.robot.subsystems.Gripper2Subsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class EatUntilCoral extends Command {
-  private Gripper2Subsystem m_gripper;
+  private Gripper2Subsystem gripper;
   private double m_output = 0.6; //TODO: constants
   
   public EatUntilCoral(Gripper2Subsystem gripper) {
-    m_gripper = gripper;
-    addRequirements(m_gripper);  
+    this.gripper = gripper;
+    addRequirements(gripper);  
   }
 
   @Override
@@ -23,18 +23,18 @@ public class EatUntilCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!Gripper2Subsystem.HasGamePiece()){
-      m_gripper.setPercent(m_output);
+    if(!this.gripper.HasGamePiece()){
+      gripper.setPercent(m_output);
     }
     else{
-      m_gripper.disableMotors();
+      gripper.disableMotors();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_gripper.disableMotors();
+    gripper.disableMotors();
   }
 
   // Returns true when the command should end.

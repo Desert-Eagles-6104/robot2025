@@ -9,17 +9,15 @@ import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfigurat
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 public class ElevatorSubsystem extends MotorSubsystemTalon {
-  private BeamBreakSubsystem m_ElevatorMagnet;
-  private boolean magnetState = false;
+  private BeamBreakSubsystem elevatorMagnet;
   /** Creates a new Elevator. */
   public ElevatorSubsystem(MotorSubsystemConfiguration configuration) {
     super(configuration);  
-    m_ElevatorMagnet = new BeamBreakSubsystem(1);
+    elevatorMagnet = new BeamBreakSubsystem(1);
   }
    public void periodic() {
     super.periodic();
-    magnetState = magnetUpdate();
-    SmartDashboard.putBoolean("magneticSee", magnetState);
+    SmartDashboard.putBoolean("Elevator Magnet", this.getMagnetState());
   }
 
   @Override
@@ -32,12 +30,8 @@ public class ElevatorSubsystem extends MotorSubsystemTalon {
     }
   }
 
-  public boolean magnetUpdate(){
-    return m_ElevatorMagnet.get();
-  }
-
   public boolean getMagnetState(){
-    return magnetState;
+    return this.elevatorMagnet.get();
   }
  
 }
