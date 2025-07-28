@@ -30,7 +30,7 @@ public class ElevatorMagneticHoming extends Command {
     m_elevator.ControlSoftLimit(false);
     done = false;
     if(m_elevator.getPosition()<20){
-    skipSetPosition = true;
+      skipSetPosition = true;
     }
     if(!skipSetPosition){
       m_elevator.setMotionMagicPosition(20);

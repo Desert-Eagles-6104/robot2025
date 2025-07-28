@@ -21,6 +21,8 @@ import frc.DELib25.Util.DriverStationController;
 import frc.DELib25.Util.SwerveAutoBuilder;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
+import frc.robot.subsystems.TestServoSubsystem;
+import frc.robot.Commands.SomeCommand;
 import frc.robot.Commands.Climb.SetPercent;
 import frc.robot.Commands.GripperArmCommands.DisableGripperArm;
 import frc.robot.Commands.GripperCommands.GripperSet;
@@ -31,7 +33,6 @@ import frc.robot.Commands.integrationCommands.Human;
 import frc.robot.Commands.integrationCommands.HumanAuto;
 import frc.robot.Commands.integrationCommands.L2Score;
 import frc.robot.Commands.integrationCommands.L3Score;
-import frc.robot.Commands.integrationCommands.L4Score;
 import frc.robot.Commands.integrationCommands.L4ScoreAuto;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
@@ -113,7 +114,9 @@ public class RobotContainer {
   }
 
   public void OperatorManuals(){
-    operatorController.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,operatorController.L3()));
+    operatorController.triangle().onTrue(new SomeCommand(new TestServoSubsystem(), Constants.TestServo.level2hight));
+
+    //operatorController.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,operatorController.L3()));
     operatorController.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,operatorController.L3()));
     operatorController.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,operatorController.L3()));
     operatorController.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));

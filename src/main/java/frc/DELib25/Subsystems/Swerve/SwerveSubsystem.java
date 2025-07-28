@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private Pigeon m_gyro;
 
   /** Creates a new SwerveSubsystem */
-  private SwerveSubsystem(SwerveConstants swerveConstants) {
+  protected SwerveSubsystem(SwerveConstants swerveConstants) {
     m_swerveConstants = swerveConstants;
     
     Pigeon.CreateInstance(44);

@@ -33,6 +33,12 @@ import frc.DELib25.Sysid.SysidConfiguration;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public final static class TestServo{
+    public static final double level1hight = 1;
+    public static final double level2hight = 2;
+    public static final double level3hight = 3;
+    public static final double level4hight = 4;
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
 
