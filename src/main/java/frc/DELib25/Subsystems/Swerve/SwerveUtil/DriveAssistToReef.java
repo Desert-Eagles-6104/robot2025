@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.robot.ReefUtill;
 import frc.robot.Robot;
+import frc.robot.subsystems.VisionSubsystemRobot2025;
 
 public class DriveAssistToReef {    
 	private final double m_kpSide = 2.6;
@@ -16,20 +17,22 @@ public class DriveAssistToReef {
 	private LinearFilter m_filterSide = LinearFilter.movingAverage(4);
 	private LinearFilter m_filterForward = LinearFilter.movingAverage(4);
 	private PoseEstimatorSubsystem poseEstimator;
-    public DriveAssistToReef(PoseEstimatorSubsystem poseEstimator){
+	private VisionSubsystemRobot2025 visionSubsystem;
+    public DriveAssistToReef(PoseEstimatorSubsystem poseEstimator, VisionSubsystemRobot2025 visionSubsystem){
 		this.poseEstimator = poseEstimator;
+		this.visionSubsystem = visionSubsystem;
     }
 
 	public ChassisSpeeds update(ChassisSpeeds chassisSpeeds, Rotation2d robotHeading, Boolean isLeft, Boolean isRight){
 		ChassisSpeeds toReturn = new ChassisSpeeds();
 		if((isLeft || isRight)){ // removed getTV 
-			Translation2d leftError = this.poseEstimator.getPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointLeft());
-			Translation2d RightError = this.poseEstimator.getPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointRight());
+			Translation2d leftError = this.poseEstimator.getPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision(), this.visionSubsystem).getPointLeft());
+			Translation2d RightError = this.poseEstimator.getPose().getTranslation().minus(ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision(), this.visionSubsystem).getPointRight());
 			Translation2d finalPoint;
 			if(isRight){
 				finalPoint = RightError;
-				SmartDashboard.putNumber("FinalPoint getx", ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointLeft().getX());
-				SmartDashboard.putNumber("FinalPoint gety",  ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision()).getPointLeft().getY());
+				SmartDashboard.putNumber("FinalPoint getx", ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision(), this.visionSubsystem).getPointLeft().getX());
+				SmartDashboard.putNumber("FinalPoint gety",  ReefUtill.getReefFacePoint(ReefUtill.getFaceFromVision(), this.visionSubsystem).getPointLeft().getY());
 				SmartDashboard.putNumber("finalPointErrorX", finalPoint.getX());
 				SmartDashboard.putNumber("finalPointErrorY",finalPoint.getY());
 
