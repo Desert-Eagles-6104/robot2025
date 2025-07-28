@@ -38,16 +38,8 @@ public abstract class VisionSubsystem extends SubsystemBase {
     protected double cropYMin = -1;
     protected double cropYMax = 1;
     
-    double xFOV = 62.5;
-    double yFOV = 48.9;
-    
-    
-    
-    int[] localizationVisionID = {17,18,19,20,21,22,6,7,8,9,10,11};
-    
-    //second limelight values
-    protected double txNote, tyNote, lastTyNote, lastTxNote;
-    private boolean tvNote = false; 
+    protected double xFOV = 62.5;
+    protected double yFOV = 48.9;
     
     //*create a new VisionSubsystem constructor to apply the subsystem's properties */
     public VisionSubsystem(CameraSettings aprilTagCameraSettings, CameraSettings gamePieceCameraSettings) {
@@ -72,8 +64,6 @@ public abstract class VisionSubsystem extends SubsystemBase {
 
 		SmartDashboard.putString("limeName", CameraType.AprilTagCamera.getCameraName());
 
-		orbitCalculation();
-
 		SmartDashboard.putNumber("TX", getTx());
 		SmartDashboard.putNumber("TY", getTy());
 		SmartDashboard.putBoolean("TV", getTv());
@@ -91,12 +81,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
 		}
 	}
 	
-	/*
-	 * here we are caculate our crop setting we are doing in by using the camera
-	 * fov and the limelight values to crop the pic we are doing this because
-	 * crop the full picture to maxmize the limelight FPS
-	 */
-	abstract void orbitCalculation();
+	
 	
 	/**
 	 * Returns the estimated robot pose based on the AprilTag camera's data.
@@ -120,9 +105,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	}
 	
 	public boolean getTv(){return this.tv;}
-	public double getTxNote(){return this.txNote;}
-	public double getTyNote(){return this.tyNote;}
-	public boolean getTvNote() {return this.tvNote;}
+	
 	
 	/**
 	 * Crops the camera image to the specified window.
@@ -142,14 +125,6 @@ public abstract class VisionSubsystem extends SubsystemBase {
     public double getTotalLatency() {
       double miliToSec = 0.001;
       return LimelightHelpers.getLatency_Pipeline(CameraType.AprilTagCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.AprilTagCamera.getCameraName()) * miliToSec;
-    }
-  
-    /**   
-     * @return Total vision latency (photons -> robot) in seconds
-    */
-    public double getTotalLatencyNote() {
-      double miliToSec = 0.001;
-      return LimelightHelpers.getLatency_Pipeline(CameraType.GamePieceCamera.getCameraName()) + LimelightHelpers.getLatency_Capture(CameraType.GamePieceCamera.getCameraName()) * miliToSec;
     }
   
 	public double getCurrentID() {

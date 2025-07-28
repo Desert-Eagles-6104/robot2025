@@ -45,6 +45,10 @@ public class MotorSubsystemHoming extends Command {
 
   @Override
   public boolean isFinished() {
-    return this.subsystemTalon.getMotorCurrent() > this.currentThreshold && this.subsystemTalon.getVelocity() < this.velocityThreshold;
+    boolean currentExceeded = subsystemTalon.getMotorCurrent() > currentThreshold;
+    boolean velocityBelow = subsystemTalon.getVelocity() < velocityThreshold;
+
+    return subsystemTalon.isAtSetpoint() && currentExceeded && velocityBelow;
   }
+
 }

@@ -122,12 +122,18 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     this.gyro.getYawStatusSignal().refresh();
   }
-  /** TODO: rewrite this function properly
   public void zeroHeading(){
-    Rotation2d heading = (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red)) ? Rotation2d.fromDegrees(180) : new Rotation2d();
-    this.poseEstimator.resetOdometry(new Pose2d(this.poseEstimator.getPose().getTranslation(), heading));
+    Rotation2d heading;
+    if(DriverStation.getAlliance().isPresent()
+     && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red))
+     {
+      heading = Rotation2d.fromDegrees(180);
+     }
+      else{
+        heading = new Rotation2d();
+      }
     this.gyro.setYaw(heading.getDegrees());
-  }*/
+  }
 
   public void resetToAbsolute(){
     for (int i = 0; i < this.swerveModules.length; i++){

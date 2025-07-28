@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
 import frc.robot.Robot;
+import frc.robot.subsystems.VisionSubsystemRobot2025;
 
 public class DriveAssistAuto extends Command {
   private SwerveSubsystem swerveSubsystem;

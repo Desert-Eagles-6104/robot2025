@@ -6,6 +6,7 @@ package frc.DELib25.Subsystems.Swerve.SwerveCommands;
 
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -104,7 +105,8 @@ public class TeleopDrive extends Command {
 
   private boolean shouldResetAngle(BooleanSupplier shouldResetYaw){
     if(shouldResetYaw.getAsBoolean()){
-      //m_swerve.zeroHeading();
+      poseEstimator.zeroHeading();
+      m_swerve.zeroHeading();
       return true;
     }
     return false;

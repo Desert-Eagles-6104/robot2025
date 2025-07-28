@@ -8,6 +8,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +17,7 @@ import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Intepulation.InterpolatingDouble;
 import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.DELib25.Subsystems.Vision.VisionSubsystemRobot2025;
+import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
 /** Creates a new PoseEstimator. */
@@ -29,8 +30,8 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private SwerveDrivePoseEstimator odometry;
   private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
-  private VisionSubsystemRobot2025 vision;
-  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystemRobot2025 vision) {
+  private VisionSubsystem vision;
+  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystem vision) {
     this.swerve = swerve;
     this.vision = vision;
 
@@ -91,6 +92,19 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
   public void resetOdometryToPose(Pose2d pose) {
     this.odometry.resetPosition(this.swerve.getGyro().getYaw(), this.swerve.getModulesPositions(), pose);
+  }
+
+  public void zeroHeading() {
+    Rotation2d heading;
+    if(DriverStation.getAlliance().isPresent()
+     && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red))
+     {
+      heading = Rotation2d.fromDegrees(180);
+     }
+      else{
+        heading = new Rotation2d();
+      }
+    this.odometry.resetRotation(heading);
   }
 
   public Pose2d updateOdometry() {
