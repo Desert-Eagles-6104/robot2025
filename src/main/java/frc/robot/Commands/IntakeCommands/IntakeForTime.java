@@ -36,6 +36,11 @@ public class IntakeForTime extends Command {
     m_gripper.setMotorPercent(m_power);
     }
   }
+  
+  @Override 
+  public void execute(){
+    m_gripper.setMotorPercent(m_power);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
