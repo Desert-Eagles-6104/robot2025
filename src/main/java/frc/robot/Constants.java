@@ -1,27 +1,12 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import frc.DELib25.Motors.MotorConstants;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
-import frc.DELib25.Subsystems.Swerve.SwerveConstants;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
-import frc.DELib25.Sysid.SysidConfiguration;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -226,17 +211,5 @@ public final class Constants {
       public static final int frequencyHz = 0;
     }
 
-  public static final SysidConfiguration sysidConfiguration = new SysidConfiguration() {
-    {
-      /** The voltage ramp rate used for quasistatic test routines. */
-      m_rampRate = Volts.of(4).div(Seconds.of(1));
-
-      /** The step voltage output used for dynamic test routines. */
-      m_stepVoltage = Volts.of(3);
-
-      /** Safety timeout for the test routine commands. */
-      m_timeout = Seconds.of(2);
-      //#endregion mechanisem
-    }
-  };
+  
 }

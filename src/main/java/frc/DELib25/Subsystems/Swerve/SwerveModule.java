@@ -43,9 +43,9 @@ public class SwerveModule {
     private final BaseStatusSignal[] odometrySignals;
 
     /* settings */
-    private SwerveConstants m_swerveConstants;// the whole swerve constants
+    private final SwerveConstants m_swerveConstants;// the whole swerve constants
     @SuppressWarnings("unused")
-    private SwerveModuleConstants m_moduleConstants; //this indavidual constants
+    private final SwerveModuleConstants m_moduleConstants; //this indavidual constants
 
     /* drive motor control requests */
     private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
@@ -68,20 +68,18 @@ public class SwerveModule {
 
         m_steeringMotor = new TalonFX(swerveModuleConstants.steeringMotorID, swerveConstants.canBus);
         TalonFXConfiguration steerConfiguration = swerveConstants.steerTalonFXConfigs();
-        if(m_steeringMotor.getIsProLicensed().getValue() && swerveConstants.feedbackSensorSource == FeedbackSensorSourceValue.FusedCANcoder){
+
+        if (m_steeringMotor.getIsProLicensed().getValue() && swerveConstants.feedbackSensorSource == FeedbackSensorSourceValue.FusedCANcoder) {
             // steerConfiguration.Feedback.FeedbackRemoteSensorID = swerveModuleConstants.absoluteEncoderID;
             // steerConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
             // steerConfiguration.Feedback.RotorToSensorRatio = swerveConstants.chosenModule.angleGearRatio;
             // steerConfiguration.Feedback.SensorToMechanismRatio = 1.0;
-            steerConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-            steerConfiguration.Feedback.SensorToMechanismRatio = swerveConstants.angleGearRatio;
-            steerConfiguration.Feedback.RotorToSensorRatio = 1.0;
-        }   
-        else{
-            steerConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-            steerConfiguration.Feedback.SensorToMechanismRatio = swerveConstants.angleGearRatio;
-            steerConfiguration.Feedback.RotorToSensorRatio = 1.0;
         }
+        
+        steerConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        steerConfiguration.Feedback.SensorToMechanismRatio = swerveConstants.angleGearRatio;
+        steerConfiguration.Feedback.RotorToSensorRatio = 1.0;
+
         m_steeringMotor.getConfigurator().apply(steerConfiguration);
 
         m_driveMotor = new TalonFX(swerveModuleConstants.driveMotorID, swerveConstants.canBus);
@@ -107,12 +105,9 @@ public class SwerveModule {
         odometrySignals[2] = m_steerMotorVelocitySignal;
         odometrySignals[3] = m_steerMotorPositionSignal;
 
-        CanBusProperties(250);
+        this.canBusProperties(50);
 
-        m_angleOffset = swerveModuleConstants.angleOffset;
-        setAngleOffset(swerveModuleConstants.angleOffset);
-        resetToAbsolute();
-        resetToAbsolute();
+        this.setAngleOffset(swerveModuleConstants.angleOffset);
     }
 
     /**
@@ -191,7 +186,7 @@ public class SwerveModule {
      */
     public void setAngleOffset(Rotation2d angleOffset){
         m_angleOffset = angleOffset;
-        resetToAbsolute();
+        this.resetToAbsolute();
     }
 
     /**
@@ -204,7 +199,7 @@ public class SwerveModule {
     /**
      *  resets the steering motor's encoder position without any monitoring (בקרה)
      */
-    public void resetAngle(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    public void resetAngle(){
         m_steeringMotor.setPosition(0);
     }
 
@@ -221,26 +216,30 @@ public class SwerveModule {
 
     public void refreshAllSignals(){
         BaseStatusSignal.refreshAll(
-        m_driveMotorPositionSignal,
-        m_driveMotorVelocitySignal,
-        m_driveMotorSupplyCurrentSignal,
-        m_driveMotorClosedLoopErrorSignal,
-        m_steerMotorPositionSignal,
-        m_steerMotorVelocitySignal,
-        m_steerMotorSupplyCurrentSignal,
-        m_steerMotorClosedLoopErrorSignal,
-        m_CANCoderAbsolutePositionSignal);
+            m_driveMotorPositionSignal,
+            m_driveMotorVelocitySignal,
+            m_driveMotorSupplyCurrentSignal,
+            m_driveMotorClosedLoopErrorSignal,
+            m_steerMotorPositionSignal,
+            m_steerMotorVelocitySignal,
+            m_steerMotorSupplyCurrentSignal,
+            m_steerMotorClosedLoopErrorSignal,
+            m_CANCoderAbsolutePositionSignal
+        );
     }
-
-    public void refreshAllSignalsWithoutOdometrySignals(){
+    
+    // TODO: unused
+    public void refreshAllSignalsWithoutOdometrySignals() {
         BaseStatusSignal.refreshAll(
-        m_driveMotorSupplyCurrentSignal,
-        m_driveMotorClosedLoopErrorSignal,
-        m_steerMotorSupplyCurrentSignal,
-        m_steerMotorClosedLoopErrorSignal,
-        m_CANCoderAbsolutePositionSignal);
+            m_driveMotorSupplyCurrentSignal,
+            m_driveMotorClosedLoopErrorSignal,
+            m_steerMotorSupplyCurrentSignal,
+            m_steerMotorClosedLoopErrorSignal,
+            m_CANCoderAbsolutePositionSignal
+        );
     }
-
+    
+    //TODO: unused
     public BaseStatusSignal[] getOdometrySignals(){
         return odometrySignals;
     }
@@ -269,18 +268,21 @@ public class SwerveModule {
             m_driveMotor.setControl(driveVelocity);
         }
     }
+    
+    private void canBusProperties(int canBusFrequency){
+        BaseStatusSignal.setUpdateFrequencyForAll(
+            canBusFrequency, 
+            m_driveMotorPositionSignal,
+            m_driveMotorVelocitySignal,
+            m_driveMotorSupplyCurrentSignal,
+            m_driveMotorClosedLoopErrorSignal,
+            m_steerMotorPositionSignal,
+            m_steerMotorVelocitySignal,
+            m_steerMotorSupplyCurrentSignal,
+            m_steerMotorClosedLoopErrorSignal,
+            m_CANCoderAbsolutePositionSignal
+        );
 
-    private void CanBusProperties(int CanBusFrequency){
-        BaseStatusSignal.setUpdateFrequencyForAll(50, 
-        m_driveMotorPositionSignal,
-        m_driveMotorVelocitySignal,
-        m_driveMotorSupplyCurrentSignal,
-        m_driveMotorClosedLoopErrorSignal,
-        m_steerMotorPositionSignal,
-        m_steerMotorVelocitySignal,
-        m_steerMotorSupplyCurrentSignal,
-        m_steerMotorClosedLoopErrorSignal,
-        m_CANCoderAbsolutePositionSignal);
         m_driveMotor.optimizeBusUtilization();
         m_steeringMotor.optimizeBusUtilization();
         m_absoluteEncoder.optimizeBusUtilization();
