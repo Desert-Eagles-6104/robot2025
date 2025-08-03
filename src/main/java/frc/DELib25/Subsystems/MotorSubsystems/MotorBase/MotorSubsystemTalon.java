@@ -59,7 +59,7 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	 */
 	public MotorSubsystemTalon(MotorSubsystemConfiguration configuration) {
 		this.configuration = configuration;
-		this.masterFx = MotorSubsystemFactory.createTalonFX(configuration);
+		this.masterFx = MotorSubsystemFactory.createTalonFX(configuration.master);
 		if (configuration.slaves != null) {
 			this.slaveFX = MotorSubsystemFactory.createSlaveTalonsFX(configuration);
 		}

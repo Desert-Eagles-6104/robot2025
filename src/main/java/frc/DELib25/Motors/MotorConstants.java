@@ -20,27 +20,27 @@ public class MotorConstants {
      * Ratio between motor rotations and position units (e.g., height of an
      * elevator).
      */
-    public final double rotationsPerPositionUnit = 1.0;
+    public double rotationsPerPositionUnit = 1.0;
 
     /** Ratio between sensor units and mechanism movement. */
-    public final double sensorToMechanismRatio = 1.0;
+    public double sensorToMechanismRatio = 1.0;
 
-    public final PIDContainer pidContainerSlot0 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    public PIDContainer pidContainerSlot0 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-    public final PIDContainer pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    public PIDContainer pidContainerSlot1 = new PIDContainer(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-    public final double motionMagicCruiseVelocity = 0.0;
-    public final double motionMagicAcceleration = 0.0;
-    public final double motionMagicJerk = 0.0;
+    public double motionMagicCruiseVelocity = 0.0;
+    public double motionMagicAcceleration = 0.0;
+    public double motionMagicJerk = 0.0;
 
-    public final int supplyCurrentLimit = 60;
-    public final boolean enableSupplyCurrentLimit = false;
-    public final int statorCurrentLimit = 40;
-    public final boolean enableStatorCurrentLimit = false;
+    public int supplyCurrentLimit = 60;
+    public boolean enableSupplyCurrentLimit = false;
+    public int statorCurrentLimit = 40;
+    public boolean enableStatorCurrentLimit = false;
 
     /** Software limits. Use ERROR_CODE to disable. */
-    public final double forwardSoftLimit = ProjectConstants.ERROR_CODE;
-    public final double reverseSoftLimit = ProjectConstants.ERROR_CODE;
+    public double forwardSoftLimit = ProjectConstants.ERROR_CODE;
+    public double reverseSoftLimit = ProjectConstants.ERROR_CODE;
 
     public MotorConstants(int id, String bus, boolean counterClockwisePositive, boolean isBrake) {
         this.id = id;
@@ -49,9 +49,16 @@ public class MotorConstants {
         this.isBrake = isBrake;
     }
 
-    public TalonFXConfiguration getTalonFXConfiguration() {
+    public TalonFXConfiguration getTalonFXConfig() {
         if (this.talonFXConfiguration == null) {
             this.talonFXConfiguration = createTalonFXConfiguration(this);
+        }
+        return this.talonFXConfiguration;
+    }
+
+    public TalonFXConfiguration getDefaultTalonFXConfig() {
+        if (this.talonFXConfiguration == null) {
+            this.talonFXConfiguration = getDefaultConfig(this);
         }
         return this.talonFXConfiguration;
     }
@@ -94,7 +101,7 @@ public class MotorConstants {
      * on this config and a motor.
      */
     private static TalonFXConfiguration createTalonFXConfiguration(MotorConstants constants) {
-        TalonFXConfiguration talonConfig = new TalonFXConfiguration();
+        TalonFXConfiguration talonConfig = getDefaultConfig(constants);
         // all of these "with" methods are just glorified setters
         talonConfig.MotionMagic
                 .withMotionMagicCruiseVelocity(constants.motionMagicCruiseVelocity * constants.rotationsPerPositionUnit)
@@ -125,4 +132,37 @@ public class MotorConstants {
 
         return talonConfig;
     }
+
+    
+    private static TalonFXConfiguration baseDefaultConfig() {
+        TalonFXConfiguration config = new TalonFXConfiguration();
+
+        config.MotorOutput.DutyCycleNeutralDeadband = 0.01;
+        config.MotorOutput.PeakForwardDutyCycle = 1.0;
+        config.MotorOutput.PeakReverseDutyCycle = -1.0;
+
+        config.CurrentLimits.SupplyCurrentLimit = 40.0;
+        config.CurrentLimits.SupplyCurrentLowerLimit = 60.0;
+        config.CurrentLimits.SupplyCurrentLowerTime = 0.1;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0.0;
+        config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
+
+        config.Feedback.SensorToMechanismRatio = 1.0;
+        config.Audio.BeepOnBoot = true;
+
+        return config;
+    }
+
+    public static TalonFXConfiguration getDefaultConfig(MotorConstants motorConstants) {
+        TalonFXConfiguration config = baseDefaultConfig();
+        config.MotorOutput.NeutralMode = MotorConstants.toNeutralMode(motorConstants.isBrake);
+        config.MotorOutput.Inverted = MotorConstants.toInvertedType(motorConstants.counterClockwisePositive);
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        return config;
+    }
+
 }
