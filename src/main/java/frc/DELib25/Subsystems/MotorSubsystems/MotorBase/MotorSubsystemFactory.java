@@ -3,7 +3,7 @@ package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Motors.motorConfiguration;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Motors.TalonFXFactory;
 import frc.DELib25.Util.ProjectConstants;
@@ -33,8 +33,8 @@ public class MotorSubsystemFactory {
         talonConfiguration.withSlot1(PIDContainer.toSlot1Configs(configuration.pidContainerSlot1));
 
         talonConfiguration.MotorOutput
-            .withInverted(MotorConstants.toInvertedType(configuration.master.CounterClockwisePositive))
-            .withNeutralMode(MotorConstants.toNeturalMode(configuration.master.isBrake));
+            .withInverted(motorConfiguration.toInvertedType(configuration.master.CounterClockwisePositive))
+            .withNeutralMode(motorConfiguration.toNeturalMode(configuration.master.isBrake));
 
         talonConfiguration.Feedback.withSensorToMechanismRatio(configuration.sensorToMechanismRatio);
         
@@ -46,7 +46,7 @@ public class MotorSubsystemFactory {
         if (configuration.slaves != null) {
             TalonFX[] slaveFX = new TalonFX[configuration.slaves.length];
             for (int i = 0; i < configuration.slaves.length; i++) {
-                MotorConstants slaveConstants = configuration.slaves[i];
+                motorConfiguration slaveConstants = configuration.slaves[i];
                 slaveFX[i] = TalonFXFactory.createSlaveTalon(slaveConstants, configuration.master.id,
                         configuration.master.CounterClockwisePositive != slaveConstants.CounterClockwisePositive);
                 slaveFX[i].optimizeBusUtilization();

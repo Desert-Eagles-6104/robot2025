@@ -3,7 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 
-import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Motors.motorConfiguration;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
@@ -33,9 +33,9 @@ public final class Constants {
      
       subsystemName = "Elevator";
 
-      slaves = new MotorConstants[]{new MotorConstants(50,"rio",true,true)};
+      slaves = new motorConfiguration[]{new motorConfiguration(50,"rio",true,true)};
 
-      master = new MotorConstants(51,"rio",true ,true);
+      master = new motorConfiguration(51,"rio",true ,true);
 
       rotationsPerPositionUnit = 1.0 / (0.0363728 * Math.PI);
 
@@ -79,7 +79,7 @@ public final class Constants {
       {
         subsystemName = "gripperArm";
 
-        master = new MotorConstants(1, "rio", true, true);
+        master = new motorConfiguration(1, "rio", true, true);
 
         rotationsPerPositionUnit = 1.0 / 360.0;
 
@@ -131,7 +131,7 @@ public final class Constants {
 
       // slaves = new MotorConstants[]{new MotorConstants(51,"rio",true,true)};
 
-      master = new MotorConstants(4,"rio",true ,true);
+      master = new motorConfiguration(4,"rio",true ,true);
       
       rotationsPerPositionUnit = 1.0/360.0;
 

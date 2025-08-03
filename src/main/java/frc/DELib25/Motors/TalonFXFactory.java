@@ -9,19 +9,19 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.DELib25.Util.PhoneixUtil;
 
 public class TalonFXFactory {
-    public static TalonFX createTalonFX(MotorConstants motorConstants, boolean useDefaultConfig){
+    public static TalonFX createTalonFX(motorConfiguration motorConstants, boolean useDefaultConfig){
         TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
         if(useDefaultConfig) PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(getDefaultConfig(motorConstants))); 
         return talon;
     }
 
-    public static TalonFX createTalonFX(MotorConstants motorConstants, TalonFXConfiguration configuration){
+    public static TalonFX createTalonFX(motorConfiguration motorConstants, TalonFXConfiguration configuration){
         TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
         PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(configuration));
         return talon;
     }
 
-    public static TalonFX createSlaveTalon(MotorConstants slave, int masterId, boolean opposeMasterDirection){
+    public static TalonFX createSlaveTalon(motorConfiguration slave, int masterId, boolean opposeMasterDirection){
         TalonFX talon = createTalonFX(slave, true);
         PhoneixUtil.checkErrorAndRetry(() -> talon.setControl(new Follower(masterId, opposeMasterDirection)));
         return talon;
@@ -58,10 +58,10 @@ public class TalonFXFactory {
         return config;
     }
 
-    public static TalonFXConfiguration getDefaultConfig(MotorConstants motorConstants) {
+    public static TalonFXConfiguration getDefaultConfig(motorConfiguration motorConstants) {
         TalonFXConfiguration config = baseDefaultConfig();
-        config.MotorOutput.NeutralMode = MotorConstants.toNeturalMode(motorConstants.isBrake);
-        config.MotorOutput.Inverted = MotorConstants.toInvertedType(motorConstants.CounterClockwisePositive);
+        config.MotorOutput.NeutralMode = motorConfiguration.toNeturalMode(motorConstants.isBrake);
+        config.MotorOutput.Inverted = motorConfiguration.toInvertedType(motorConstants.CounterClockwisePositive);
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         return config;
     }

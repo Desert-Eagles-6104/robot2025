@@ -9,13 +9,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 /** Add your docs here. */
-public class MotorConstants {
+public class motorConfiguration {
     public int id = -1;
     public String bus = "";
     public boolean CounterClockwisePositive = false;
     public boolean isBrake = false;
 
-    public MotorConstants(int id, String bus, boolean CounterClockwisePositive, boolean isBrake){
+    public motorConfiguration(int id, String bus, boolean CounterClockwisePositive, boolean isBrake){
         this.id = id;
         this.bus = bus;
         this.CounterClockwisePositive = CounterClockwisePositive;

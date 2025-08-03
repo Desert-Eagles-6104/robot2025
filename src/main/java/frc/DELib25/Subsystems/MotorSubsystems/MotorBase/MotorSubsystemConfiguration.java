@@ -1,6 +1,6 @@
 package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 
-import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Motors.motorConfiguration;
 import frc.DELib25.Util.ProjectConstants;
 import frc.DELib25.Motors.PIDContainer;
  
@@ -8,9 +8,9 @@ public class MotorSubsystemConfiguration {
 
     public String subsystemName = ""; 
 
-    public MotorConstants master = new MotorConstants(-1,"",false,false); // generic config of the master
+    public motorConfiguration master = new motorConfiguration(-1,"",false,false); // generic config of the master
 
-    public MotorConstants slaves[] = null;
+    public motorConfiguration slaves[] = null;
 
     public double rotationsPerPositionUnit = 1.0; // the ration between the rotations of the motor to the position of the system. i.e in an elevator it is the ration between the rotation of the motor to the height of the carriage.
 
