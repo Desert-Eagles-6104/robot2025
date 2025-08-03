@@ -8,14 +8,13 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-/** Add your docs here. */
-public class motorConfiguration {
-    public int id = -1;
-    public String bus = "";
-    public boolean CounterClockwisePositive = false;
-    public boolean isBrake = false;
+public class MotorConfiguration {
+    public int id;
+    public String bus;
+    public boolean CounterClockwisePositive;
+    public boolean isBrake;
 
-    public motorConfiguration(int id, String bus, boolean CounterClockwisePositive, boolean isBrake){
+    public MotorConfiguration(int id, String bus, boolean CounterClockwisePositive, boolean isBrake) {
         this.id = id;
         this.bus = bus;
         this.CounterClockwisePositive = CounterClockwisePositive;
@@ -24,10 +23,11 @@ public class motorConfiguration {
 
     /**
      * for talonFX
+     * 
      * @param CounterClockwisePositive
      * @return
      */
-    public static InvertedValue toInvertedType(boolean CounterClockwisePositive){
+    public static InvertedValue toInvertedType(boolean CounterClockwisePositive) {
         if (CounterClockwisePositive) {
             return InvertedValue.CounterClockwise_Positive;
         }
@@ -36,17 +36,18 @@ public class motorConfiguration {
 
     /**
      * for TalonFX
+     * 
      * @param isBrake
      * @return
      */
-    public static NeutralModeValue toNeturalMode(boolean isBrake){
+    public static NeutralModeValue toNeutralMode(boolean isBrake) {
         if (isBrake) {
             return NeutralModeValue.Brake;
         }
         return NeutralModeValue.Coast;
     }
 
-    public static IdleMode toIdleMode(boolean isBrake){
+    public static IdleMode toIdleMode(boolean isBrake) {
         if (isBrake) {
             return IdleMode.kBrake;
         }

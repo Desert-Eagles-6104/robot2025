@@ -9,24 +9,24 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.DELib25.Util.PhoneixUtil;
 
 public class TalonFXFactory {
-    public static TalonFX createTalonFX(motorConfiguration motorConstants, boolean useDefaultConfig){
+    public static TalonFX createTalonFX(MotorConfiguration motorConstants) {
         TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
-        if(useDefaultConfig) PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(getDefaultConfig(motorConstants))); 
+        PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(getDefaultConfig(motorConstants)));
         return talon;
     }
 
-    public static TalonFX createTalonFX(motorConfiguration motorConstants, TalonFXConfiguration configuration){
+    public static TalonFX createTalonFX(MotorConfiguration motorConstants, TalonFXConfiguration configuration) {
         TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
         PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(configuration));
         return talon;
     }
 
-    public static TalonFX createSlaveTalon(motorConfiguration slave, int masterId, boolean opposeMasterDirection){
-        TalonFX talon = createTalonFX(slave, true);
+    public static TalonFX createSlaveTalon(MotorConfiguration slave, int masterId, boolean opposeMasterDirection) {
+        TalonFX talon = createTalonFX(slave);
         PhoneixUtil.checkErrorAndRetry(() -> talon.setControl(new Follower(masterId, opposeMasterDirection)));
         return talon;
     }
-    
+
     private static TalonFXConfiguration baseDefaultConfig() {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
@@ -58,15 +58,15 @@ public class TalonFXFactory {
         return config;
     }
 
-    public static TalonFXConfiguration getDefaultConfig(motorConfiguration motorConstants) {
+    public static TalonFXConfiguration getDefaultConfig(MotorConfiguration motorConstants) {
         TalonFXConfiguration config = baseDefaultConfig();
-        config.MotorOutput.NeutralMode = motorConfiguration.toNeturalMode(motorConstants.isBrake);
-        config.MotorOutput.Inverted = motorConfiguration.toInvertedType(motorConstants.CounterClockwisePositive);
+        config.MotorOutput.NeutralMode = MotorConfiguration.toNeutralMode(motorConstants.isBrake);
+        config.MotorOutput.Inverted = MotorConfiguration.toInvertedType(motorConstants.CounterClockwisePositive);
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         return config;
     }
 
-    private static TalonFX createTalonFX(int id, String bus){
+    private static TalonFX createTalonFX(int id, String bus) {
         TalonFX talon = new TalonFX(id, bus);
         talon.clearStickyFaults();
         return talon;
