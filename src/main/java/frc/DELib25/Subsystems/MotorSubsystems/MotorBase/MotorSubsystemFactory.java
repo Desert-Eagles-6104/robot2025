@@ -3,43 +3,79 @@ package frc.DELib25.Subsystems.MotorSubsystems.MotorBase;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import frc.DELib25.Motors.MotorConfiguration;
-import frc.DELib25.Motors.PIDContainer;
-import frc.DELib25.Motors.TalonFXFactory;
-import frc.DELib25.Util.ProjectConstants;
+import frc.DELib25.Motors.MotorConstants;
+import frc.DELib25.Util.PhoneixUtil;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 
 public class MotorSubsystemFactory {
+    public static TalonFX createTalonFX(MotorConstants motorConstants) {
+        TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
+        PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(getDefaultConfig(motorConstants)));
+        return talon;
+    }
+
+    public static TalonFX createTalonFX(MotorConstants motorConstants, TalonFXConfiguration configuration) {
+        TalonFX talon = createTalonFX(motorConstants.id, motorConstants.bus);
+        PhoneixUtil.checkErrorAndRetry(() -> talon.getConfigurator().apply(configuration));
+        return talon;
+    }
+
+    public static TalonFX createSlaveTalon(MotorConstants slave, int masterId, boolean opposeMasterDirection) {
+        TalonFX talon = createTalonFX(slave);
+        PhoneixUtil.checkErrorAndRetry(() -> talon.setControl(new Follower(masterId, opposeMasterDirection)));
+        return talon;
+    }
+
+    private static TalonFXConfiguration baseDefaultConfig() {
+        TalonFXConfiguration config = new TalonFXConfiguration();
+
+        config.MotorOutput.DutyCycleNeutralDeadband = 0.01;
+        config.MotorOutput.PeakForwardDutyCycle = 1.0;
+        config.MotorOutput.PeakReverseDutyCycle = -1.0;
+
+        config.CurrentLimits.SupplyCurrentLimit = 40.0;
+        config.CurrentLimits.SupplyCurrentLowerLimit = 60.0;
+        config.CurrentLimits.SupplyCurrentLowerTime = 0.1;
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+        config.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+        config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 0.0;
+        config.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+        config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
+
+        config.Feedback.SensorToMechanismRatio = 1.0;
+        config.Audio.BeepOnBoot = true;
+
+        return config;
+    }
+
+    public static TalonFXConfiguration getDefaultConfig() {
+        TalonFXConfiguration config = baseDefaultConfig();
+        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        config.CurrentLimits.StatorCurrentLimitEnable = false;
+        return config;
+    }
+
+    public static TalonFXConfiguration getDefaultConfig(MotorConstants motorConstants) {
+        TalonFXConfiguration config = baseDefaultConfig();
+        config.MotorOutput.NeutralMode = MotorConstants.toNeutralMode(motorConstants.isBrake);
+        config.MotorOutput.Inverted = MotorConstants.toInvertedType(motorConstants.counterClockwisePositive);
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        return config;
+    }
+
+    private static TalonFX createTalonFX(int id, String bus) {
+        TalonFX talon = new TalonFX(id, bus);
+        talon.clearStickyFaults();
+        return talon;
+    }
 
     public static TalonFX createTalonFX(MotorSubsystemConfiguration configuration) {
-
-        TalonFXConfiguration talonConfiguration = TalonFXFactory.getDefaultConfig();
-        talonConfiguration.MotionMagic
-                .withMotionMagicCruiseVelocity(configuration.motionMagicCruiseVelocity * configuration.rotationsPerPositionUnit)
-                .withMotionMagicAcceleration(configuration.motionMagicAcceleration * configuration.rotationsPerPositionUnit)
-                .withMotionMagicJerk(configuration.motionMagicJerk * configuration.rotationsPerPositionUnit);
-
-        talonConfiguration.SoftwareLimitSwitch
-                .withForwardSoftLimitEnable(configuration.forwardSoftLimit != ProjectConstants.ERROR_CODE)
-                .withForwardSoftLimitThreshold(configuration.forwardSoftLimit * configuration.rotationsPerPositionUnit)
-                .withReverseSoftLimitEnable(configuration.reverseSoftLimit != ProjectConstants.ERROR_CODE)
-                .withReverseSoftLimitThreshold(configuration.reverseSoftLimit * configuration.rotationsPerPositionUnit);
-
-        talonConfiguration.CurrentLimits
-                .withStatorCurrentLimitEnable(configuration.enableStatorCurrentLimit)
-                .withStatorCurrentLimit(configuration.statorCurrentLimit)
-                .withSupplyCurrentLimitEnable(configuration.enableSupplyCurrentLimit)
-                .withSupplyCurrentLimit(configuration.supplyCurrentLimit);
-
-        talonConfiguration.withSlot0(PIDContainer.toSlot0Configs(configuration.pidContainerSlot0));
-        talonConfiguration.withSlot1(PIDContainer.toSlot1Configs(configuration.pidContainerSlot1));
-
-        talonConfiguration.MotorOutput
-                .withInverted(MotorConfiguration.toInvertedType(configuration.master.CounterClockwisePositive))
-                .withNeutralMode(MotorConfiguration.toNeutralMode(configuration.master.isBrake));
-
-        talonConfiguration.Feedback.withSensorToMechanismRatio(configuration.sensorToMechanismRatio);
-
-        TalonFX talon = TalonFXFactory.createTalonFX(configuration.master, talonConfiguration);
+        TalonFX talon = createTalonFX(configuration.master, configuration.master.getTalonFXConfiguration());
         return talon;
     }
 
@@ -47,9 +83,9 @@ public class MotorSubsystemFactory {
         if (configuration.slaves != null) {
             TalonFX[] slaveFX = new TalonFX[configuration.slaves.length];
             for (int i = 0; i < configuration.slaves.length; i++) {
-                MotorConfiguration slaveConstants = configuration.slaves[i];
-                slaveFX[i] = TalonFXFactory.createSlaveTalon(slaveConstants, configuration.master.id,
-                        configuration.master.CounterClockwisePositive != slaveConstants.CounterClockwisePositive);
+                MotorConstants slaveConstants = configuration.slaves[i];
+                slaveFX[i] = createSlaveTalon(slaveConstants, configuration.master.id,
+                        configuration.master.counterClockwisePositive != slaveConstants.counterClockwisePositive);
                 slaveFX[i].optimizeBusUtilization();
             }
             return slaveFX;
