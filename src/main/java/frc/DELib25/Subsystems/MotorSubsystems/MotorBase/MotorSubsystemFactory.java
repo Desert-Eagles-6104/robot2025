@@ -16,7 +16,6 @@ public class MotorSubsystemFactory {
     }
 
     public static TalonFX createSlaveTalon(MotorConstants slave, int masterId, boolean opposeMasterDirection) {
-        slave.getDefaultTalonFXConfig(); // Ensure the configuration is initialized and if not, create it with default values.
         TalonFX talon = createTalonFX(slave);
         PhoneixUtil.checkErrorAndRetry(() -> talon.setControl(new Follower(masterId, opposeMasterDirection)));
         return talon;

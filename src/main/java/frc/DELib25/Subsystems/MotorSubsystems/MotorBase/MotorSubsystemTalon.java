@@ -121,11 +121,11 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	}
 
 	public double toRotations(double units) {
-		return units * this.configuration.rotationsPerPositionUnit;
+		return units * this.configuration.master.rotationsPerPositionUnit;
 	}
 
 	public double fromRotations(double rotations) {
-		return rotations / this.configuration.rotationsPerPositionUnit;
+		return rotations / this.configuration.master.rotationsPerPositionUnit;
 	}
 
 	public void setMotionMagicPosition(double position) {
@@ -141,7 +141,7 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	public void ControlSoftLimit(boolean enableSoftLimit) {
 		this.masterFx.getConfigurator().apply(new SoftwareLimitSwitchConfigs()
 			.withForwardSoftLimitEnable(enableSoftLimit)
-			.withForwardSoftLimitThreshold(this.configuration.forwardSoftLimit)
+			.withForwardSoftLimitThreshold(this.configuration.master.forwardSoftLimit)
 		);
 	}
 
