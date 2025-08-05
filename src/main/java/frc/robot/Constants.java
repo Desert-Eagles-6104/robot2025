@@ -37,17 +37,15 @@ public final class Constants {
 		homePosition = 0.0;
 
 		slaves = new MotorConstants[]{
-			new MotorConstants(50,"rio",true, MotorConstants.createSlaveTalonFXConfiguration(
-				true,
-				40,
-				true,
-				40,
-				true
-			))
+			new MotorConstants(50,"rio",true, true,
+			40,
+			true,
+			40,
+			true)
 		};
 
-		master = new MotorConstants(51, "rio", true, 1.0 / (0.0363728 * Math.PI),MotorConstants.createTalonFXConfiguration(
-			true,
+		master = new MotorConstants(
+			51, "rio", true, true,
 			1.0 / (0.0363728 * Math.PI),
 			10.2857142857,
 			new PIDContainer[]{new PIDContainer(0, 1.2733, 0.060729, 0.334, 0.15, 0.0, 0.0)},
@@ -60,7 +58,8 @@ public final class Constants {
 			true,
 			0.70,
 			0.0
-		));
+		);
+
 		}};
 	}
 
@@ -74,33 +73,24 @@ public final class Constants {
 
 			angleOffset = 0.163;
 
-			master = new MotorConstants(1, "rio", true, true){{
-					rotationsPerPositionUnit = 1.0 / 360.0;
-
-					sensorToMechanismRatio = 2.28;
-			
-					pidContainerSlot0 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
-			
-					pidContainerSlot1 = new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine);
-			
-					motionMagicCruiseVelocity = 35000;
-			
-					motionMagicAcceleration = 30000;
-			
-					motionMagicJerk = 360;
-			
-					supplyCurrentLimit = 55;
-			
-					enableSupplyCurrentLimit = true;
-			
-					statorCurrentLimit = 35;
-			
-					enableStatorCurrentLimit = false;
-			
-					forwardSoftLimit = 36.5;
-			
-					reverseSoftLimit = -89.5;
-			}};
+			master = new MotorConstants(
+				1, "rio", true, true,
+				1.0 / 360.0,
+				2.28,
+				new PIDContainer[]{
+					new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine),
+					new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine)
+				},
+				35000,
+				30000,
+				360,
+				55,
+				true,
+				35,
+				false,
+				36.5,
+				-89.5
+			);
 		}};
 	}	
 
@@ -113,33 +103,24 @@ public final class Constants {
 		allowableError = 2.0;
 
 		homePosition = 0;
-		master = new MotorConstants(4,"rio",true ,true){{
-				rotationsPerPositionUnit = 1.0/360.0;
-
-				sensorToMechanismRatio = 20;
-
-				pidContainerSlot0 = new PIDContainer(0, 0.0, 0.0, 0.65, 400.0, 0.0, 0.0);
-
-				pidContainerSlot1 = new PIDContainer(0, 0.0, 0.0, 0.65, 3, 0.0, 0.0);
-
-				motionMagicCruiseVelocity = 10000;
-
-				motionMagicAcceleration = 15000;
-
-				motionMagicJerk = 20000;
-
-				supplyCurrentLimit = 60;
-
-				enableSupplyCurrentLimit = true;
-
-				statorCurrentLimit = 40;
-
-				enableStatorCurrentLimit = false;
-
-				forwardSoftLimit = 105.0;
-
-				reverseSoftLimit = 0.0;
-			}};
+		master = new MotorConstants(
+			4,"rio",true ,true,
+			1.0/360.0,
+			20,
+			new PIDContainer[]{
+				new PIDContainer(0, 0.0, 0.0, 0.65, 400.0, 0.0, 0.0),
+				new PIDContainer(0, 0.0, 0.0, 0.65, 3, 0.0, 0.0)
+			},
+			10000,
+			15000,
+			20000,
+			60,
+			true,
+			40,
+			false,
+			105.0,
+			0.0
+		);
 		}};
 	}
 
