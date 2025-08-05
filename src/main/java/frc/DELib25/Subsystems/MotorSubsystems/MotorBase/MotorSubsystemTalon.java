@@ -140,8 +140,8 @@ public class MotorSubsystemTalon extends SubsystemBase {
 
 	public void ControlSoftLimit(boolean enableSoftLimit) {
 		this.masterFx.getConfigurator().apply(new SoftwareLimitSwitchConfigs()
-			.withForwardSoftLimitEnable(enableSoftLimit)
-			.withForwardSoftLimitThreshold(this.configuration.master.forwardSoftLimit)
+			.withForwardSoftLimitEnable(enableSoftLimit) // The initial value given to the configuration.
+			.withForwardSoftLimitThreshold(this.configuration.master.getTalonFXConfig().SoftwareLimitSwitch.ForwardSoftLimitThreshold)
 		);
 	}
 

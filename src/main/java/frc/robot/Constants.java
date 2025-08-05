@@ -36,34 +36,31 @@ public final class Constants {
 
 		homePosition = 0.0;
 
-		slaves = new MotorConstants[]{new MotorConstants(50,"rio",true,true)};
+		slaves = new MotorConstants[]{
+			new MotorConstants(50,"rio",true, MotorConstants.createSlaveTalonFXConfiguration(
+				true,
+				40,
+				true,
+				40,
+				true
+			))
+		};
 
-		master = new MotorConstants(51, "rio", true, true){{
-				rotationsPerPositionUnit = 1.0 / (0.0363728 * Math.PI);
-
-				sensorToMechanismRatio = 10.2857142857;
-
-				pidContainerSlot0 = new PIDContainer(0, 1.2733, 0.060729, 0.334, 0.15, 0.0, 0.0);
-
-				motionMagicCruiseVelocity = 3;
-
-				motionMagicAcceleration = 6;
-
-				motionMagicJerk = 9;
-
-				supplyCurrentLimit = 40;
-
-				enableSupplyCurrentLimit = true;
-
-				statorCurrentLimit = 40;
-
-				enableStatorCurrentLimit = true;
-
-				forwardSoftLimit = 0.70;
-
-				reverseSoftLimit = 0.0;
-			}};
-
+		master = new MotorConstants(51, "rio", true, 1.0 / (0.0363728 * Math.PI),MotorConstants.createTalonFXConfiguration(
+			true,
+			1.0 / (0.0363728 * Math.PI),
+			10.2857142857,
+			new PIDContainer[]{new PIDContainer(0, 1.2733, 0.060729, 0.334, 0.15, 0.0, 0.0)},
+			3,
+			6,
+			9,
+			40,
+			true,
+			40,
+			true,
+			0.70,
+			0.0
+		));
 		}};
 	}
 
