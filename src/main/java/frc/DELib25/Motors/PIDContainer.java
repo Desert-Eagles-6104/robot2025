@@ -82,13 +82,4 @@ public class PIDContainer
         .withGravityType(pidContainer.gravityTypeValue);
     }
     
-/* 
-    public static SparkPIDController toSparkPIDController(PIDContainer pidContainer, CANSparkBase controller){
-        SparkPIDController sparkPIDController = controller.getPIDController();
-        sparkPIDController.setP(pidContainer.kP);
-        sparkPIDController.setI(pidContainer.kI);
-        sparkPIDController.setD(pidContainer.kD);
-        sparkPIDController.setOutputRange(-1, 1);
-        return sparkPIDController;
-    }*/
 }

@@ -19,6 +19,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.Util.ProjectConstants;
 
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -137,11 +138,19 @@ public class MotorSubsystemTalon extends SubsystemBase {
 		this.setpoint = position;
 		this.masterFx.setControl(this.positionVoltageRequest.withPosition(toRotations(position)).withSlot(1));
 	}
-
+	
 	public void ControlSoftLimit(boolean enableSoftLimit) {
+		double forwardSoftLimitThreshold = this.configuration.master.getTalonFXConfig().SoftwareLimitSwitch.ForwardSoftLimitThreshold;
+		if (forwardSoftLimitThreshold == ProjectConstants.ERROR_CODE) {
+			throw new IllegalStateException("Software Limit Switch configuration is not set for the master motor.");
+		}
+		this.ControlSoftLimit(enableSoftLimit, forwardSoftLimitThreshold);
+	}
+
+	public void ControlSoftLimit(boolean enableSoftLimit,double forwardSoftLimitThreshold) {
 		this.masterFx.getConfigurator().apply(new SoftwareLimitSwitchConfigs()
 			.withForwardSoftLimitEnable(enableSoftLimit) // The initial value given to the configuration.
-			.withForwardSoftLimitThreshold(this.configuration.master.getTalonFXConfig().SoftwareLimitSwitch.ForwardSoftLimitThreshold)
+			.withForwardSoftLimitThreshold(forwardSoftLimitThreshold)
 		);
 	}
 
