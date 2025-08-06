@@ -88,9 +88,9 @@ public final class Constants {
 				getDefaultTalonConfig(true,40,40)
 				.withMotionMagic(
 					new MotionMagicConfigs()
-						.withMotionMagicCruiseVelocity(3.0 / (0.0363728 * Math.PI))
-						.withMotionMagicAcceleration(6.0 / (0.0363728 * Math.PI))
-						.withMotionMagicJerk(9.0 / (0.0363728 * Math.PI))
+						.withMotionMagicCruiseVelocity(26.258498391329568)
+						.withMotionMagicAcceleration(52.516996782659136)
+						.withMotionMagicJerk(78.7754951739887)
 				).withSlot0(
 					PIDContainer.toSlot0Configs(new PIDContainer(0, 1.2733, 0.060729, 0.334, 0.15, 0.0, 0.0))
 				).withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(10.2857142857)
