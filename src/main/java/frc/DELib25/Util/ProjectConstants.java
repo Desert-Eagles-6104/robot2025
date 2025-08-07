@@ -6,6 +6,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.Swerve.SwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
@@ -103,15 +104,28 @@ public class ProjectConstants {
                 maxSpeed = 4.9; //TODO: This must be tuned to specific robot
                 /** Radians per Second */
                 maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
-
                 /* Neutral Modes */
                 angleNeutralMode = NeutralMode.Coast;
                 driveNeutralMode = NeutralMode.Brake;
-
-                FL = new SwerveModuleConstants(10, 11, 12, Rotation2d.fromRotations(0.110840), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontLeftPos); //TODO: update  the module offsets 
-                FR = new SwerveModuleConstants(20, 21, 22, Rotation2d.fromRotations(0.265869), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), frontRightPos); //TODO: update  the module offsets
-                BL = new SwerveModuleConstants(30, 31, 32, Rotation2d.fromRotations(-0.269043), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backLeftPos); //TODO: update  the module offsets
-                BR = new SwerveModuleConstants(40, 41, 42, Rotation2d.fromRotations(-0.158936), new Slot0Configs().withKS(driveKS).withKV(driveKV).withKA(driveKA).withKP(driveKP).withKD(driveKD).withKD(driveKD), backRightPos); //TODO: update  the module offsets
+                FL = new SwerveModuleConstants(
+                    10, 11, 12, Rotation2d.fromRotations(0.110840), 
+                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)),
+                    frontLeftPos
+                    ); //TODO: update  the module offsets 
+                FR = new SwerveModuleConstants(
+                    20, 21, 22, Rotation2d.fromRotations(0.265869), 
+                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    frontRightPos
+                    ); //TODO: update  the module offsets
+                BL = new SwerveModuleConstants(
+                    30, 31, 32, Rotation2d.fromRotations(-0.269043), PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    backLeftPos
+                    ); //TODO: update  the module offsets
+                BR = new SwerveModuleConstants(
+                    40, 41, 42, Rotation2d.fromRotations(-0.158936),
+                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    backRightPos
+                    ); //TODO: update  the module offsets
             }
         };
     }

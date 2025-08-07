@@ -107,6 +107,9 @@ public class SwerveConstants {
 
     public String filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
 
+    private TalonFXConfiguration driveTalonFXConfigs;
+    private TalonFXConfiguration steerTalonFXConfigs;
+
     public TalonFXConfiguration driveTalonFXConfigs(){
         TalonFXConfiguration configs = new TalonFXConfiguration();
         /** Swerve Drive Motor Configuration */
