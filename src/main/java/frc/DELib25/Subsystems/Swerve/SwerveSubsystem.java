@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
     this.swerveModules[2] = this.backLeft;
     this.swerveModules[3] = this.backRight;
 
-    this.kinematics = new SwerveDriveKinematics(swerveConstants.frontLeftPos, swerveConstants.frontRightPos, swerveConstants.backLeftPos, swerveConstants.backRightPos);
+    this.kinematics = new SwerveDriveKinematics(swerveConstants.getModulesPositions());
     // readAngleOffsets();
 
     // try {

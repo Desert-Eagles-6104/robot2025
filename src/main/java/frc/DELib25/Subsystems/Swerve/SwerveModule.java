@@ -67,7 +67,7 @@ public class SwerveModule {
         m_absoluteEncoder.getConfigurator().apply(swerveConstants.canCoderConfigs());
 
         m_steeringMotor = new TalonFX(swerveModuleConstants.steeringMotorID, swerveConstants.canBus);
-        TalonFXConfiguration steerConfiguration = swerveConstants.steerTalonFXConfigs();
+        TalonFXConfiguration steerConfiguration = swerveConstants.getAngleTalonFXConfiguration();
 
         if (m_steeringMotor.getIsProLicensed().getValue() && swerveConstants.feedbackSensorSource == FeedbackSensorSourceValue.FusedCANcoder) {
             // steerConfiguration.Feedback.FeedbackRemoteSensorID = swerveModuleConstants.absoluteEncoderID;
@@ -77,13 +77,12 @@ public class SwerveModule {
         }
         
         steerConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        steerConfiguration.Feedback.SensorToMechanismRatio = swerveConstants.angleGearRatio;
         steerConfiguration.Feedback.RotorToSensorRatio = 1.0;
 
         m_steeringMotor.getConfigurator().apply(steerConfiguration);
 
         m_driveMotor = new TalonFX(swerveModuleConstants.driveMotorID, swerveConstants.canBus);
-        m_driveMotor.getConfigurator().apply(swerveConstants.driveTalonFXConfigs());
+        m_driveMotor.getConfigurator().apply(swerveConstants.getDriveTalonFXConfigs());
         m_driveMotor.getConfigurator().setPosition(0.0);
 
         m_driveMotorPositionSignal = m_driveMotor.getPosition();

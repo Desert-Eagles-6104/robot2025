@@ -42,7 +42,8 @@ public class ProjectConstants {
                     .withSupplyCurrentLimit(40)
                     .withSupplyCurrentLowerLimit(60)
                     .withSupplyCurrentLowerTime(0.1)
-            ).withSlot0(
+            ).withSlot0(/* Drive Motor Characterization Values 
+            * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
                 PIDContainer.toSlot0Configs(new PIDContainer(0, 0, 0, 0, 3,0, 0))
             ).withOpenLoopRamps(/* These values are used by the drive falcon to ramp in open loop and closed loop driving.
             * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
@@ -59,7 +60,7 @@ public class ProjectConstants {
             .withMotorOutput(
                 new MotorOutputConfigs()
                     .withInverted(chosenModule.angleMotorInvert)
-                    .withNeutralMode(NeutralModeValue.Brake)
+                    .withNeutralMode(NeutralModeValue.Coast)
             ).withFeedback(
                 new FeedbackConfigs()
                     .withSensorToMechanismRatio(chosenModule.angleGearRatio)
@@ -79,30 +80,13 @@ public class ProjectConstants {
                     .withKD(chosenModule.angleKD)
             );
 
-        public static SwerveConstants swerveConstants = new SwerveConstants() {
+        public static SwerveConstants swerveConstants = new SwerveConstants(driveTalonFXConfigs, angleTalonFXConfigs) {
             {
-                // TODO: This must be tuned to specific robot
-                chosenModule = chosenModule;
-
                 /*String bus */
-                String canBus = "Canivore";
+                canBus = "Canivore";
 
                 /* Drivetrain Constants */
                 wheelCircumference = chosenModule.wheelCircumference;
-
-                /*swerve module position*/
-                frontLeftPos = new Translation2d(x, y);
-                modulesPositions[0] = frontLeftPos;
-                frontRightPos = new Translation2d(x, -y);
-                modulesPositions[1] = frontRightPos;
-                backLeftPos = new Translation2d(-x, y);
-                modulesPositions[2] = backLeftPos;
-                backRightPos = new Translation2d(-x, -y);
-                modulesPositions[3] = backRightPos;
-
-                /* Module Gear Ratios */
-                driveGearRatio = chosenModule.driveGearRatio;
-                angleGearRatio = chosenModule.angleGearRatio;
 
                 /* Angle Encoder Invert */
                 canCoderInvert = chosenModule.cancoderInvert;
@@ -119,12 +103,6 @@ public class ProjectConstants {
                 HeadingKD = 0.0;
                 HeadingTolerence = 1.5;
 
-                /* Drive Motor Characterization Values 
-                * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-                driveKS = 0; //TODO: This must be tuned to specific robot
-                driveKV = 0;
-                driveKA = 0;
-
                 /*wheel parameters */
                 WheelRadius = 2;
                 WheelCircumference = WheelRadius * 2 * Math.PI;
@@ -134,25 +112,23 @@ public class ProjectConstants {
                 maxSpeed = 4.9; //TODO: This must be tuned to specific robot
                 /** Radians per Second */
                 maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
-                /* Neutral Modes */
-                angleNeutralMode = NeutralMode.Coast;
-                driveNeutralMode = NeutralMode.Brake;
+                //TODO: update  the module offsets 
                 FL = new SwerveModuleConstants(
-                    10, 11,driveTalonFXConfigs, angleTalonFXConfigs, 12, Rotation2d.fromRotations(0.110840), 
-                    frontLeftPos
-                    ); //TODO: update  the module offsets 
+                    10, 11 , 12, Rotation2d.fromRotations(0.110840), 
+                    new Translation2d(x, y)
+                    ); 
                 FR = new SwerveModuleConstants(
-                    20, 21,driveTalonFXConfigs, angleTalonFXConfigs, 22, Rotation2d.fromRotations(0.265869), 
-                    frontRightPos
-                    ); //TODO: update  the module offsets
+                    20, 21, 22, Rotation2d.fromRotations(0.265869), 
+                    new Translation2d(x, -y)
+                    );
                 BL = new SwerveModuleConstants(
-                    30, 31, driveTalonFXConfigs, angleTalonFXConfigs, 32, Rotation2d.fromRotations(-0.269043),
-                    backLeftPos
-                    ); //TODO: update  the module offsets
+                    30, 31, 32, Rotation2d.fromRotations(-0.269043),
+                    new Translation2d(-x, y)
+                    ); 
                 BR = new SwerveModuleConstants(
-                    40, 41, driveTalonFXConfigs, angleTalonFXConfigs, 42, Rotation2d.fromRotations(-0.158936),
-                    backRightPos
-                    ); //TODO: update  the module offsets
+                    40, 41, 42, Rotation2d.fromRotations(-0.158936),
+                    new Translation2d(-x, -y)
+                    );
             }
         };
     }
