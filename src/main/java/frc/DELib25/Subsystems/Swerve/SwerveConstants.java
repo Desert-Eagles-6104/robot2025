@@ -13,7 +13,7 @@ import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Subsystems.Swerve.SwerveUtil.SwerveModuleConstants;
 
 public class SwerveConstants {
-    public COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+    private COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
     COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
     /*String bus */
@@ -34,8 +34,8 @@ public class SwerveConstants {
     public double angleGearRatio = chosenModule.angleGearRatio;
 
     /* Motor Inverts */
-    public InvertedValue angleMotorInvert = chosenModule.angleMotorInvert;
-    public InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
+    private InvertedValue angleMotorInvert = chosenModule.angleMotorInvert;
+    private InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
 
     /* Angle Encoder Invert */
     public SensorDirectionValue canCoderInvert = chosenModule.cancoderInvert;
@@ -44,33 +44,33 @@ public class SwerveConstants {
     public FeedbackSensorSourceValue feedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
 
     /* Swerve Current Limiting */
-    public int angleContinuousCurrentLimit = 25;
-    public int anglePeakCurrentLimit = 40;
-    public double anglePeakCurrentDuration = 0.1;
-    public boolean angleEnableCurrentLimit = true;
+    private int angleContinuousCurrentLimit = 25;
+    private int anglePeakCurrentLimit = 40;
+    private double anglePeakCurrentDuration = 0.1;
+    private boolean angleEnableCurrentLimit = true;
 
-    public int driveStatorCurrentLimit = 60; //TODO: cheak when training
-    public boolean driveEnableStatorCurrentLimit = true;
-    public int driveContinuousCurrentLimit = 40;
-    public int drivePeakCurrentLimit = 60;
-    public double drivePeakCurrentDuration = 0.1;
-    public boolean driveEnableCurrentLimit = true;
+    private int driveStatorCurrentLimit = 60; //TODO: cheak when training
+    private boolean driveEnableStatorCurrentLimit = true;
+    private int driveContinuousCurrentLimit = 40;
+    private int drivePeakCurrentLimit = 60;
+    private double drivePeakCurrentDuration = 0.1;
+    private boolean driveEnableCurrentLimit = true;
 
     /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
     * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
-    public double openLoopRamp = 0.2;
-    public double closedLoopRamp = 0.2;
+    private double openLoopRamp = 0.2;
+    private double closedLoopRamp = 0.2;
 
     /* Angle Motor PID Values */
-    public double angleKP = chosenModule.angleKP;
-    public double angleKI = chosenModule.angleKI;
-    public double angleKD = chosenModule.angleKD;
+    private double angleKP = chosenModule.angleKP;
+    private double angleKI = chosenModule.angleKI;
+    private double angleKD = chosenModule.angleKD;
 
     /* Drive Motor PID Values */
-    public double driveKP = 3.0; //TODO: This must be tuned to specific robot
-    public double driveKI = 0.0;
-    public double driveKD = 0.0;
-    public double driveKF = 0.0;
+    private double driveKP = 3.0; //TODO: This must be tuned to specific robot
+    private double driveKI = 0.0;
+    private double driveKD = 0.0;
+    private double driveKF = 0.0;
 
     /* Heading PID Values */
     public double HeadingKP = 4;
@@ -82,12 +82,12 @@ public class SwerveConstants {
     /* Drive Motor Characterization Values 
     * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
     public double driveKS = (0.0); //TODO: This must be tuned to specific robot
-    public double driveKV = (0.0);
-    public double driveKA = (0.0);
+    private double driveKV = (0.0);
+    private double driveKA = (0.0);
 
     /*wheel parameters */
-    public static double WheelRadius = 0.0508;
-    public static double WheelCircumference = WheelRadius * 2 * Math.PI;
+    private static double WheelRadius = 0.0508;
+    private static double WheelCircumference = WheelRadius * 2 * Math.PI;
 
     /* Swerve Profiling Values */
     /** Meters per Second */
@@ -96,14 +96,14 @@ public class SwerveConstants {
     public double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 
     /* Neutral Modes */
-    public NeutralMode angleNeutralMode = NeutralMode.Brake;
-    public NeutralMode driveNeutralMode = NeutralMode.Brake;
+    private NeutralMode angleNeutralMode = NeutralMode.Brake;
+    private NeutralMode driveNeutralMode = NeutralMode.Brake;
 
 
-    public SwerveModuleConstants FL = new SwerveModuleConstants(0, 0, 0, null, null, null);
-    public SwerveModuleConstants FR = new SwerveModuleConstants(0, 0, 0, null, null, null);
-    public SwerveModuleConstants BL = new SwerveModuleConstants(0, 0, 0, null, null, null);
-    public SwerveModuleConstants BR = new SwerveModuleConstants(0, 0, 0, null, null, null);
+    public SwerveModuleConstants FL;
+    public SwerveModuleConstants FR;
+    public SwerveModuleConstants BL;
+    public SwerveModuleConstants BR;
 
     public String filepath = "/home/lvuser/natinst/ModuleOffsets.csv";
 

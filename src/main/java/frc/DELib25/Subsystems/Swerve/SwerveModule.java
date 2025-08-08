@@ -84,7 +84,6 @@ public class SwerveModule {
 
         m_driveMotor = new TalonFX(swerveModuleConstants.driveMotorID, swerveConstants.canBus);
         m_driveMotor.getConfigurator().apply(swerveConstants.driveTalonFXConfigs());
-        m_driveMotor.getConfigurator().apply(swerveModuleConstants.slot0Configs);
         m_driveMotor.getConfigurator().setPosition(0.0);
 
         m_driveMotorPositionSignal = m_driveMotor.getPosition();

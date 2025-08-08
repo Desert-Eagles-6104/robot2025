@@ -4,15 +4,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import frc.DELib25.Util.ProjectConstants;
-
 public class MotorConstants {
     public final int id;
     public final String bus;
     public final boolean counterClockwisePositive;
 
     // TalonFX configuration for this motor
-    private TalonFXConfiguration talonFXConfiguration;
+    private final TalonFXConfiguration talonFXConfiguration;
 
     /**
      * Ratio between motor rotations and position units (e.g., height of an
@@ -29,7 +27,7 @@ public class MotorConstants {
         this.talonFXConfiguration.MotorOutput.Inverted = MotorConstants.toInvertedType(counterClockwisePositive);
     }
 
-    public MotorConstants(int id, String bus, boolean counterClockwisePositive , TalonFXConfiguration talonFXConfiguration){
+    public MotorConstants(int id, String bus, boolean counterClockwisePositive, TalonFXConfiguration talonFXConfiguration){
         this.id = id;
         this.bus = bus;
         this.counterClockwisePositive = counterClockwisePositive;
