@@ -1,8 +1,16 @@
 package frc.DELib25.Util;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,10 +25,64 @@ public class ProjectConstants {
         public static final double x = 0.75 /2.0; //width/2 
         public static final double y = 0.75 /2.0; //length/2
 
+        public static COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);//TODO: This must be tuned to specific robot
+
+        public static final TalonFXConfiguration driveTalonFXConfigs = new TalonFXConfiguration()
+            .withMotorOutput(
+                new MotorOutputConfigs()
+                    .withInverted(chosenModule.driveMotorInvert)
+                    .withNeutralMode(NeutralModeValue.Brake)
+            ).withFeedback(
+                new FeedbackConfigs()
+                    .withSensorToMechanismRatio(chosenModule.driveGearRatio)
+            ).withCurrentLimits(
+                new CurrentLimitsConfigs()
+                    .withStatorCurrentLimit(60)
+                    .withSupplyCurrentLimitEnable(true)
+                    .withSupplyCurrentLimit(40)
+                    .withSupplyCurrentLowerLimit(60)
+                    .withSupplyCurrentLowerTime(0.1)
+            ).withSlot0(
+                PIDContainer.toSlot0Configs(new PIDContainer(0, 0, 0, 0, 3,0, 0))
+            ).withOpenLoopRamps(/* These values are used by the drive falcon to ramp in open loop and closed loop driving.
+            * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
+                new OpenLoopRampsConfigs()
+                    .withDutyCycleOpenLoopRampPeriod(0.2)
+                    .withVoltageOpenLoopRampPeriod(0.2)
+            ).withClosedLoopRamps(
+                new ClosedLoopRampsConfigs()
+                    .withDutyCycleClosedLoopRampPeriod(0.2)
+                    .withVoltageClosedLoopRampPeriod(0.2)
+            );
+        
+            public static final TalonFXConfiguration angleTalonFXConfigs = new TalonFXConfiguration()
+            .withMotorOutput(
+                new MotorOutputConfigs()
+                    .withInverted(chosenModule.angleMotorInvert)
+                    .withNeutralMode(NeutralModeValue.Brake)
+            ).withFeedback(
+                new FeedbackConfigs()
+                    .withSensorToMechanismRatio(chosenModule.angleGearRatio)
+            ).withClosedLoopGeneral(
+                new ClosedLoopGeneralConfigs()
+                    .withContinuousWrap(true)
+            )
+            .withCurrentLimits(
+                new CurrentLimitsConfigs()
+                    .withSupplyCurrentLimitEnable(true)
+                    .withSupplyCurrentLimit(40)
+                    .withSupplyCurrentLowerTime(0.01)
+            ).withSlot0(
+                new Slot0Configs()
+                    .withKP(chosenModule.angleKP)
+                    .withKI(chosenModule.angleKI)
+                    .withKD(chosenModule.angleKD)
+            );
+
         public static SwerveConstants swerveConstants = new SwerveConstants() {
             {
                 // TODO: This must be tuned to specific robot
-                chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
+                chosenModule = chosenModule;
 
                 /*String bus */
                 String canBus = "Canivore";
@@ -42,47 +104,15 @@ public class ProjectConstants {
                 driveGearRatio = chosenModule.driveGearRatio;
                 angleGearRatio = chosenModule.angleGearRatio;
 
-                /* Motor Inverts */
-                angleMotorInvert = chosenModule.angleMotorInvert;
-                driveMotorInvert = chosenModule.driveMotorInvert;
-
                 /* Angle Encoder Invert */
                 canCoderInvert = chosenModule.cancoderInvert;
 
                 /*Feedback Sensor Azimuth */
                 feedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
 
-                /* Swerve Current Limiting */
-                angleContinuousCurrentLimit = 25;
-                anglePeakCurrentLimit = 40;
-                anglePeakCurrentDuration = 0.1;
-                angleEnableCurrentLimit = true;
 
-                // double [] angleOffset= {0.105957, 0.260498, -0.268066,-0.159424};
-
-                driveContinuousCurrentLimit = 40;
-                driveStatorCurrentLimit = 60;
-                drivePeakCurrentLimit = 60;
-                drivePeakCurrentDuration = 0.1;
-                driveEnableCurrentLimit = true;
-
-                /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
-                * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc */
-                openLoopRamp = 0.2;
-                closedLoopRamp = 0.2;
-
-                /* Angle Motor PID Values */
-                angleKP = chosenModule.angleKP;
-                angleKI = chosenModule.angleKI;
-                angleKD = chosenModule.angleKD;
-
-                /* Drive Motor PID Values */
-                driveKP = 3.0; //TODO: This must be tuned to specific robot (sysid bratan)
-                driveKI = 0.0;
-                driveKD = 0.0;
-                driveKS = 1.2;
-                driveKV = 0.0;
-
+                //openLoopRamp = 0.2;
+                //closedLoopRamp = 0.2;
                 /* Heading PID Values */
                 HeadingKP = 0.5;
                 HeadingKI = 0.0;
@@ -108,22 +138,19 @@ public class ProjectConstants {
                 angleNeutralMode = NeutralMode.Coast;
                 driveNeutralMode = NeutralMode.Brake;
                 FL = new SwerveModuleConstants(
-                    10, 11, 12, Rotation2d.fromRotations(0.110840), 
-                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)),
+                    10, 11,driveTalonFXConfigs, angleTalonFXConfigs, 12, Rotation2d.fromRotations(0.110840), 
                     frontLeftPos
                     ); //TODO: update  the module offsets 
                 FR = new SwerveModuleConstants(
-                    20, 21, 22, Rotation2d.fromRotations(0.265869), 
-                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    20, 21,driveTalonFXConfigs, angleTalonFXConfigs, 22, Rotation2d.fromRotations(0.265869), 
                     frontRightPos
                     ); //TODO: update  the module offsets
                 BL = new SwerveModuleConstants(
-                    30, 31, 32, Rotation2d.fromRotations(-0.269043), PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    30, 31, driveTalonFXConfigs, angleTalonFXConfigs, 32, Rotation2d.fromRotations(-0.269043),
                     backLeftPos
                     ); //TODO: update  the module offsets
                 BR = new SwerveModuleConstants(
-                    40, 41, 42, Rotation2d.fromRotations(-0.158936),
-                    PIDContainer.toSlot0Configs(new PIDContainer(driveKS, driveKV, driveKA, 0, driveKP,0, driveKD)), 
+                    40, 41, driveTalonFXConfigs, angleTalonFXConfigs, 42, Rotation2d.fromRotations(-0.158936),
                     backRightPos
                     ); //TODO: update  the module offsets
             }
