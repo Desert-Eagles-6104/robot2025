@@ -97,12 +97,13 @@ public class SwerveModule {
 
         m_CANCoderAbsolutePositionSignal = m_absoluteEncoder.getAbsolutePosition();
 
-        odometrySignals = new BaseStatusSignal[4];
-        odometrySignals[0] = m_driveMotorVelocitySignal;
-        odometrySignals[1] = m_driveMotorPositionSignal;
-        odometrySignals[2] = m_steerMotorVelocitySignal;
-        odometrySignals[3] = m_steerMotorPositionSignal;
-
+        odometrySignals = new BaseStatusSignal[]{
+            m_driveMotorVelocitySignal,
+            m_driveMotorPositionSignal,
+            m_steerMotorVelocitySignal,
+            m_steerMotorPositionSignal
+        };
+        
         this.canBusProperties(50);
 
         this.setAngleOffset(swerveModuleConstants.angleOffset);

@@ -114,20 +114,16 @@ public class ProjectConstants {
                 maxAngularVelocity = 5.21 / 0.31992 * 0.9; //Robot linear max speed divided by the robot radius 
                 //TODO: update  the module offsets 
                 FL = new SwerveModuleConstants(
-                    10, 11 , 12, Rotation2d.fromRotations(0.110840), 
-                    new Translation2d(x, y)
+                    10, 11 , 12, Rotation2d.fromRotations(0.110840), new Translation2d(x, y)
                     ); 
                 FR = new SwerveModuleConstants(
-                    20, 21, 22, Rotation2d.fromRotations(0.265869), 
-                    new Translation2d(x, -y)
+                    20, 21, 22, Rotation2d.fromRotations(0.265869),     new Translation2d(x, -y)
                     );
                 BL = new SwerveModuleConstants(
-                    30, 31, 32, Rotation2d.fromRotations(-0.269043),
-                    new Translation2d(-x, y)
+                    30, 31, 32, Rotation2d.fromRotations(-0.269043), new Translation2d(-x, y)
                     ); 
                 BR = new SwerveModuleConstants(
-                    40, 41, 42, Rotation2d.fromRotations(-0.158936),
-                    new Translation2d(-x, -y)
+                    40, 41, 42, Rotation2d.fromRotations(-0.158936), new Translation2d(-x, -y)
                     );
             }
         };
