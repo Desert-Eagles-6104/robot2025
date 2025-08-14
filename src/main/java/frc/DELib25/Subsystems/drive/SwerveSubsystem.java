@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.constants.Constants;//just for now to be removed after i finish the refactor
 
-import org.frc2910.robot.RobotState;
 import org.frc2910.robot.util.SubsystemDataProcessor;
 import org.frc2910.robot.util.SysIdMechanism;
 import org.littletonrobotics.junction.Logger;
@@ -155,6 +154,15 @@ public class SwerveSubsystem extends SubsystemBase {
         choreoThetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
     
+    private SysIdRoutine getRoutine(SysIdMechanism mechanism) {
+        return switch (mechanism) {
+            case SWERVE_TRANSLATION -> translationSysIdRoutine;
+            case SWERVE_ROTATION -> rotationSysIdRoutine;
+            case SWERVE_STEER -> steerSysIdRoutine;
+            default -> throw new IllegalArgumentException(
+                    String.format("Mechanism %s is not supported.", mechanism));
+        };
+    }
 
     /**
      * Runs the quasi-static SysId test in the given direction for the given mechanism.
@@ -164,16 +172,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Command to run
      */
     public Command sysIdQuasistatic(SysIdMechanism mechanism, SysIdRoutine.Direction direction) {
-        final SysIdRoutine routine =
-                switch (mechanism) {
-                    case SWERVE_TRANSLATION -> translationSysIdRoutine;
-                    case SWERVE_ROTATION -> rotationSysIdRoutine;
-                    case SWERVE_STEER -> steerSysIdRoutine;
-                    default -> throw new IllegalArgumentException(
-                            String.format("Mechanism %s is not supported.", mechanism));
-                };
-
-        return routine.quasistatic(direction);
+        return this.getRoutine(mechanism).quasistatic(direction);
     }
 
     /**
@@ -184,16 +183,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @return Command to run
      */
     public Command sysIdDynamic(SysIdMechanism mechanism, SysIdRoutine.Direction direction) {
-        final SysIdRoutine routine =
-                switch (mechanism) {
-                    case SWERVE_TRANSLATION -> translationSysIdRoutine;
-                    case SWERVE_ROTATION -> rotationSysIdRoutine;
-                    case SWERVE_STEER -> steerSysIdRoutine;
-                    default -> throw new IllegalArgumentException(
-                            String.format("Mechanism %s is not supported.", mechanism));
-                };
-
-        return routine.dynamic(direction);
+        return this.getRoutine(mechanism).dynamic(direction);
     }
 
     @Override
@@ -485,7 +475,7 @@ public class SwerveSubsystem extends SubsystemBase {
         var distance = Math.abs(desiredChoreoTrajectory
                 .getFinalPose(false)
                 .get()
-                .minus(RobotState.getInstance().getRobotPoseFromSwerveDriveOdometry())
+                .minus(RobotState.getRobotToFieldFromSwerveDriveOdometry())
                 .getTranslation()
                 .getNorm());
         Logger.recordOutput("Choreo/DistanceFromEndpoint", distance);

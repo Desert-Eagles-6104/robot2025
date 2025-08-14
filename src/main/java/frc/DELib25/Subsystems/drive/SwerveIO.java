@@ -8,11 +8,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import org.frc2910.robot.RobotState;
-import org.frc2910.robot.util.SubsystemDataProcessor;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface SwerveIO extends SubsystemDataProcessor.IODataRefresher {
+public interface SwerveIO  {
+
     @AutoLog
     class SwerveIOInputs {
         public Pose2d Pose = new Pose2d();
@@ -37,7 +36,7 @@ public interface SwerveIO extends SubsystemDataProcessor.IODataRefresher {
             this.FailedDaqs = state.FailedDaqs;
             this.OdometryPeriod = state.OdometryPeriod;
             this.Timestamp = state.OdometryPeriod;
-            RobotState.getInstance().addPoseObservation(new RobotState.SwerveDriveObservation(this.Pose, this.Speeds));
+            RobotState.setRobotToFieldFromSwerveDriveOdometry(this.Pose);
         }
     }
 
@@ -70,6 +69,5 @@ public interface SwerveIO extends SubsystemDataProcessor.IODataRefresher {
 
     default void resetRobotTranslation(Translation2d translation2d) {}
 
-    @Override
     default void refreshData() {}
 }
