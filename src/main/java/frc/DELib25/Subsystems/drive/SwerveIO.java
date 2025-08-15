@@ -36,7 +36,7 @@ public interface SwerveIO  {
             this.FailedDaqs = state.FailedDaqs;
             this.OdometryPeriod = state.OdometryPeriod;
             this.Timestamp = state.OdometryPeriod;
-            RobotState.setRobotToFieldFromSwerveDriveOdometry(this.Pose);
+            SwerveSubsystem.setRobotToFieldFromSwerveDriveOdometry(this.Pose);
         }
     }
 

@@ -37,6 +37,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public static final double ROTATION_ERROR_MARGIN_FOR_ROTATION_LOCK_DEGREES = 10.0;
 
+    private static Pose2d robotToFieldFromSwerveDriveOdometry = new Pose2d();
+
     public double maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
 
     private final PIDController choreoXController = new PIDController(7, 0, 0);
@@ -475,7 +477,7 @@ public class SwerveSubsystem extends SubsystemBase {
         var distance = Math.abs(desiredChoreoTrajectory
                 .getFinalPose(false)
                 .get()
-                .minus(RobotState.getRobotToFieldFromSwerveDriveOdometry())
+                .minus(robotToFieldFromSwerveDriveOdometry)
                 .getTranslation()
                 .getNorm());
         Logger.recordOutput("Choreo/DistanceFromEndpoint", distance);
@@ -497,5 +499,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setRotationVelocityCoefficient(double rotationVelocityCoefficient) {
         this.rotationVelocityCoefficient = rotationVelocityCoefficient;
+    }
+
+    public static void setRobotToFieldFromSwerveDriveOdometry(Pose2d pose) {
+        robotToFieldFromSwerveDriveOdometry = pose;
     }
 }
