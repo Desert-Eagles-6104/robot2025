@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.CSV.CSVReader;
 import frc.DELib25.CSV.CSVWriter;
 import frc.DELib25.Sensors.Pigeon;
+import frc.robot.Constants.PigeonConfigs;
 
 public class SwerveSubsystem extends SubsystemBase {
   private static SwerveSubsystem swerve = null;
@@ -42,7 +43,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private SwerveSubsystem(SwerveConstants swerveConstants) {
     this.swerveConstants = swerveConstants;
     
-    this.gyro = new Pigeon(44);
+    this.gyro = new Pigeon(PigeonConfigs.PIGEON_ID);
 
     this.frontLeft = new SwerveModule(swerveConstants.FL, swerveConstants);
     this.frontRight = new SwerveModule(swerveConstants.FR, swerveConstants);

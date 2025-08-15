@@ -28,10 +28,12 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
 
     Map<Integer, HashMap<String, BaseStatusSignal>> signalsMap = new HashMap<>();
 
+    @SafeVarargs
     public SwerveIOCTRE(
             SwerveDrivetrainConstants constants,
-            SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>...
-                    moduleConstants) {
+            SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>... moduleConstants
+        ) {
+            
         super(TalonFX::new, TalonFX::new, CANcoder::new, constants, moduleConstants);
         this.resetRotation(FieldConstants.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
 

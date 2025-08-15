@@ -24,6 +24,10 @@ import frc.DELib25.Util.ProjectConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+	
+	public final static class PigeonConfigs {
+		public static final int PIGEON_ID = 44;
+	}
 
 	public static TalonFXConfiguration getDefaultTalonConfig(){
         TalonFXConfiguration talonConfig = new TalonFXConfiguration();
