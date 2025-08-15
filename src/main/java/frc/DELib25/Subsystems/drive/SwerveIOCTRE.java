@@ -12,13 +12,14 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import org.frc2910.robot.Robot;
-import org.frc2910.robot.constants.FieldConstants;
+import frc.robot.Robot;
+import frc.robot.constants.FieldConstants;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SwerveIOCTRE extends SwerveDrivetrain implements SwerveIO {
+public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements SwerveIO {
 
     HashMap<String, BaseStatusSignal> frontLeftSignals = new HashMap<>();
     HashMap<String, BaseStatusSignal> frontRightSignals = new HashMap<>();
@@ -57,7 +58,6 @@ public class SwerveIOCTRE extends SwerveDrivetrain implements SwerveIO {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void registerTelemetryFunction(SwerveIOInputs inputs) {
         this.registerTelemetry(state -> {
