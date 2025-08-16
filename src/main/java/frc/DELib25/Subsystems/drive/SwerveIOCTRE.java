@@ -1,6 +1,7 @@
 package frc.DELib25.Subsystems.drive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -12,6 +13,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import frc.robot.Robot;
 import frc.robot.constants.FieldConstants;
 
@@ -129,4 +133,40 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
             BaseStatusSignal.refreshAll(moduleMap.values().toArray(new BaseStatusSignal[] {}));
         }
     }
+
+    //Wrapers to the CTRE swerveDrivetrain
+    public SwerveModulePosition[] getModulesPositions() {
+        return this.getStateCopy().ModulePositions;
+    }
+
+    public Rotation2d getYaw() {
+        return this.getState().Pose.getRotation();
+    }    
+
+    
+	public Rotation2d getUnadjustedYaw() {
+		return Rotation2d.fromDegrees(
+		BaseStatusSignal.getLatencyCompensatedValueAsDouble(getYawStatusSignal(), getRateStatusSignal()));
+	}
+
+	public Rotation2d getUnadjustedPitch() {
+		return Rotation2d.fromDegrees(this.gyro.getPitch().getValueAsDouble());
+	}
+
+	public Rotation2d getUnadjustedRoll() {
+		return Rotation2d.fromDegrees(this.gyro.getRoll().getValueAsDouble());
+	}
+
+	public StatusSignal<Angle> getYawStatusSignal() {
+		return this.gyro.getYaw();
+	}
+
+	public StatusSignal<AngularVelocity> getRateStatusSignal() {
+		return this.gyro.getAngularVelocityZDevice();
+	}
+
+	public StatusSignal<AngularVelocity> getRateStatusSignalWorld(){
+		return this.gyro.getAngularVelocityZWorld();
+	}
+    
 }

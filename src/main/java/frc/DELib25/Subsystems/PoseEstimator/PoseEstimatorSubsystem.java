@@ -19,11 +19,12 @@ import frc.DELib25.Intepulation.InterpolatingTreeMap;
 import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
+import frc.DELib25.Subsystems.drive.SwerveIOCTRE;
 
 /** Creates a new PoseEstimator. */
 public class PoseEstimatorSubsystem extends SubsystemBase {
 
-  private SwerveSubsystem swerve;
+  private SwerveIOCTRE swerve;
   private LimelightHelpers.PoseEstimate limelightMesermentMT2;
   private boolean first;
   private StableBoolean tvStableBoolean;
@@ -32,7 +33,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
   private VisionSubsystem vision;
   
-  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystem vision) {
+  public PoseEstimatorSubsystem(SwerveIOCTRE swerve, VisionSubsystem vision) {
     this.swerve = swerve;
     this.vision = vision;
 
@@ -78,7 +79,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       boolean rejectUpdate = false;
       LimelightHelpers.SetRobotOrientation("limelight-april", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       this.limelightMesermentMT2 = this.vision.getEstimatedRobotPose();
-      if (Math.abs(this.swerve.getGyro().getRateStatusSignalWorld().getValueAsDouble()) > 360
+      if (Math.abs(this.swerve.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 360
           || this.limelightMesermentMT2.pose == null) {
         rejectUpdate = true;
       }
@@ -92,7 +93,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   }
 
   public void resetOdometryToPose(Pose2d pose) {
-    this.odometry.resetPosition(this.swerve.getGyro().getYaw(), this.swerve.getModulesPositions(), pose);
+    this.odometry.resetPosition(this.swerve.getYaw(), this.swerve.getModulesPositions(), pose);
   }
 
   public void zeroHeading() {
@@ -109,7 +110,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   }
 
   public Pose2d updateOdometry() {
-    return this.odometry.update(this.swerve.getGyro().getYaw(), this.swerve.getModulesPositions());
+    return this.odometry.update(this.swerve.getYaw(), this.swerve.getModulesPositions());
   }
 
   public void addVisionMeasurement(Pose2d visionPose, double timestamp) {

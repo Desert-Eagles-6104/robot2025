@@ -123,7 +123,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     this.gyro.getYawStatusSignal().refresh();
   }
-  public void zeroHeading(){
+
+  public void zeroHeading(){//this is done by resetRotationBasedOnAlliance in the new swerve
     Rotation2d heading;
     if(DriverStation.getAlliance().isPresent()
      && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red))
