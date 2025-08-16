@@ -141,32 +141,6 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
 
     public Rotation2d getYaw() {
         return this.getState().Pose.getRotation();
-    }    
-
-    
-	public Rotation2d getUnadjustedYaw() {
-		return Rotation2d.fromDegrees(
-		BaseStatusSignal.getLatencyCompensatedValueAsDouble(getYawStatusSignal(), getRateStatusSignal()));
-	}
-
-	public Rotation2d getUnadjustedPitch() {
-		return Rotation2d.fromDegrees(this.gyro.getPitch().getValueAsDouble());
-	}
-
-	public Rotation2d getUnadjustedRoll() {
-		return Rotation2d.fromDegrees(this.gyro.getRoll().getValueAsDouble());
-	}
-
-	public StatusSignal<Angle> getYawStatusSignal() {
-		return this.gyro.getYaw();
-	}
-
-	public StatusSignal<AngularVelocity> getRateStatusSignal() {
-		return this.gyro.getAngularVelocityZDevice();
-	}
-
-	public StatusSignal<AngularVelocity> getRateStatusSignalWorld(){
-		return this.gyro.getAngularVelocityZWorld();
-	}
+    }
     
 }
