@@ -1,83 +1,82 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.DELib25.Subsystems.Swerve.SwerveUtil;
 
-import java.util.function.BooleanSupplier;
-
+import com.ctre.phoenix6.swerve.SwerveModule;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.filter.LinearFilter;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
-import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
-import frc.robot.Robot;
+import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
+import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
 
 public class ReefAssist extends Command {
-  private SwerveSubsystem swerveSubsystem;
-  private double kpSide = 2.0;
-  private double kpForward = 2.7;
-  private LinearFilter filterSide = LinearFilter.movingAverage(4);
-  private LinearFilter filterForward = LinearFilter.movingAverage(4);
-  private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
-  private Translation2d centerOfRobot = new Translation2d();
-  private StableBoolean dontSeesAprilTagForTime = new StableBoolean(0.5);
-  private boolean isRight = false;
-  private PoseEstimatorSubsystem poseEstimator;
-  private VisionSubsystemRobot2025 vision;
-  Translation2d leftError;
-  Translation2d RightError;
-  Translation2d finalPoint;
+	private final SwerveSubsystem swerve;
+	private final PoseEstimatorSubsystem poseEstimator;
+	private final VisionSubsystemRobot2025 vision;
 
-  public ReefAssist(SwerveSubsystem swerveSubsystem ,VisionSubsystemRobot2025 vision, PoseEstimatorSubsystem poseEstimator, BooleanSupplier right , BooleanSupplier left){
-    this.swerveSubsystem = swerveSubsystem;
-    this.vision = vision;
-    this.poseEstimator = poseEstimator;
-    isRight = right.getAsBoolean();
-  }
+	private final BooleanSupplier chooseRight;
+	private final Supplier<Translation2d> leftErrorSupplier;  
+	private final Supplier<Translation2d> rightErrorSupplier; 
 
-  @Override
-  public void initialize() {
+	private final double kpSide = 2.0;
+	private final double kpForward = 2.7;
 
-  }
+	private final LinearFilter filterSide = LinearFilter.movingAverage(4);
+	private final LinearFilter filterForward = LinearFilter.movingAverage(4);
 
-  @Override
-  public void execute() {
-      if(isRight){
-        finalPoint = RightError;
-      }
-      else{
-        finalPoint = leftError;
-      }
-    
-      if(Robot.s_Alliance == Alliance.Red){
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(-this.filterForward.calculate(-finalPoint.getX())*this.kpForward, -this.filterSide.calculate(-finalPoint.getY())*this.kpSide, 0, this.poseEstimator.getHeading());
-      }
-      else{
-        chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(this.filterForward.calculate(-finalPoint.getX())*this.kpForward, this.filterSide.calculate(-finalPoint.getY())*this.kpSide, 0, this.poseEstimator.getHeading());
-      }
+	private final StableBoolean lostTagFor = new StableBoolean(0.5);
 
-     if(dontSeesAprilTagForTime.update(!this.vision.getTv())){
-      chassisSpeeds.vxMetersPerSecond = 0;
-      chassisSpeeds.vyMetersPerSecond = 0;
-      chassisSpeeds.omegaRadiansPerSecond = 0;
-    }
+	private final SwerveRequest.ApplyFieldSpeeds request = new SwerveRequest.ApplyFieldSpeeds()
+		.withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
-    this.swerveSubsystem.drive(chassisSpeeds, true, true, centerOfRobot);
-  }
+	public ReefAssist( SwerveSubsystem swerve, VisionSubsystemRobot2025 vision, PoseEstimatorSubsystem poseEstimator, BooleanSupplier chooseRight, Supplier<Translation2d> leftErrorSupplier, Supplier<Translation2d> rightErrorSupplier) {
+		this.swerve = swerve;
+		this.vision = vision;
+		this.poseEstimator = poseEstimator;
+		this.chooseRight = chooseRight;
+		this.leftErrorSupplier = leftErrorSupplier;
+		this.rightErrorSupplier = rightErrorSupplier;
+		addRequirements(swerve);
+	}
 
-  @Override
-  public void end(boolean interrupted) {
-    
-  }
+	@Override
+	public void execute() {
+		if (lostTagFor.update(!vision.getTv())) {
+			swerve.zeroOutputs();
+			return;
+		}
 
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+		Translation2d err = chooseRight.getAsBoolean()
+				? rightErrorSupplier.get()
+				: leftErrorSupplier.get();
 
+		if (err == null) { return; }
+
+		double fwd = filterForward.calculate(-err.getX()) * kpForward;
+		double str = filterSide.calculate(-err.getY()) * kpSide;
+
+		if (!FieldConstants.isBlueAlliance()) {
+			fwd = -fwd;
+			str = -str;
+		}
+
+		// Convert to FIELD-relative using current heading
+		ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(fwd, str, 0.0, poseEstimator.getHeading());
+		swerve.getIO().setSwerveState(request.withSpeeds(fieldSpeeds));
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		swerve.zeroOutputs();
+	}
+
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

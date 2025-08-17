@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.DELib25.BooleanUtil.LatchedBolean;
 import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Util.ProjectConstants;
-import frc.robot.Constants;
 
 public class HeadingController  {
 

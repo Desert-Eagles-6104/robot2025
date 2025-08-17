@@ -91,8 +91,17 @@ public class FieldConstants {
             FIELD_HEIGHT - RIGHT_STATION_PICKUP_POSE_BLUE.getY(),
             Rotation2d.fromDegrees(55));
 
+
     public static boolean isBlueAlliance() {
         return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Blue;
+    }
+
+    public static boolean isBlueAllianceStrict() {
+        return DriverStation.getAlliance().isPresent() && isBlueAlliance();
+    }
+    
+    public static boolean isRedAllianceStrict() {
+        return DriverStation.getAlliance().isPresent() && !isBlueAlliance();
     }
 
     public static Translation2d getMark1() {

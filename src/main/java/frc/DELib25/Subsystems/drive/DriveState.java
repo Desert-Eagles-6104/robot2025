@@ -19,4 +19,3 @@ public enum DriveState {
     /** Idle/stop: command zero speeds so modules enter neutral behavior (Brake/Coast). */
     IDLE
 }
-  

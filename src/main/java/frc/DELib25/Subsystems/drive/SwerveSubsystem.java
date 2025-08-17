@@ -57,7 +57,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private static final double SKEW_COMPENSATION_SCALAR = -0.03;
 
-
     private DriveState systemState = DriveState.TELEOP_DRIVE;
     private DriveState wantedState = DriveState.TELEOP_DRIVE;
 
@@ -69,7 +68,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private Pose2d desiredPoseForDriveToPoint = new Pose2d();
 
-    final SwerveIOInputsAutoLogged swerveInputs = new SwerveIOInputsAutoLogged();// Its in error becuse i didnt build the project yet
+    // Its in error becuse i didnt build the project yet
+    final SwerveIOInputsAutoLogged swerveInputs = new SwerveIOInputsAutoLogged();
+    
     ModuleIOInputsAutoLogged frontLeftInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged frontRightInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged backLeftInputs = new ModuleIOInputsAutoLogged();
@@ -197,27 +198,27 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private DriveState handleStateTransition() {
         return switch (this.wantedState) {
-            case SYS_ID -> DriveState.SYS_ID;
-            case TELEOP_DRIVE -> DriveState.TELEOP_DRIVE;
-            case CHOREO_PATH -> {
-                if (this.systemState != DriveState.CHOREO_PATH) {
-                    choreoTimer.restart();
-                    choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                    yield DriveState.CHOREO_PATH;
-                } else {
-                    choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                    yield DriveState.CHOREO_PATH;
-                }
+        case SYS_ID -> DriveState.SYS_ID;
+        case TELEOP_DRIVE -> DriveState.TELEOP_DRIVE;
+        case CHOREO_PATH -> {
+            if (this.systemState != DriveState.CHOREO_PATH) {
+                choreoTimer.restart();
+                choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
+                yield DriveState.CHOREO_PATH;
+            } else {
+                choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
+                yield DriveState.CHOREO_PATH;
             }
-            case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
-            case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
-            case IDLE -> {
-                if (this.systemState != DriveState.IDLE) {
-                    this.zeroOutputs();
-                }
-                yield DriveState.IDLE;
+        }
+        case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
+        case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
+        case IDLE -> {
+            if (this.systemState != DriveState.IDLE) {
+                this.zeroOutputs();
             }
-            default -> DriveState.IDLE;
+            yield DriveState.IDLE;
+        }
+        default -> DriveState.IDLE;
         };
     }
 
@@ -262,10 +263,10 @@ public class SwerveSubsystem extends SubsystemBase {
             break;
         }
         case ROTATION_LOCK:
-            io.setSwerveState(driveAtAngle
-                    .withVelocityX(calculateSpeedsBasedOnJoystickInputs().vxMetersPerSecond)
-                    .withVelocityY(calculateSpeedsBasedOnJoystickInputs().vyMetersPerSecond)
-                    .withTargetDirection(desiredRotationForRotationLockState));
+            this.io.setSwerveState(driveAtAngle
+                    .withVelocityX(this.calculateSpeedsBasedOnJoystickInputs().vxMetersPerSecond)
+                    .withVelocityY(this.calculateSpeedsBasedOnJoystickInputs().vyMetersPerSecond)
+                    .withTargetDirection(this.desiredRotationForRotationLockState));
             break;
         case DRIVE_TO_POINT:
             var translationToDesiredPoint = desiredPoseForDriveToPoint.getTranslation().minus(swerveInputs.Pose.getTranslation());
@@ -497,16 +498,17 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     /**
-     * Commands zero speeds to all swerve modules (stop).
-     * Making the swerve go into the predefined neutral mode (Brake/Coast).
+     * Commands zero speeds to all swerve modules (stop). Making the swerve go
+     * into the predefined neutral mode (Brake/Coast).
      */
     public void zeroOutputs() {
-        this.io.setSwerveState(
-            new SwerveRequest.ApplyFieldSpeeds()
-                .withSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0))
-                .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
-        );
+        this.io.setSwerveState(new SwerveRequest.ApplyFieldSpeeds()
+                    .withSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0))
+                    .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
+            );
         this.systemState = DriveState.IDLE;
+        //Allow for the method to be called immediately and not wait for the next cycle.
+        this.wantedState = DriveState.IDLE;
     }
 
 }
