@@ -9,16 +9,12 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class CSVReader {
-    //#region Constants 
-    private final static String k_itemSeparator = ",";
-    //#endregion
+    
+    private final static String ITEM_SEPARATOR = ",";
 
-    //#region Private Members
-    private final Scanner m_reader;
-    private final int m_lines;
-    //#endregion
+    private final Scanner reader;
+    private final int lines;
 
-    //#region Constructors
     public CSVReader(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         File file = new File(filePath);
@@ -27,25 +23,22 @@ public class CSVReader {
             createEmptyFile(filePath);
         }
 
-        m_lines = (int)Files.lines(path).count();
-        m_reader = new Scanner(file);
+        this.lines = (int)Files.lines(path).count();
+        this.reader = new Scanner(file);
     }
-    //#endregion
 
-    //#region Public Methods
     public double[][] readAsDouble(int columns)  { 
-        double array[][] = new double[m_lines][columns];
-        for(int i = 0; i < m_lines; i++) {
-            String[] row = m_reader.nextLine().split(k_itemSeparator);
+        double array[][] = new double[this.lines][columns];
+        for(int i = 0; i < this.lines; i++) {
+            String[] row = this.reader.nextLine().split(ITEM_SEPARATOR);
             for(int j = 0; j < columns; j++) {
                 array[i][j] = Double.parseDouble(row[j].replaceAll("\\s", ""));
             }
         }
 
-        m_reader.close();
+        this.reader.close();
         return array;
     }
-    //#endregion
 
     private void createEmptyFile(String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
