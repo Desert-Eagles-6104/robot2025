@@ -38,27 +38,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public static final double ROTATION_ERROR_MARGIN_FOR_ROTATION_LOCK_DEGREES = 10.0;
 
-    /** High-level operating modes for the swerve subsystem. */
-public enum DriveState {
-  /** System identification/characterization routines (SysId). Robot ignores driver input. */
-  SYS_ID,
-
-  /** Normal teleop driving from joysticks (field or robot relative per your code). */
-  TELEOP_DRIVE,
-
-  /** Following a Choreo trajectory (pose & velocity targets come from the path). */
-  CHOREO_PATH,
-
-  /** Locks robot heading to a target angle while allowing X/Y translation. */
-  ROTATION_LOCK,
-
-  /** Drives to a specific field pose (PID to a pose target). */
-  DRIVE_TO_POINT,
-
-  /** Idle/stop: command zero speeds so modules enter neutral behavior (Brake/Coast). */
-  IDLE
-}
-
     private static Pose2d robotToFieldFromSwerveDriveOdometry = new Pose2d();
 
     public double maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
@@ -209,7 +188,7 @@ public enum DriveState {
         Logger.processInputs("Subsystems/Drive/Module Data/Back Left", backLeftInputs);
         Logger.processInputs("Subsystems/Drive/Module Data/Back Right", backRightInputs);
 
-        systemState = handleStateTransition();
+        this.systemState = handleStateTransition();
 
         Logger.recordOutput("Subsystems/Drive/SystemState", systemState);
         Logger.recordOutput("Subsystems/Drive/DesiredState", wantedState);
@@ -217,28 +196,35 @@ public enum DriveState {
     }
 
     private DriveState handleStateTransition() {
-        return switch (wantedState) {
-        case SYS_ID -> DriveState.SYS_ID;
-        case TELEOP_DRIVE -> DriveState.TELEOP_DRIVE;
-        case CHOREO_PATH -> {
-            if (systemState != DriveState.CHOREO_PATH) {
-                choreoTimer.restart();
-                choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                yield DriveState.CHOREO_PATH;
-            } else {
-                choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                yield DriveState.CHOREO_PATH;
+        return switch (this.wantedState) {
+            case SYS_ID -> DriveState.SYS_ID;
+            case TELEOP_DRIVE -> DriveState.TELEOP_DRIVE;
+            case CHOREO_PATH -> {
+                if (this.systemState != DriveState.CHOREO_PATH) {
+                    choreoTimer.restart();
+                    choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
+                    yield DriveState.CHOREO_PATH;
+                } else {
+                    choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
+                    yield DriveState.CHOREO_PATH;
+                }
             }
-        }
-        case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
-        case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
-        default -> DriveState.IDLE;
+            case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
+            case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
+            case IDLE -> {
+                if (this.systemState != DriveState.IDLE) {
+                    this.zeroOutputs();
+                }
+                yield DriveState.IDLE;
+            }
+            default -> DriveState.IDLE;
         };
     }
 
     private void applyStates() {
-        switch (systemState) {
+        switch (this.systemState) {
         default:
+        case IDLE:
         case SYS_ID:
             break;
         case TELEOP_DRIVE:
@@ -520,6 +506,7 @@ public enum DriveState {
                 .withSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0))
                 .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
         );
+        this.systemState = DriveState.IDLE;
     }
 
 }
