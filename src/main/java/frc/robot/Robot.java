@@ -71,12 +71,12 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     s_isAuto = true;
     s_Alliance = DriverStation.getAlliance().get();
-   m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+   //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      //m_autonomousCommand.schedule();
     }
     
   }

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.DELib25.Subsystems.drive.ModuleIOInputsAutoLogged;
 import frc.DELib25.Subsystems.drive.SwerveIOInputsAutoLogged;
@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final Object moduleIOLock = new Object();
 
     private SwerveIOCTRE io;
-    private final CommandXboxController controller;
+    private final CommandPS5Controller controller;
 
     private final double maxVelocity;
     private final double maxAngularVelocity;
@@ -128,7 +128,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
             new SysIdRoutine.Mechanism(volts -> io.setSwerveState(steerCharacterization.withVolts(volts)), null, this));
 
-    public SwerveSubsystem(SwerveIOCTRE io, CommandXboxController controller, double maxVelocity, double maxAngularVelocity) {
+    public SwerveSubsystem(SwerveIOCTRE io, CommandPS5Controller controller, double maxVelocity, double maxAngularVelocity) {
         this.io = io;
         this.controller = controller;
         this.maxVelocity = maxVelocity;
