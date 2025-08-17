@@ -4,14 +4,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class CSVWriter {
-    private String m_filePath;
+    private String filePath;
 
     public CSVWriter(String filePath) {
-        this.m_filePath = filePath;
+        this.filePath = filePath;
     }
 
     public void writeCSVFile(double[][] dataArray) {
-        try (FileWriter writer = new FileWriter(m_filePath)) {
+        try (FileWriter writer = new FileWriter(this.filePath)) {
             for (double[] row : dataArray) {
                 for (int i = 0; i < row.length; i++) {
                     writer.append(String.valueOf(row[i]));
@@ -24,7 +24,7 @@ public class CSVWriter {
                 }
             }
 
-            System.out.println("CSV file written successfully at: " + m_filePath);
+            System.out.println("CSV file written successfully at: " + this.filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
