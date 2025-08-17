@@ -1,3 +1,4 @@
+package frc.DELib25.Subsystems.Drive;
 /** High-level operating modes for the swerve subsystem. */
 public enum DriveState {
     /** System identification/characterization routines (SysId). Robot ignores driver input. */
