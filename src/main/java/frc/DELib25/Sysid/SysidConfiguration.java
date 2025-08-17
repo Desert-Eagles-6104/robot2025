@@ -19,21 +19,23 @@ import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog.State;
 /** Add your docs here. */
 public class SysidConfiguration {
     /** The voltage ramp rate used for quasistatic test routines. */
-    public Velocity<VoltageUnit> m_rampRate = Volts.of(1).div(Seconds.of(1));
+    public Velocity<VoltageUnit> rampRate = Volts.of(1).div(Seconds.of(1));
 
     /** The step voltage output used for dynamic test routines. */
-    public Voltage m_stepVoltage = Volts.of(7);
+    public Voltage stepVoltage = Volts.of(7);
 
     /** Safety timeout for the test routine commands. */
-    public Time m_timeout = Seconds.of(10);
-
-    /** Optional handle for recording test state in a third-party logging solution. */
-    public final Consumer<State> m_recordState = (state) -> SignalLogger.writeString("state", state.toString());
+    public Time timeout = Seconds.of(10);
 
     /**
-     * Returns measured data (voltages, positions, velocities) of the mechanism motors during test
-     * routines.
+     * Optional handle for recording test state in a third-party logging
+     * solution.
      */
-    public final Consumer<SysIdRoutineLog> m_log = null;
-    //#endregion mechanisem
+    public final Consumer<State> recordState = (state) -> SignalLogger.writeString("state", state.toString());
+
+    /**
+     * Returns measured data (voltages, positions, velocities) of the mechanism
+     * motors during test routines.
+     */
+    public final Consumer<SysIdRoutineLog> log = null;
 }

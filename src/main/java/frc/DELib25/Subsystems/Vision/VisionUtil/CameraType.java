@@ -9,6 +9,7 @@ public enum CameraType {
     CameraType(String cameraName) {
         this.cameraName = cameraName;
     }
+    
     public String getCameraName() {
         return cameraName;
     }

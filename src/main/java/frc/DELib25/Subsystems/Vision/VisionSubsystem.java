@@ -49,12 +49,12 @@ public abstract class VisionSubsystem extends SubsystemBase {
       if(aprilTagCameraSettings != null){
 			LimelightHelpers.setCameraPose_RobotSpace(
 				CameraType.AprilTagCamera.getCameraName(),
-				aprilTagCameraSettings.m_forward,
-				aprilTagCameraSettings.m_Side,
-				aprilTagCameraSettings.m_up,
-				aprilTagCameraSettings.m_roll,
-				aprilTagCameraSettings.m_pitch,
-				aprilTagCameraSettings.m_yaw
+				aprilTagCameraSettings.forward,
+				aprilTagCameraSettings.side,
+				aprilTagCameraSettings.up,
+				aprilTagCameraSettings.roll,
+				aprilTagCameraSettings.pitch,
+				aprilTagCameraSettings.yaw
 			);
       	}
       LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
@@ -108,7 +108,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
     public double getTx(){return this.tx;}
     
 	public double getTy() {
-		return this.ty + this.aprilTagCameraSettings.m_pitch;
+		return this.ty + this.aprilTagCameraSettings.pitch;
 	}
 	
 	public boolean getTv(){return this.tv;}

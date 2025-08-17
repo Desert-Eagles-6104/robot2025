@@ -26,11 +26,11 @@ public class LinearInterpolator {
      * @param data, a table of x -> y mappings to be interpolated
      */
     public LinearInterpolator(double[][] data) {
-        build_table(data);
+        buildTable(data);
     }
 
-    public boolean isInitialized() {
-        return initialized;
+    public boolean isinitialized() {
+        return this.initialized;
     }
 
     /**
@@ -38,7 +38,7 @@ public class LinearInterpolator {
      * 
      * @param data a table of data to be interpolated
      */
-    private void build_table(double[][] data) {
+    private void buildTable(double[][] data) {
         int rows = data.length;
         if (rows < 1) {
             System.out.println("ERROR: linearInterpolator needs at least one data point.");
@@ -50,14 +50,14 @@ public class LinearInterpolator {
             return;
         }
 
-        table = new double[rows][cols];
+        this.table = new double[rows][cols];
         for (int x = 0; x < data.length; x++) {
             for (int y = 0; y < data[x].length; y++) {
-                table[x][y] = data[x][y];
+                this.table[x][y] = data[x][y];
             }
         }
-        Arrays.sort(table, (a, b) -> Double.compare(a[0], b[0]));
-        initialized = true;
+        Arrays.sort(this.table, (a, b) -> Double.compare(a[0], b[0]));
+        this.initialized = true;
     }
 
     /**
@@ -78,7 +78,7 @@ public class LinearInterpolator {
      */
     public double getInterpolatedValue(double x) {
 
-        if (!initialized) {
+        if (!this.initialized) {
             System.out.println("ERROR: linearInterpolator number of columns should be 2");
             return 0.0;
         }
@@ -86,25 +86,25 @@ public class LinearInterpolator {
         // NOTE: this uses linear search, for larger tables (>5), binary search would be
         // faster
         int index = 0;
-        for (index = 0; index < table.length; index++) {
-            if (table[index][0] >= x) {
+        for (index = 0; index < this.table.length; index++) {
+            if (this.table[index][0] >= x) {
                 break;
             }
         }
 
         // System.out.println("index of " + x + " is " + index);
 
-        if (index >= table.length) {
-            return table[table.length - 1][1];
+        if (index >= this.table.length) {
+            return this.table[this.table.length - 1][1];
         }
 
-        double high_y = table[index][1];
-        double high_x = table[index][0];
+        double high_y = this.table[index][1];
+        double high_x = this.table[index][0];
         if ((high_x == x) || (index == 0)) {
             return high_y;
         }
-        double low_y = table[index - 1][1];
-        double low_x = table[index - 1][0];
+        double low_y = this.table[index - 1][1];
+        double low_x = this.table[index - 1][0];
 
         return (low_y + (x - low_x) * (high_y - low_y) / (high_x - low_x));
     }
