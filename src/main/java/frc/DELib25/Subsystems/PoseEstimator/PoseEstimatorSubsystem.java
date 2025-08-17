@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.DELib25.Subsystems.PoseEstimator;
 
 import edu.wpi.first.math.VecBuilder;
@@ -16,15 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Intepulation.InterpolatingDouble;
 import frc.DELib25.Intepulation.InterpolatingTreeMap;
-import frc.DELib25.Subsystems.Swerve.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
-import frc.DELib25.Subsystems.drive.SwerveIOCTRE;
+import frc.DELib25.Subsystems.drive.SwerveSubsystem;
 
 /** Creates a new PoseEstimator. */
 public class PoseEstimatorSubsystem extends SubsystemBase {
 
-  private SwerveIOCTRE swerve;
+  private SwerveSubsystem swerve;
   private LimelightHelpers.PoseEstimate limelightMesermentMT2;
   private boolean first;
   private StableBoolean tvStableBoolean;
@@ -32,26 +27,26 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
   private VisionSubsystem vision;
-  
-  public PoseEstimatorSubsystem(SwerveIOCTRE swerve, VisionSubsystem vision) {
+
+  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystem vision) {
     this.swerve = swerve;
     this.vision = vision;
 
     this.odometry = new SwerveDrivePoseEstimator(
-      this.swerve.getKinematics(),
-      Rotation2d.fromDegrees(0),
-      this.swerve.getModulesPositions(), new Pose2d(),
-      VecBuilder.fill(0.1, 0.1, 0.1),
-      VecBuilder.fill(0.3, 0.3, 9999999)
-    );
-    
+        this.swerve.getIO().getKinematics(),
+        Rotation2d.fromDegrees(0),
+        this.swerve.getIO().getModulesPositions(), new Pose2d(),
+        VecBuilder.fill(0.1, 0.1, 0.1),
+        VecBuilder.fill(0.3, 0.3, 9999999));
+
     this.first = true;
     this.tvStableBoolean = new StableBoolean(0.15);
     this.field = new Field2d();
 
     SmartDashboard.putData("Field", this.field);
 
-    this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose history size
+    this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose
+                                                     // history size
   }
 
   @Override
@@ -62,7 +57,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
     } else {
       this.first = false;
     }
-    
+
     Pose2d currentPose = this.updateOdometry();
     this.pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), currentPose);
     SmartDashboard.putNumber("RobotHeading", getHeading().getDegrees());
@@ -79,12 +74,10 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       boolean rejectUpdate = false;
       LimelightHelpers.SetRobotOrientation("limelight-april", getPose().getRotation().getDegrees(), 0, 0, 0, 0, 0);
       this.limelightMesermentMT2 = this.vision.getEstimatedRobotPose();
-      if (Math.abs(this.swerve.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 360
-          || this.limelightMesermentMT2.pose == null) {
+      if (Math.abs(this.swerve.getIO().getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 360 || this.limelightMesermentMT2.pose == null) {
         rejectUpdate = true;
       }
-      if (!rejectUpdate && this.tvStableBoolean.update(this.vision.getTv())
-          && this.limelightMesermentMT2.pose != null) {
+      if (!rejectUpdate && this.tvStableBoolean.update(this.vision.getTv()) && this.limelightMesermentMT2.pose != null) {
         this.addVisionMeasurement(this.limelightMesermentMT2.pose, this.limelightMesermentMT2.timestampSeconds);
       }
     } else {
@@ -93,24 +86,21 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   }
 
   public void resetOdometryToPose(Pose2d pose) {
-    this.odometry.resetPosition(this.swerve.getYaw(), this.swerve.getModulesPositions(), pose);
+    this.odometry.resetPosition(this.swerve.getIO().getYaw(), this.swerve.getIO().getModulesPositions(), pose);
   }
 
   public void zeroHeading() {
     Rotation2d heading;
-    if(DriverStation.getAlliance().isPresent()
-     && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red))
-     {
+    if (DriverStation.getAlliance().isPresent() && (DriverStation.getAlliance().get() == DriverStation.Alliance.Red)) {
       heading = Rotation2d.fromDegrees(180);
-     }
-      else{
-        heading = new Rotation2d();
-      }
+    } else {
+      heading = new Rotation2d();
+    }
     this.odometry.resetRotation(heading);
   }
 
   public Pose2d updateOdometry() {
-    return this.odometry.update(this.swerve.getYaw(), this.swerve.getModulesPositions());
+    return this.odometry.update(this.swerve.getIO().getYaw(), this.swerve.getIO().getModulesPositions());
   }
 
   public void addVisionMeasurement(Pose2d visionPose, double timestamp) {
@@ -120,7 +110,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return this.odometry.getEstimatedPosition();
   }
-  
+
   public Rotation2d getHeading() {
     return this.getPose().getRotation();
   }
@@ -130,7 +120,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
       this.resetOdometryToPose(this.limelightMesermentMT2.pose);
     }
   }
-  
+
   public Pose2d getInterpolatedPose(double latencySeconds) {
     double timestamp = Timer.getFPGATimestamp() - latencySeconds;
     return this.pastPoses.getInterpolated(new InterpolatingDouble(timestamp));

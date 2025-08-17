@@ -139,6 +139,10 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         return this.getStateCopy().ModulePositions;
     }
 
+    public void disable() {
+        this.
+    }
+
     public Rotation2d getYaw() {
         return this.getState().Pose.getRotation();
     }
