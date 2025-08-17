@@ -45,8 +45,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
 
     SmartDashboard.putData("Field", this.field);
 
-    this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose
-                                                     // history size
+    this.pastPoses = new InterpolatingTreeMap<>(51); // Represents the max pose history size
   }
 
   @Override
