@@ -9,28 +9,27 @@ import edu.wpi.first.math.interpolation.Interpolatable;
  *
  * @see InterpolatingTreeMap
  */
-public class InterpolatingDouble implements Interpolatable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>,
-        Comparable<InterpolatingDouble> {
-    public Double value = 0.0;
+public class InterpolatingDouble implements Interpolatable<InterpolatingDouble>, InverseInterpolable<InterpolatingDouble>, Comparable<InterpolatingDouble> {
+    private Double value = 0.0;
             
-    public InterpolatingDouble(Double val) {
-        value = val;
+    public InterpolatingDouble(Double value) {
+        this.value = value;
     }
 
     @Override
     public InterpolatingDouble interpolate(InterpolatingDouble other, double x) {
-        Double dydx = other.value - value;
-        Double searchY = dydx * x + value;
+        Double dydx = other.value - this.value;
+        Double searchY = dydx * x + this.value;
         return new InterpolatingDouble(searchY);
     }
 
     @Override
     public double inverseInterpolate(InterpolatingDouble upper, InterpolatingDouble query) {
-        double upper_to_lower = upper.value - value;
+        double upper_to_lower = upper.value - this.value;
         if (upper_to_lower <= 0) {
             return 0;
         }
-        double query_to_lower = query.value - value;
+        double query_to_lower = query.value - this.value;
         if (query_to_lower <= 0) {
             return 0;
         }
@@ -39,9 +38,9 @@ public class InterpolatingDouble implements Interpolatable<InterpolatingDouble>,
 
     @Override
     public int compareTo(InterpolatingDouble other) {
-        if (other.value < value) {
+        if (other.value < this.value) {
             return 1;
-        } else if (other.value > value) {
+        } else if (other.value > this.value) {
             return -1;
         } else {
             return 0;
