@@ -1,4 +1,4 @@
-package frc.DELib25.Intepulation;
+package frc.DELib25.Interpolation;
 
 /** Credit to Team 254 */
 

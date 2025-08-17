@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.CSV.CSVReader;
-import frc.DELib25.Intepulation.LinearInterpolator;
+import frc.DELib25.Interpolation.LinearInterpolator;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 public class MotorSubsystemInterpolatedVelocity extends Command{

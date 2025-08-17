@@ -1,4 +1,4 @@
-package frc.DELib25.Intepulation;
+package frc.DELib25.Interpolation;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of

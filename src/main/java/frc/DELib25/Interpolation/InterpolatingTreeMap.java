@@ -1,4 +1,4 @@
-package frc.DELib25.Intepulation;
+package frc.DELib25.Interpolation;
 
 import java.util.Map;
 import java.util.TreeMap;
