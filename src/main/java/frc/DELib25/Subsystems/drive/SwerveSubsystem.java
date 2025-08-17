@@ -1,4 +1,4 @@
-package frc.DELib25.Subsystems.drive;
+package frc.DELib25.Subsystems.Drive;
 
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.DELib25.Subsystems.drive.ModuleIOInputsAutoLogged;
+import frc.DELib25.Subsystems.drive.SwerveIOInputsAutoLogged;
 import frc.DELib25.Util.SysIdMechanism;
 import frc.robot.constants.Constants;//just for now to be removed after i finish the refactor
 import frc.robot.constants.FieldConstants;
@@ -35,6 +37,27 @@ public class SwerveSubsystem extends SubsystemBase {
     public static final double DRIVE_TO_POINT_STATIC_FRICTION_CONSTANT = 0.02;
 
     public static final double ROTATION_ERROR_MARGIN_FOR_ROTATION_LOCK_DEGREES = 10.0;
+
+    /** High-level operating modes for the swerve subsystem. */
+public enum DriveState {
+  /** System identification/characterization routines (SysId). Robot ignores driver input. */
+  SYS_ID,
+
+  /** Normal teleop driving from joysticks (field or robot relative per your code). */
+  TELEOP_DRIVE,
+
+  /** Following a Choreo trajectory (pose & velocity targets come from the path). */
+  CHOREO_PATH,
+
+  /** Locks robot heading to a target angle while allowing X/Y translation. */
+  ROTATION_LOCK,
+
+  /** Drives to a specific field pose (PID to a pose target). */
+  DRIVE_TO_POINT,
+
+  /** Idle/stop: command zero speeds so modules enter neutral behavior (Brake/Coast). */
+  IDLE
+}
 
     private static Pose2d robotToFieldFromSwerveDriveOdometry = new Pose2d();
 
@@ -55,26 +78,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private static final double SKEW_COMPENSATION_SCALAR = -0.03;
 
-    public enum WantedState {
-        SYS_ID,
-        TELEOP_DRIVE,
-        CHOREO_PATH,
-        ROTATION_LOCK,
-        DRIVE_TO_POINT,
-        IDLE
-    }
 
-    public enum SystemState {
-        SYS_ID,
-        TELEOP_DRIVE,
-        CHOREO_PATH,
-        ROTATION_LOCK,
-        DRIVE_TO_POINT,
-        IDLE
-    }
-
-    private SystemState systemState = SystemState.TELEOP_DRIVE;
-    private WantedState wantedState = WantedState.TELEOP_DRIVE;
+    private DriveState systemState = DriveState.TELEOP_DRIVE;
+    private DriveState wantedState = DriveState.TELEOP_DRIVE;
 
     private Rotation2d desiredRotationForRotationLockState;
 
@@ -84,16 +90,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private Pose2d desiredPoseForDriveToPoint = new Pose2d();
 
-    final SwerveIOInputsAutoLogged swerveInputs = new SwerveIOInputsAutoLogged();// Its
-                                                                                 // in
-                                                                                 // error
-                                                                                 // becuse
-                                                                                 // i
-                                                                                 // didnt
-                                                                                 // build
-                                                                                 // the
-                                                                                 // project
-                                                                                 // yet
+    final SwerveIOInputsAutoLogged swerveInputs = new SwerveIOInputsAutoLogged();// Its in error becuse i didnt build the project yet
     ModuleIOInputsAutoLogged frontLeftInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged frontRightInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged backLeftInputs = new ModuleIOInputsAutoLogged();
@@ -219,23 +216,23 @@ public class SwerveSubsystem extends SubsystemBase {
         this.applyStates();
     }
 
-    private SystemState handleStateTransition() {
+    private DriveState handleStateTransition() {
         return switch (wantedState) {
-        case SYS_ID -> SystemState.SYS_ID;
-        case TELEOP_DRIVE -> SystemState.TELEOP_DRIVE;
+        case SYS_ID -> DriveState.SYS_ID;
+        case TELEOP_DRIVE -> DriveState.TELEOP_DRIVE;
         case CHOREO_PATH -> {
-            if (systemState != SystemState.CHOREO_PATH) {
+            if (systemState != DriveState.CHOREO_PATH) {
                 choreoTimer.restart();
                 choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                yield SystemState.CHOREO_PATH;
+                yield DriveState.CHOREO_PATH;
             } else {
                 choreoSampleToBeApplied = desiredChoreoTrajectory.sampleAt(choreoTimer.get(), false);
-                yield SystemState.CHOREO_PATH;
+                yield DriveState.CHOREO_PATH;
             }
         }
-        case ROTATION_LOCK -> SystemState.ROTATION_LOCK;
-        case DRIVE_TO_POINT -> SystemState.DRIVE_TO_POINT;
-        default -> SystemState.IDLE;
+        case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
+        case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
+        default -> DriveState.IDLE;
         };
     }
 
@@ -335,19 +332,19 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void setState(WantedState state) {
+    public void setState(DriveState state) {
         this.wantedState = state;
     }
 
     public void setDesiredChoreoTrajectory(Trajectory<SwerveSample> trajectory) {
         this.desiredChoreoTrajectory = trajectory;
-        this.wantedState = WantedState.CHOREO_PATH;
+        this.wantedState = DriveState.CHOREO_PATH;
         choreoTimer.reset();
     }
 
     public void setDesiredPoseForDriveToPoint(Pose2d pose) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = WantedState.DRIVE_TO_POINT;
+        this.wantedState = DriveState.DRIVE_TO_POINT;
         this.maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
         this.maximumAngularVelocityForDriveToPoint = Double.NaN;
     }
@@ -355,21 +352,21 @@ public class SwerveSubsystem extends SubsystemBase {
     public void setDesiredPoseForDriveToPointWithMaximumAngularVelocity(
             Pose2d pose, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = WantedState.DRIVE_TO_POINT;
+        this.wantedState = DriveState.DRIVE_TO_POINT;
         this.maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
         this.maximumAngularVelocityForDriveToPoint = maximumAngularVelocityForDriveToPoint;
     }
 
     public void setDesiredPoseForDriveToPoint(Pose2d pose, double maxVelocityOutputForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = WantedState.DRIVE_TO_POINT;
+        this.wantedState = DriveState.DRIVE_TO_POINT;
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
     }
 
     public void setDesiredPoseForDriveToPointWithConstraints(
             Pose2d pose, double maxVelocityOutputForDriveToPoint, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = WantedState.DRIVE_TO_POINT;
+        this.wantedState = DriveState.DRIVE_TO_POINT;
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
         this.maximumAngularVelocityForDriveToPoint = maximumAngularVelocityForDriveToPoint;
     }
@@ -416,12 +413,12 @@ public class SwerveSubsystem extends SubsystemBase {
         io.resetRotation();
     }
 
-    public void setWantedState(WantedState state) {
+    public void setWantedState(DriveState state) {
         this.wantedState = state;
     }
 
     public void setTargetRotation(Rotation2d desiredRotation) {
-        setWantedState(WantedState.ROTATION_LOCK);
+        setWantedState(DriveState.ROTATION_LOCK);
         this.desiredRotationForRotationLockState = desiredRotation;
     }
 
@@ -443,7 +440,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public boolean isAtChoreoSetpoint() {
-        if (systemState != SystemState.CHOREO_PATH) {
+        if (systemState != DriveState.CHOREO_PATH) {
             return false;
         }
         return MathUtil.isNear(
