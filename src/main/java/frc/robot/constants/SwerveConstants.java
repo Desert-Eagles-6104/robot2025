@@ -10,7 +10,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
-import frc.DELib25.Subsystems.Swerve.SwerveUtil.COTSTalonFXSwerveConstants;
+import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Util.ProjectConstants;
 /**
  * Holds all the constants for the robot swerve drivetrain and modules.

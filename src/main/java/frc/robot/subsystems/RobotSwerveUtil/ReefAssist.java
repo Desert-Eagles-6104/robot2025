@@ -10,8 +10,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
+import frc.DELib25.Util.FieldUtil;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
-import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
 
 public class ReefAssist extends Command {
@@ -60,7 +60,7 @@ public class ReefAssist extends Command {
 		double fwd = filterForward.calculate(-err.getX()) * kpForward;
 		double str = filterSide.calculate(-err.getY()) * kpSide;
 
-		if (!FieldConstants.isBlueAlliance()) {
+		if (!FieldUtil.isBlueAlliance()) {
 			fwd = -fwd;
 			str = -str;
 		}

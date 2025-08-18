@@ -13,9 +13,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import frc.robot.Robot;
 import frc.DELib25.Util.FieldUtil;
-
+import frc.DELib25.Util.ProjectConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -100,7 +99,7 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
 
     @Override
     public void updateSimState() {
-        this.updateSimState(Robot.defaultPeriodSecs, 13.00);
+        this.updateSimState(ProjectConstants.DEFAULT_PERIOD_SECS, 13.00);
     }
 
     public void updateModuleInputs(ModuleIOInputs... inputs) {
