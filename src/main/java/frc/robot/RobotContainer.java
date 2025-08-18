@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
+import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Sysid.PhoneixSysid;
@@ -51,6 +52,7 @@ public class RobotContainer {
 	private CommandPS5Controller operatorController = new CommandPS5Controller(1);
 	private DriverStationController driverStationController = new DriverStationController(2);
 	private SwerveSubsystem m_swerve;
+	private SwerveSubsystem swerveSubsystem;
 	private VisionSubsystemRobot2025 m_vision;
 	private Climb m_climb;
 	private ElevatorSubsystem m_elevator;
@@ -64,7 +66,13 @@ public class RobotContainer {
 	private static BooleanSupplier autoApprove = () -> true;
 
 	public RobotContainer() {
-		m_swerve = SwerveSubsystem.createInstance(ProjectConstants.Swerve.swerveConstants);
+		this.swerveSubsystem = new SwerveSubsystem(
+                new SwerveIOCTRE(constants.getSwerveDrivetrainConstants(), constants.getModuleConstants()),
+                controller,
+                moduleConstants[0].SpeedAt12Volts,
+                moduleConstants[0].SpeedAt12Volts
+                        / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY));
+		//m_swerve = SwerveSubsystem.createInstance(ProjectConstants.Swerve.swerveConstants);
 		m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
 		m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
 		m_climb = new Climb();

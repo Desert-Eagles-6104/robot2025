@@ -41,6 +41,11 @@ public class PIDContainer
         this(kS, kV, kA, kG, 0.0, 0.0, 0.0);
     }
 
+    public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI)
+    {
+        this(kS, kV, kA, kG, kP, kI, 0.0);
+    }
+
     public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI, double kD)
     {
         this.kS = kS;
