@@ -56,7 +56,6 @@ public class RobotContainer {
 	private CommandPS5Controller drivercontroller = new CommandPS5Controller(0);
 	private CommandPS5Controller operatorController = new CommandPS5Controller(1);
 	private DriverStationController driverStationController = new DriverStationController(2);
-	private SwerveSubsystem m_swerve;
 	private SwerveSubsystem swerveSubsystem;
 	private VisionSubsystemRobot2025 m_vision;
 	private Climb m_climb;
@@ -87,7 +86,7 @@ public class RobotContainer {
 		m_gripper = new GripperSubsystem();
 		m_gripper2 = new Gripper2Subsystem();
 		m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
-		m_poseEstimator = new PoseEstimatorSubsystem(m_swerve, m_vision);
+		m_poseEstimator = new PoseEstimatorSubsystem(this.swerveSubsystem, m_vision);
 		m_isLocalisation = driverStationController.LeftSwitch().negate();
 		m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
 		
@@ -112,7 +111,7 @@ public class RobotContainer {
 	}
 
 	public void disableMotors() {
-		m_swerve.zeroOutputs();
+		this.swerveSubsystem.zeroOutputs();
 	}
 
 	// TODO: Phase this out 

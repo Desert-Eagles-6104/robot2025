@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Robot;
-import frc.robot.constants.FieldConstants;
+import frc.DELib25.Util.FieldUtil;
 
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         ) {
             
         super(TalonFX::new, TalonFX::new, CANcoder::new, constants, moduleConstants);
-        this.resetRotation(FieldConstants.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
+        this.resetRotation(FieldUtil.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
 
         signalsMap.put(0, frontLeftSignals);
         signalsMap.put(1, frontRightSignals);
@@ -85,7 +85,7 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
 
     @Override
     public void resetRotation() {
-        this.resetRotation(FieldConstants.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
+        this.resetRotation(FieldUtil.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
     }
 
     @Override

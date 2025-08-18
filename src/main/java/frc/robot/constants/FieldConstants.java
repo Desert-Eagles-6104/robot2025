@@ -5,6 +5,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import static frc.DELib25.Util.FieldUtil.*;
 
 @SuppressWarnings("UnusedVariable")
 public class FieldConstants {
@@ -91,9 +92,6 @@ public class FieldConstants {
             Rotation2d.fromDegrees(55));
 
 
-    public static boolean isBlueAlliance() {
-        return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Blue;
-    }
 
     public static boolean isBlueAllianceStrict() {
         return DriverStation.getAlliance().isPresent() && isBlueAlliance();

@@ -22,7 +22,7 @@ import frc.DELib25.Subsystems.drive.ModuleIOInputsAutoLogged;
 import frc.DELib25.Subsystems.drive.SwerveIOInputsAutoLogged;
 import frc.DELib25.Util.SysIdMechanism;
 import frc.robot.constants.Constants;//just for now to be removed after i finish the refactor
-import frc.robot.constants.FieldConstants;
+import frc.DELib25.Util.FieldUtil;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -371,8 +371,8 @@ public class SwerveSubsystem extends SubsystemBase {
         // yMagnitude = Math.copySign(yMagnitude * yMagnitude, yMagnitude);
         angularMagnitude = Math.copySign(angularMagnitude * angularMagnitude, angularMagnitude);
 
-        double xVelocity = (FieldConstants.isBlueAlliance() ? -xMagnitude * maxVelocity : xMagnitude * maxVelocity) * teleopVelocityCoefficient;
-        double yVelocity = (FieldConstants.isBlueAlliance() ? -yMagnitude * maxVelocity : yMagnitude * maxVelocity) * teleopVelocityCoefficient;
+        double xVelocity = (FieldUtil.isBlueAlliance() ? -xMagnitude * maxVelocity : xMagnitude * maxVelocity) * teleopVelocityCoefficient;
+        double yVelocity = (FieldUtil.isBlueAlliance() ? -yMagnitude * maxVelocity : yMagnitude * maxVelocity) * teleopVelocityCoefficient;
         double angularVelocity = angularMagnitude * maxAngularVelocity * rotationVelocityCoefficient;
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
