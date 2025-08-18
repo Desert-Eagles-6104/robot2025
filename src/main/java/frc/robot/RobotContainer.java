@@ -6,7 +6,11 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -33,6 +37,7 @@ import frc.robot.Commands.integrationCommands.L4Score;
 import frc.robot.Commands.integrationCommands.L4ScoreAuto;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
+import frc.robot.constants.SwerveConstants;
 import frc.robot.presetState.PresetState;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -66,13 +71,16 @@ public class RobotContainer {
 	private static BooleanSupplier autoApprove = () -> true;
 
 	public RobotContainer() {
+		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants =
+		SwerveConstants.getSwerveModuleConstants();
 		this.swerveSubsystem = new SwerveSubsystem(
-                new SwerveIOCTRE(constants.getSwerveDrivetrainConstants(), constants.getModuleConstants()),
-                controller,
-                moduleConstants[0].SpeedAt12Volts,
-                moduleConstants[0].SpeedAt12Volts
-                        / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY));
-		//m_swerve = SwerveSubsystem.createInstance(ProjectConstants.Swerve.swerveConstants);
+			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
+			drivercontroller,
+			moduleConstants[0].SpeedAt12Volts,
+			moduleConstants[0].SpeedAt12Volts / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY)
+		);
+
+
 		m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
 		m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
 		m_climb = new Climb();
