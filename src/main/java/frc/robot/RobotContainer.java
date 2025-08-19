@@ -69,7 +69,10 @@ public class RobotContainer {
 			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
 			drivercontroller,
 			moduleConstants[0].SpeedAt12Volts,
-			moduleConstants[0].SpeedAt12Volts / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY)
+			moduleConstants[0].SpeedAt12Volts / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY),
+			SwerveConstants.TRANSLATION_SYS_ID_CONFIG,
+			SwerveConstants.ROTATION_SYS_ID_CONFIG,
+			SwerveConstants.STEER_SYS_ID_CONFIG
 		);
 
 

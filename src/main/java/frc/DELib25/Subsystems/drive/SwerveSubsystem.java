@@ -2,7 +2,6 @@ package frc.DELib25.Subsystems.Drive;
 
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
-import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -18,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.DELib25.Subsystems.drive.ModuleIOInputsAutoLogged;
-import frc.DELib25.Subsystems.drive.SwerveIOInputsAutoLogged;
 import frc.DELib25.Util.SysIdMechanism;
 import frc.DELib25.Util.FieldUtil;
 
@@ -27,7 +24,6 @@ import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
 
-import static edu.wpi.first.units.Units.Volts;
 
 public class SwerveSubsystem extends SubsystemBase {
     private static final double CONTROLLER_DEADBAND = 0.1;
@@ -88,47 +84,17 @@ public class SwerveSubsystem extends SubsystemBase {
     private double rotationVelocityCoefficient = 1.0;
     private double maximumAngularVelocityForDriveToPoint = Double.NaN;
 
-    private final SysIdRoutine translationSysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    Constants.SysIdConstants.TRANSLATION_RAMP_RATE,
-                    Constants.SysIdConstants.TRANSLATION_STEP_RATE,
-                    Constants.SysIdConstants.TRANSLATION_TIMEOUT,
-                    state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output)), null, this));
-
+    private final SysIdRoutine translationSysIdRoutine;
     /*
      * SysId routine for characterizing rotation. This is used to find PID gains
      * for the FieldCentricFacingAngle HeadingController.
      */
-    private final SysIdRoutine rotationSysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    Constants.SysIdConstants.ROTATION_RAMP_RATE,
-                    Constants.SysIdConstants.ROTATION_STEP_RATE,
-                    Constants.SysIdConstants.ROTATION_TIMEOUT,
-                    state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    output -> {
-                        /*
-                         * output is actually radians per second, but SysId only
-                         * supports "volts"
-                         */
-                        this.io.setSwerveState(this.rotationCharacterization.withRotationalRate(output.in(Volts)));
-                        /* also log the requested output for SysId */
-                        SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-                    },
-                    null,
-                    this));
+    private final SysIdRoutine rotationSysIdRoutine;
 
-    private final SysIdRoutine steerSysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    Constants.SysIdConstants.STEER_RAMP_RATE,
-                    Constants.SysIdConstants.STEER_STEP_RATE,
-                    Constants.SysIdConstants.STEER_TIMEOUT,
-                    state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
-            new SysIdRoutine.Mechanism(volts -> this.io.setSwerveState(this.steerCharacterization.withVolts(volts)), null, this));
+    private final SysIdRoutine steerSysIdRoutine;
 
-    public SwerveSubsystem(SwerveIOCTRE io, CommandPS5Controller controller, double maxVelocity, double maxAngularVelocity,) {
+    public SwerveSubsystem(SwerveIOCTRE io, CommandPS5Controller controller, double maxVelocity, double maxAngularVelocity,SysIdRoutine.Config translationSysIdRoutineConfig,
+    SysIdRoutine.Config rotationSysIdRoutineConfig, SysIdRoutine.Config steerSysIdRoutineConfig) {
         this.io = io;
         this.controller = controller;
         this.maxVelocity = maxVelocity;
@@ -140,6 +106,19 @@ public class SwerveSubsystem extends SubsystemBase {
         this.driveAtAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
         this.choreoThetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        this.translationSysIdRoutine = new SysIdRoutine(translationSysIdRoutineConfig, this.createSysIdRoutineMechanism());
+
+        this.rotationSysIdRoutine = new SysIdRoutine(rotationSysIdRoutineConfig, this.createSysIdRoutineMechanism());
+
+        this.steerSysIdRoutine = new SysIdRoutine(steerSysIdRoutineConfig, this.createSysIdRoutineMechanism());
+    }
+
+    private SysIdRoutine.Mechanism createSysIdRoutineMechanism() {
+        return new SysIdRoutine.Mechanism(
+            output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output)),
+            null,this
+        );
     }
 
     private SysIdRoutine getRoutine(SysIdMechanism mechanism) {

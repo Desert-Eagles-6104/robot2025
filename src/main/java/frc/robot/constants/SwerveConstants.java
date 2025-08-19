@@ -1,4 +1,5 @@
 package frc.robot.constants;
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -9,11 +10,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import frc.DELib25.Util.SysIdMechanism;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Util.ProjectConstants;
-import frc.DELib25.Sysid.SysidConfiguration;
 
 /**
  * Holds all the constants for the robot swerve drivetrain and modules.
@@ -108,14 +110,14 @@ public final class SwerveConstants {
     private static final int GYRO_MOUNTING_ANGLE = ProjectConstants.ERROR_CODE;//TODO: tune
 
     //SysId configs
-    public static final SysidConfiguration TRANSLATION_SYS_ID_CONFIG = new SysidConfiguration(
-        null, Units.Volts.of(7), Units.Seconds.of(7)
+    public static final SysIdRoutine.Config TRANSLATION_SYS_ID_CONFIG = new SysIdRoutine.Config(
+        null, Units.Volts.of(7), Units.Seconds.of(7),state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())
     );
-    public static final SysidConfiguration ROTATION_SYS_ID_CONFIG = new SysidConfiguration(
-        Units.Volts.of(Math.PI / 6).per(Units.Second), Units.Volts.of(Math.PI), Units.Seconds.of(5)
+    public static final SysIdRoutine.Config ROTATION_SYS_ID_CONFIG = new SysIdRoutine.Config(
+        Units.Volts.of(Math.PI / 6).per(Units.Second), Units.Volts.of(Math.PI), Units.Seconds.of(5),state -> SignalLogger.writeString("SysIdRotation_State", state.toString())
     );
-    public static final SysidConfiguration STEER_SYS_ID_CONFIG = new SysidConfiguration(
-        null, Units.Volts.of(7), null
+    public static final SysIdRoutine.Config STEER_SYS_ID_CONFIG = new SysIdRoutine.Config(
+        null, Units.Volts.of(7), null,state -> SignalLogger.writeString("SysIdSteer_State", state.toString())
     );
 
     private static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] swerveModuleConstants = createSwerveModuleConstants();
