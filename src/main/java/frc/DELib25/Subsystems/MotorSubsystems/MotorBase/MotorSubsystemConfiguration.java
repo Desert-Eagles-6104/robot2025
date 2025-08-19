@@ -16,7 +16,7 @@ public class MotorSubsystemConfiguration {
 
     public double allowableError = 6.0;
 
-    public double homePosition = 0.0;
+    public double homePosition = 0.0; // TODO destroy later
 
     public double angleOffset = 0.0;
 

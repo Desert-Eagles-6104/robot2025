@@ -1,4 +1,4 @@
-package frc.DELib25.Subsystems.MotorSubsystems.Commands;
+package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;

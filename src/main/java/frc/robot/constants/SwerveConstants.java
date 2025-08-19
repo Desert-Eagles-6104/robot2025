@@ -10,10 +10,10 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
-import frc.DELib25.Util.SysIdMechanism;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.DELib25.Subsystems.Drive.SysIdMechanism;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Util.ProjectConstants;
 
@@ -26,33 +26,33 @@ public final class SwerveConstants {
     private static final String CANIVORE_CANBUS_NAME = "CANivore";//TODO: tune
     private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
     // Ports and IDs
-    private static final int GYRO_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int GYRO_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     // Swerve Modules
-    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int FRONT_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int FRONT_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
 
-    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int FRONT_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int FRONT_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
-    private static final int BACK_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int BACK_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int BACK_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int BACK_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
-    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int BACK_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final int BACK_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     
     // Switch
-    public static final int NEUTRAL_MODE_SWITCH_ID = ProjectConstants.ERROR_CODE;//TODO: tune
-    public static final int HOME_BUTTON_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    public static final int NEUTRAL_MODE_SWITCH_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    public static final int HOME_BUTTON_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     // Color sensor
-    public static final int CANANDCOLOR_ID = ProjectConstants.ERROR_CODE;//TODO: tune
+    public static final int CANANDCOLOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * Wheel radius in meters. Accuracy in these measurements affects wheel odometry
@@ -60,39 +60,39 @@ public final class SwerveConstants {
      */
     private static final double WHEEL_RADIUS_METERS = CHOSEN_MODULE_CONSTANTS.wheelDiameter / 2.0;
 
-    private static final double DRIVE_MOTOR_PINION_TEETH_COUNT = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double DRIVE_MOTOR_PINION_TEETH_COUNT = ProjectConstants.ERROR_CODE_INT;//TODO: tune
     /**
      * Ratio between the drive motor shaft and the output shaft the wheel is mounted on.
      */
-    private static final double DRIVE_GEAR_RATIO = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double DRIVE_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * Ratio between the steer motor shaft and the steer output shaft.
      */
-    private static final double STEER_GEAR_RATIO = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double STEER_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * The coupled gear ratio between the CanCoder and the drive motor.
      * Every 1 rotation of the steer motor results in coupled ratio of drive turns.
      */
-    private static final double COUPLING_GEAR_RATIO = ProjectConstants.ERROR_CODE / DRIVE_MOTOR_PINION_TEETH_COUNT;//TODO: tune
+    private static final double COUPLING_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT / DRIVE_MOTOR_PINION_TEETH_COUNT;//TODO: tune
 
     /**
      * Wheelbase length is the distance between the front and back wheels.
      * Positive x values represent moving towards the front of the robot
      */
-    private static final double WHEELBASE_LENGTH_METERS = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double WHEELBASE_LENGTH_METERS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * Wheel track width is the distance between the left and right wheels.
      * Positive y values represent moving towards the left of the robot.
      */
-    private static final double WHEEL_TRACK_WIDTH_METERS = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double WHEEL_TRACK_WIDTH_METERS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double MAX_SPEED_METERS_PER_SECOND = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * The maximum angular speed of the robot in radians per second.
@@ -101,13 +101,13 @@ public final class SwerveConstants {
      */
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE;//TODO: tune
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
-    private static final int GYRO_MOUNTING_ANGLE = ProjectConstants.ERROR_CODE;//TODO: tune
+    private static final int GYRO_MOUNTING_ANGLE = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     //SysId configs
     public static final SysIdRoutine.Config TRANSLATION_SYS_ID_CONFIG = new SysIdRoutine.Config(

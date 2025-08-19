@@ -5,20 +5,21 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.DELib25.Sensors.BeamBreakSubsystem;
 import frc.robot.Constants;
 
 public class Gripper2Subsystem extends SubsystemBase {
 
 	private TalonFX gripper;
-	private BeamBreakSubsystem beamBreak;
+	private DigitalInput beamBreak;
 
 	/** Creates a new Gripper2Subsystem. */
 	public Gripper2Subsystem() {
 		gripper = new TalonFX(2);
-		this.beamBreak = new BeamBreakSubsystem(Constants.Gripper.beamBreakPort);
+		this.beamBreak = new DigitalInput(Constants.Gripper.beamBreakPort);
 	}
 
 	public boolean HasGamePiece() {

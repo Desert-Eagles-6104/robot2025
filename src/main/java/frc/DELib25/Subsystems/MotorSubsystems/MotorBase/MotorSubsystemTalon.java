@@ -141,7 +141,7 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	
 	public void ControlSoftLimit(boolean enableSoftLimit) {
 		double forwardSoftLimitThreshold = this.configuration.master.getTalonFXConfig().SoftwareLimitSwitch.ForwardSoftLimitThreshold;
-		if (forwardSoftLimitThreshold == ProjectConstants.ERROR_CODE) {
+		if (forwardSoftLimitThreshold == ProjectConstants.ERROR_CODE_INT) {
 			throw new IllegalStateException("Software Limit Switch configuration is not set for the master motor.");
 		}
 		this.ControlSoftLimit(enableSoftLimit, forwardSoftLimitThreshold);

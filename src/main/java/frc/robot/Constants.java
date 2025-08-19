@@ -59,9 +59,9 @@ public final class Constants {
             .withSupplyCurrentLowerLimit(60)
             .withSupplyCurrentLowerTime(0.1)
             // There's a problem here that if i in the future enable it and then tried to retrieve the value from here it will just be the ERROR_CODE value.
-            .withStatorCurrentLimitEnable(statorCurrentLimit != ProjectConstants.ERROR_CODE)
+            .withStatorCurrentLimitEnable(statorCurrentLimit != ProjectConstants.ERROR_CODE_INT)
             .withStatorCurrentLimit(statorCurrentLimit)
-            .withSupplyCurrentLimitEnable(supplyCurrentLimit != ProjectConstants.ERROR_CODE)
+            .withSupplyCurrentLimitEnable(supplyCurrentLimit != ProjectConstants.ERROR_CODE_INT)
             .withSupplyCurrentLimit(supplyCurrentLimit);
         
         return talonConfig;

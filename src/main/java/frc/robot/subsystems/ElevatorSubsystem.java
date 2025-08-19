@@ -3,17 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.DELib25.Sensors.BeamBreakSubsystem;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
 public class ElevatorSubsystem extends MotorSubsystemTalon {
-  private BeamBreakSubsystem elevatorMagnet;
+  private DigitalInput elevatorMagnet;
   /** Creates a new Elevator. */
   public ElevatorSubsystem(MotorSubsystemConfiguration configuration) {
     super(configuration);  
-    elevatorMagnet = new BeamBreakSubsystem(1);
+    elevatorMagnet = new DigitalInput(1);
   }
    public void periodic() {
     super.periodic();
