@@ -10,8 +10,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
+import edu.wpi.first.units.Units;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Util.ProjectConstants;
+import frc.DELib25.Sysid.SysidConfiguration;
+
 /**
  * Holds all the constants for the robot swerve drivetrain and modules.
  * The drivetrain also includes the pigeon and gyro configurations.
@@ -104,6 +107,16 @@ public final class SwerveConstants {
 
     private static final int GYRO_MOUNTING_ANGLE = ProjectConstants.ERROR_CODE;//TODO: tune
 
+    //SysId configs
+    public static final SysidConfiguration TRANSLATION_SYS_ID_CONFIG = new SysidConfiguration(
+        null, Units.Volts.of(7), Units.Seconds.of(7)
+    );
+    public static final SysidConfiguration ROTATION_SYS_ID_CONFIG = new SysidConfiguration(
+        Units.Volts.of(Math.PI / 6).per(Units.Second), Units.Volts.of(Math.PI), Units.Seconds.of(5)
+    );
+    public static final SysidConfiguration STEER_SYS_ID_CONFIG = new SysidConfiguration(
+        null, Units.Volts.of(7), null
+    );
 
     private static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] swerveModuleConstants = createSwerveModuleConstants();
 
@@ -221,4 +234,6 @@ public final class SwerveConstants {
     public static SwerveDrivetrainConstants getSwerveDrivetrainConstants() {
         return swerveDrivetrainConstants;
     }
+
+    
 }

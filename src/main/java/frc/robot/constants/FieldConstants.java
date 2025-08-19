@@ -175,43 +175,43 @@ public class FieldConstants {
     public static Pose2d getBackoutPointToForL1Scoring(
             int tagID,
             boolean isScoringBase,
-            Constants.SuperstructureConstants.ScoringSide scoringSide,
-            Constants.SuperstructureConstants.ScoringDirection scoringDirection) {
+            SuperstructureConstants.ScoringSide scoringSide,
+            SuperstructureConstants.ScoringDirection scoringDirection) {
         return getDesiredPointToDriveToForL1Scoring(
                 tagID,
                 isScoringBase,
                 scoringSide,
                 scoringDirection,
-                Units.inchesToMeters(Constants.SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BACKOUT_INCHES));
+                Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BACKOUT_INCHES));
     }
 
     public static Pose2d getDesiredPointToDriveToForL1Scoring(
             int tagID,
             boolean isScoringBase,
-            Constants.SuperstructureConstants.ScoringSide scoringSide,
-            Constants.SuperstructureConstants.ScoringDirection scoringDirection) {
+            SuperstructureConstants.ScoringSide scoringSide,
+            SuperstructureConstants.ScoringDirection scoringDirection) {
         return getDesiredPointToDriveToForL1Scoring(tagID, isScoringBase, scoringSide, scoringDirection, 0.0);
     }
 
     public static Pose2d getDesiredPointToDriveToForL1Scoring(
             int tagID,
             boolean isScoringBase,
-            Constants.SuperstructureConstants.ScoringSide scoringSide,
-            Constants.SuperstructureConstants.ScoringDirection scoringDirection,
+            SuperstructureConstants.ScoringSide scoringSide,
+            SuperstructureConstants.ScoringDirection scoringDirection,
             double distanceFromFinalScoringPose) {
 
         if (tagID >= 1 && tagID <= 22) {
             Pose2d tagPose = FieldConstants.FIELD_LAYOUT.getTagPose(tagID).get().toPose2d();
             double xOffset = isScoringBase
                     ? Units.inchesToMeters(
-                            Constants.SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES
+                            SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES
                                     + Units.metersToInches(distanceFromFinalScoringPose))
-                    : Units.inchesToMeters(Constants.SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES
+                    : Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES
                             + Units.metersToInches(distanceFromFinalScoringPose));
 
             double yOffset =
-                    -Units.inchesToMeters(Constants.SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_L1_INCHES);
-            if (scoringSide == Constants.SuperstructureConstants.ScoringSide.RIGHT) {
+                    -Units.inchesToMeters(SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_L1_INCHES);
+            if (scoringSide == SuperstructureConstants.ScoringSide.RIGHT) {
                 yOffset *= -1;
             }
             Translation2d offsetFromTag = new Translation2d(xOffset, yOffset);
@@ -219,7 +219,7 @@ public class FieldConstants {
             var transformedPose =
                     tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
 
-            if (scoringDirection == Constants.SuperstructureConstants.ScoringDirection.FRONT) {
+            if (scoringDirection == SuperstructureConstants.ScoringDirection.FRONT) {
                 transformedPose = new Pose2d(
                         transformedPose.getTranslation(),
                         transformedPose.getRotation().plus(Rotation2d.k180deg));
@@ -233,25 +233,25 @@ public class FieldConstants {
 
     public static Pose2d getDesiredFinalScoringPoseForCoral(
             int tagID,
-            Constants.SuperstructureConstants.ScoringSide scoringSide,
-            Constants.SuperstructureConstants.ScoringDirection scoringDirection) {
+            SuperstructureConstants.ScoringSide scoringSide,
+            SuperstructureConstants.ScoringDirection scoringDirection) {
         return getDesiredPointToDriveToForCoralScoring(tagID, scoringSide, scoringDirection, 0.0);
     }
 
     public static Pose2d getDesiredPointToDriveToForCoralScoring(
             int tagID,
-            Constants.SuperstructureConstants.ScoringSide scoringSide,
-            Constants.SuperstructureConstants.ScoringDirection scoringDirection,
+            SuperstructureConstants.ScoringSide scoringSide,
+            SuperstructureConstants.ScoringDirection scoringDirection,
             double distanceFromFinalScoringPose) {
 
         if (tagID >= 1 && tagID <= 22) {
             Pose2d tagPose = FieldConstants.FIELD_LAYOUT.getTagPose(tagID).get().toPose2d();
-            double xOffset = Units.inchesToMeters(Constants.SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_SCORING_INCHES
+            double xOffset = Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_SCORING_INCHES
                     + Units.metersToInches(distanceFromFinalScoringPose));
 
             double yOffset = -Units.inchesToMeters(
-                    Constants.SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_ON_REEF_INCHES);
-            if (scoringSide == Constants.SuperstructureConstants.ScoringSide.RIGHT) {
+                    SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_ON_REEF_INCHES);
+            if (scoringSide == SuperstructureConstants.ScoringSide.RIGHT) {
                 yOffset *= -1;
             }
             Translation2d offsetFromTag = new Translation2d(xOffset, yOffset);
@@ -259,7 +259,7 @@ public class FieldConstants {
             var transformedPose =
                     tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
 
-            if (scoringDirection == Constants.SuperstructureConstants.ScoringDirection.FRONT) {
+            if (scoringDirection == SuperstructureConstants.ScoringDirection.FRONT) {
                 transformedPose = new Pose2d(
                         transformedPose.getTranslation(),
                         transformedPose.getRotation().plus(Rotation2d.k180deg));
@@ -270,4 +270,40 @@ public class FieldConstants {
             return Pose2d.kZero;
         }
     }
+    //TODO: tune all these values for our robot
+    public static final class SuperstructureConstants {
+        public static final double X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES = 21.0;
+        public static final double X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES = 19.25;
+
+        public static final double X_OFFSET_FROM_TAG_FOR_SCORING_INCHES = 22.0;
+        public static final double X_OFFSET_FROM_TAG_FOR_INTAKING_ALGAE_INCHES = 18.0;
+        public static final double X_OFFSET_FROM_TAG_FOR_INTERMEDIATE_INTAKING_ALGAE_INCHES = 30.0;
+        public static final double X_OFFSET_FROM_TAG_FOR_BACKOUT_INTAKING_ALGAE_INCHES = 50.0;
+        public static final double X_OFFSET_FROM_TAG_FOR_L1_BACKOUT_INCHES = 10.0;
+
+        public static final double Y_OFFSET_FROM_TAG_FOR_SCORING_ON_REEF_INCHES = 6.5;
+        public static final double Y_OFFSET_FROM_TAG_FOR_SCORING_L1_INCHES = 9.0;
+
+        public enum ScoringDirection {
+            FRONT,
+            BACK
+        }
+
+        public enum ScoringSide {
+            RIGHT,
+            LEFT
+        }
+
+        public enum AutomationLevel {
+            AUTO_RELEASE,
+            AUTO_DRIVE_AND_MANUAL_RELEASE,
+            NO_AUTO_DRIVE
+        }
+
+        public enum ReefSelectionMethod {
+            POSE,
+            ROTATION
+        }
+    }
+
 }

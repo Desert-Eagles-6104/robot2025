@@ -16,7 +16,6 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog.State;
 
-/** Add your docs here. */
 public class SysidConfiguration {
     /** The voltage ramp rate used for quasistatic test routines. */
     public Velocity<VoltageUnit> rampRate = Volts.of(1).div(Seconds.of(1));
@@ -38,4 +37,10 @@ public class SysidConfiguration {
      * motors during test routines.
      */
     public final Consumer<SysIdRoutineLog> log = null;
+
+    public SysidConfiguration(Velocity<VoltageUnit> rampRate, Voltage stepVoltage, Time timeout) {
+        this.rampRate = rampRate;
+        this.stepVoltage = stepVoltage;
+        this.timeout = timeout;
+    }
 }

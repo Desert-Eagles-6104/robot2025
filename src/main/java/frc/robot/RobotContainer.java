@@ -12,29 +12,22 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
-import frc.DELib25.Sysid.PhoneixSysid;
 import frc.DELib25.Util.DriverStationController;
-import frc.DELib25.Util.ProjectConstants;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
 import frc.robot.Commands.Climb.SetPercent;
 import frc.robot.Commands.GripperCommands.GripperSet;
-import frc.robot.Commands.IntakeCommands.IntakeForTimeAuto;
-import frc.robot.Commands.integrationCommands.HomingElevatorAuto;
 import frc.robot.Commands.integrationCommands.Human;
-import frc.robot.Commands.integrationCommands.HumanAuto;
 import frc.robot.Commands.integrationCommands.L2Score;
 import frc.robot.Commands.integrationCommands.L3Score;
 import frc.robot.Commands.integrationCommands.L4Score;
-import frc.robot.Commands.integrationCommands.L4ScoreAuto;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.constants.SwerveConstants;
@@ -67,11 +60,11 @@ public class RobotContainer {
 	public static BooleanSupplier m_isLocalisation = ()-> false;
 	public static BooleanSupplier m_isLocalisationOmega = () -> false;
 	public static PresetState m_state = PresetState.Home;
-	private static BooleanSupplier autoApprove = () -> true;
 
 	public RobotContainer() {
 		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants =
 		SwerveConstants.getSwerveModuleConstants();
+		
 		this.swerveSubsystem = new SwerveSubsystem(
 			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
 			drivercontroller,
