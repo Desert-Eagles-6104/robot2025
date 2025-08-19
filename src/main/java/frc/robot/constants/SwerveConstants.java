@@ -13,7 +13,6 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.DELib25.Subsystems.Drive.SysIdMechanism;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
 import frc.DELib25.Util.ProjectConstants;
 
@@ -23,28 +22,28 @@ import frc.DELib25.Util.ProjectConstants;
  */
 public final class SwerveConstants {
     
-    private static final String CANIVORE_CANBUS_NAME = "CANivore";//TODO: tune
+    private static final String CANIVORE_CANBUS_NAME = "Canivore";
     private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
     // Ports and IDs
-    private static final int GYRO_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int GYRO_ID = 44;
 
     // Swerve Modules
-    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int FRONT_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int FRONT_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 10;
+    private static final int FRONT_LEFT_STEER_MOTOR_ID = 11;
+    private static final int FRONT_LEFT_STEER_ENCODER_ID = 12;
 
 
-    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int FRONT_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int FRONT_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 20;
+    private static final int FRONT_RIGHT_STEER_MOTOR_ID = 21;
+    private static final int FRONT_RIGHT_STEER_ENCODER_ID = 22;
 
-    private static final int BACK_LEFT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int BACK_LEFT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int BACK_LEFT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_LEFT_DRIVE_MOTOR_ID = 30;
+    private static final int BACK_LEFT_STEER_MOTOR_ID = 31;
+    private static final int BACK_LEFT_STEER_ENCODER_ID = 32;
 
-    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int BACK_RIGHT_STEER_MOTOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int BACK_RIGHT_STEER_ENCODER_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = 40;
+    private static final int BACK_RIGHT_STEER_MOTOR_ID = 41;
+    private static final int BACK_RIGHT_STEER_ENCODER_ID = 42;
 
     
     // Switch
@@ -106,8 +105,8 @@ public final class SwerveConstants {
     private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
     private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
     private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-
-    private static final int GYRO_MOUNTING_ANGLE = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    
+    private static final int GYRO_MOUNTING_ANGLE = 0;//TODO: tune (0 is the default value so just leave it as is if you don't need to change it)
 
     //SysId configs
     public static final SysIdRoutine.Config TRANSLATION_SYS_ID_CONFIG = new SysIdRoutine.Config(
