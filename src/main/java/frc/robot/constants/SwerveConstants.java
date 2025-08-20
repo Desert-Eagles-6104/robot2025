@@ -47,11 +47,11 @@ public final class SwerveConstants {
 
     
     // Switch
-    public static final int NEUTRAL_MODE_SWITCH_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    public static final int HOME_BUTTON_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int NEUTRAL_MODE_SWITCH_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int HOME_BUTTON_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     // Color sensor
-    public static final int CANANDCOLOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final int CANANDCOLOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
 
     /**
      * Wheel radius in meters. Accuracy in these measurements affects wheel odometry
@@ -63,12 +63,12 @@ public final class SwerveConstants {
     /**
      * Ratio between the drive motor shaft and the output shaft the wheel is mounted on.
      */
-    private static final double DRIVE_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE_CONSTANTS.driveGearRatio;
 
     /**
      * Ratio between the steer motor shaft and the steer output shaft.
      */
-    private static final double STEER_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double STEER_GEAR_RATIO = CHOSEN_MODULE_CONSTANTS.steerGearRatio;
 
     /**
      * The coupled gear ratio between the CanCoder and the drive motor.
