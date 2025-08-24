@@ -11,6 +11,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -48,7 +50,7 @@ import frc.robot.subsystems.Gripper2Subsystem;
  */
 public class RobotContainer {
 	private CommandPS5Controller drivercontroller = new CommandPS5Controller(0);
-	private CommandPS5Controller operatorController = new CommandPS5Controller(1);
+	private CommandPS5Controller operatorController;// = new CommandPS5Controller(1);
 	private DriverStationController driverStationController = new DriverStationController(2);
 	private SwerveSubsystem swerveSubsystem;
 	private VisionSubsystemRobot2025 m_vision;
@@ -65,7 +67,6 @@ public class RobotContainer {
 	public RobotContainer() {
 		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants =
 		SwerveConstants.getSwerveModuleConstants();
-		
 		this.swerveSubsystem = new SwerveSubsystem(
 			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
 			drivercontroller,
@@ -75,13 +76,17 @@ public class RobotContainer {
 			SwerveConstants.ROTATION_SYS_ID_CONFIG,
 			SwerveConstants.STEER_SYS_ID_CONFIG
 		);
+		
+		SmartDashboard.putData("go to pos", new InstantCommand(() -> 
+			this.swerveSubsystem.setDesiredPoseForDriveToPoint(new Pose2d(1,0,Rotation2d.fromDegrees(0)),0.1)
+		));
 
 
-		m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
-		m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
-		m_climb = new Climb();
-		m_gripper = new GripperSubsystem();
-		m_gripper2 = new Gripper2Subsystem();
+		//m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
+		//m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
+		//m_climb = new Climb();
+		//m_gripper = new GripperSubsystem();
+		//m_gripper2 = new Gripper2Subsystem();
 		m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
 		m_poseEstimator = new PoseEstimatorSubsystem(this.swerveSubsystem, m_vision);
 		m_isLocalisation = driverStationController.LeftSwitch().negate();
@@ -90,9 +95,9 @@ public class RobotContainer {
 		// controls
 		dashboardResets();
 		SwerveBinding();
-		auto();
+		//auto();
 		DriverManuals();
-		OperatorManuals();
+		//OperatorManuals();
 
 		drivercontroller.R3().whileTrue(new InstantCommand(() -> m_vision.getCurrentID()));
 
@@ -108,7 +113,7 @@ public class RobotContainer {
 	}
 
 	public void disableMotors() {
-		this.swerveSubsystem.zeroOutputs();
+		this.swerveSubsystem.disableMotors();
 	}
 
 	// TODO: Phase this out 
@@ -117,7 +122,8 @@ public class RobotContainer {
 	}
 	
 	public void SwerveBinding(){
-		drivercontroller.R3().toggleOnTrue(new InstantCommand(() -> ReefUtill.Update(drivercontroller.R3())));
+		//this.drivercontroller.L3().toggleOnTrue()
+		//drivercontroller.R3().toggleOnTrue(new InstantCommand(() -> ReefUtill.Update(drivercontroller.R3())));
 	}
 
 	public void OperatorManuals(){
@@ -131,15 +137,15 @@ public class RobotContainer {
 	}
 
 	public void DriverManuals(){
-		drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, 0.6));
-		drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
-		drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
-		drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
+		//drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, 0.6));
+		//drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
+		//drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.65));
+		//drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
 		// drivercontroller.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
 		// drivercontroller.triangle().onTrue(new L3Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
 		// drivercontroller.circle().onTrue(new L2Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));
 		// drivercontroller.R3().onTrue(new Human(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2));
-		drivercontroller.povDown().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
+		//drivercontroller.povDown().onTrue(new ResetAllSubsystems(m_elevator, m_gripperArm));
 	}
 	
 	/**
@@ -152,5 +158,9 @@ public class RobotContainer {
 	}*/
 
 	public void auto(){
+	}
+	
+	public SwerveSubsystem getSwerveSubsystem() {
+		return this.swerveSubsystem;
 	}
 }

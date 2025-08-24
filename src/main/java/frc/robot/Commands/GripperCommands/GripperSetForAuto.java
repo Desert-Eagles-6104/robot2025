@@ -25,7 +25,6 @@ public class GripperSetForAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Grip");
     m_Timer.reset();
     m_gripper.setPercent(m_output);
   }

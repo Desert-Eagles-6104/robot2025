@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.littletonrobotics.junction.LoggedRobot;
 
@@ -13,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.DELib25.Subsystems.Drive.DriveState;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -23,9 +27,9 @@ public class Robot extends LoggedRobot {
   public static boolean s_isAuto = false;
   public static Alliance s_Alliance = Alliance.Red;
 
-  private Command m_autonomousCommand;
+  private Command autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,7 +39,7 @@ public class Robot extends LoggedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
     // Pathfinding.setPathfinder(new LocalADStarAK());
     FollowPathCommand.warmupCommand().schedule();
     s_Alliance = DriverStation.getAlliance().get();
@@ -60,7 +64,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.disableMotors();
+    robotContainer.disableMotors();
   }
 
   @Override
@@ -75,7 +79,7 @@ public class Robot extends LoggedRobot {
 
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    if (autonomousCommand != null) {
       //m_autonomousCommand.schedule();
     }
     
@@ -93,15 +97,18 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
+    //this.robotContainer.getSwerveSubsystem().setWantedState(DriveState.TELEOP_DRIVE);
+    this.robotContainer.getSwerveSubsystem().disableMotorsWithState();
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("AprilTagID", m_robotContainer.getVision().getCurrentID());    
+    SmartDashboard.putNumber("AprilTagID", robotContainer.getVision().getCurrentID());    
   }
 
   @Override

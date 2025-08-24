@@ -47,7 +47,7 @@ public class ReefAssist extends Command {
 	@Override
 	public void execute() {
 		if (lostTagFor.update(!vision.getTv())) {
-			swerve.zeroOutputs();
+			swerve.disableMotors();
 			return;
 		}
 
@@ -72,7 +72,7 @@ public class ReefAssist extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		swerve.zeroOutputs();
+		swerve.disableMotors();
 	}
 
 	@Override

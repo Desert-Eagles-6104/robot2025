@@ -9,6 +9,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -192,7 +194,7 @@ public class SwerveSubsystem extends SubsystemBase {
         case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
         case IDLE -> {
             if (this.systemState != DriveState.IDLE) {
-                this.zeroOutputs();
+                this.disableMotorsWithState();
             }
             yield DriveState.IDLE;
         }
@@ -201,6 +203,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     private void applyStates() {
+        System.out.println("Applying state: " + this.systemState);
         switch (this.systemState) {
         default:
         case IDLE:
@@ -247,7 +250,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     .withTargetDirection(this.desiredRotationForRotationLockState));
             break;
         case DRIVE_TO_POINT:
-            var translationToDesiredPoint = this.desiredPoseForDriveToPoint.getTranslation().minus(this.swerveInputs.Pose.getTranslation());
+            Translation2d translationToDesiredPoint = this.desiredPoseForDriveToPoint.getTranslation().minus(this.swerveInputs.Pose.getTranslation());
             var linearDistance = translationToDesiredPoint.getNorm();
             var frictionConstant = 0.0;
             if (linearDistance >= Units.inchesToMeters(0.5)) {
@@ -297,19 +300,20 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public void setState(DriveState state) {
+    public void setWantedState(DriveState state) {
+        System.out.println("Setting wanted state to: " + state);
         this.wantedState = state;
     }
 
     public void setDesiredChoreoTrajectory(Trajectory<SwerveSample> trajectory) {
         this.desiredChoreoTrajectory = trajectory;
-        this.wantedState = DriveState.CHOREO_PATH;
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.choreoTimer.reset();
     }
 
     public void setDesiredPoseForDriveToPoint(Pose2d pose) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = DriveState.DRIVE_TO_POINT;
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
         this.maximumAngularVelocityForDriveToPoint = Double.NaN;
     }
@@ -317,21 +321,21 @@ public class SwerveSubsystem extends SubsystemBase {
     public void setDesiredPoseForDriveToPointWithMaximumAngularVelocity(
             Pose2d pose, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = DriveState.DRIVE_TO_POINT;
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
         this.maximumAngularVelocityForDriveToPoint = maximumAngularVelocityForDriveToPoint;
     }
 
     public void setDesiredPoseForDriveToPoint(Pose2d pose, double maxVelocityOutputForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = DriveState.DRIVE_TO_POINT;
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
     }
 
     public void setDesiredPoseForDriveToPointWithConstraints(
             Pose2d pose, double maxVelocityOutputForDriveToPoint, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
-        this.wantedState = DriveState.DRIVE_TO_POINT;
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
         this.maximumAngularVelocityForDriveToPoint = maximumAngularVelocityForDriveToPoint;
     }
@@ -354,7 +358,6 @@ public class SwerveSubsystem extends SubsystemBase {
         double angularVelocity = angularMagnitude * this.maxAngularVelocity * this.rotationVelocityCoefficient;
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
-
         return ChassisSpeeds.fromRobotRelativeSpeeds(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity), this.swerveInputs.Pose.getRotation()),
@@ -376,15 +379,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetRotationBasedOnAlliance() {
         this.io.resetRotation();
-    }
-
-    public void setWantedState(DriveState state) {
-        this.wantedState = state;
-    }
-
-    public void setTargetRotation(Rotation2d desiredRotation) {
-        setWantedState(DriveState.ROTATION_LOCK);
-        this.desiredRotationForRotationLockState = desiredRotation;
     }
 
     public boolean isAtDriveToPointSetpoint() {
@@ -475,18 +469,17 @@ public class SwerveSubsystem extends SubsystemBase {
         robotToFieldFromSwerveDriveOdometry = pose;
     }
 
-    /**
-     * Commands zero speeds to all swerve modules (stop). Making the swerve go
-     * into the predefined neutral mode (Brake/Coast).
-     */
-    public void zeroOutputs() {
-       this.io.setSwerveState(new SwerveRequest.ApplyFieldSpeeds()
-                    .withSpeeds(new ChassisSpeeds(0.0, 0.0, 0.0))
-                    .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
-            );
-        this.systemState = DriveState.IDLE;
-        //Allow for the method to be called immediately and not wait for the next cycle.
-        this.wantedState = DriveState.IDLE;
+    public void disableMotors() {
+        this.io.disableMotors();
     }
+
+    public void disableMotorsWithState() {
+        this.io.disableMotors();
+        
+        //Allow for the method to be called immediately and not wait for the next cycle.
+        this.setWantedState(DriveState.DRIVE_TO_POINT);
+        this.systemState = DriveState.IDLE;//We allready disabled the motors, so we can set the state to IDLE immediately.
+    }
+
 
 }

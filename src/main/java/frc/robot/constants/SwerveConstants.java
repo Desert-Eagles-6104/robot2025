@@ -7,14 +7,15 @@ import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
-import frc.DELib25.Util.ProjectConstants;
 
 /**
  * Holds all the constants for the robot swerve drivetrain and modules.
@@ -22,7 +23,7 @@ import frc.DELib25.Util.ProjectConstants;
  */
 public final class SwerveConstants {
     
-    private static final String CANIVORE_CANBUS_NAME = "Canivore";
+    private static final String CANBUS_NAME = "Canivore";
     private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
     // Ports and IDs
     private static final int GYRO_ID = 44;
@@ -45,21 +46,12 @@ public final class SwerveConstants {
     private static final int BACK_RIGHT_STEER_MOTOR_ID = 41;
     private static final int BACK_RIGHT_STEER_ENCODER_ID = 42;
 
-    
-    // Switch
-    private static final int NEUTRAL_MODE_SWITCH_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final int HOME_BUTTON_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-
-    // Color sensor
-    private static final int CANANDCOLOR_ID = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-
     /**
      * Wheel radius in meters. Accuracy in these measurements affects wheel odometry
      * which measures distance as a function of the number of rotations * wheel circumference.
      */
     private static final double WHEEL_RADIUS_METERS = CHOSEN_MODULE_CONSTANTS.wheelDiameter / 2.0;
 
-    private static final double DRIVE_MOTOR_PINION_TEETH_COUNT = ProjectConstants.ERROR_CODE_INT;//TODO: tune
     /**
      * Ratio between the drive motor shaft and the output shaft the wheel is mounted on.
      */
@@ -74,24 +66,24 @@ public final class SwerveConstants {
      * The coupled gear ratio between the CanCoder and the drive motor.
      * Every 1 rotation of the steer motor results in coupled ratio of drive turns.
      */
-    private static final double COUPLING_GEAR_RATIO = ProjectConstants.ERROR_CODE_INT / DRIVE_MOTOR_PINION_TEETH_COUNT;//TODO: tune
+    private static final double COUPLING_GEAR_RATIO = 150/7/1;//TODO: tune
 
     /**
      * Wheelbase length is the distance between the front and back wheels.
      * Positive x values represent moving towards the front of the robot
      */
-    private static final double WHEELBASE_LENGTH_METERS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double WHEELBASE_LENGTH_METERS = 0.61665;
 
     /**
      * Wheel track width is the distance between the left and right wheels.
      * Positive y values represent moving towards the left of the robot.
      */
-    private static final double WHEEL_TRACK_WIDTH_METERS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double WHEEL_TRACK_WIDTH_METERS = 0.61665;
 
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double MAX_SPEED_METERS_PER_SECOND = 5.2;//TODO: tune (i used the value from the pre code)
 
     /**
      * The maximum angular speed of the robot in radians per second.
@@ -100,13 +92,12 @@ public final class SwerveConstants {
      */
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = ProjectConstants.ERROR_CODE_INT;//TODO: tune
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.396240;
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.279297;
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.226562;
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.157227;
     
-    private static final int GYRO_MOUNTING_ANGLE = 0;//TODO: tune (0 is the default value so just leave it as is if you don't need to change it)
+    private static final int GYRO_MOUNTING_ANGLE = 0;
 
     //SysId configs
     public static final SysIdRoutine.Config TRANSLATION_SYS_ID_CONFIG = new SysIdRoutine.Config(
@@ -122,7 +113,7 @@ public final class SwerveConstants {
     private static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] swerveModuleConstants = createSwerveModuleConstants();
 
     private static final SwerveDrivetrainConstants swerveDrivetrainConstants = new SwerveDrivetrainConstants()
-        .withCANBusName(CANIVORE_CANBUS_NAME)
+        .withCANBusName(CANBUS_NAME)
         .withPigeon2Id(GYRO_ID)
         .withPigeon2Configs(
             new Pigeon2Configuration()
@@ -172,22 +163,22 @@ public final class SwerveConstants {
         return new SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
             .withDriveMotorInitialConfigs(getDefaultDriveTalonFXConfig())
             .withSteerMotorInitialConfigs(getDefaultSteerTalonFXConfig())
-            .withDriveMotorType(SwerveModuleConstants.DriveMotorArrangement.TalonFX_Integrated)//TODO: tune
-            .withSteerMotorType(SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated)//TODO: tune
+            .withDriveMotorType(SwerveModuleConstants.DriveMotorArrangement.TalonFX_Integrated)
+            .withSteerMotorType(SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated)
             .withDriveMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
             .withSteerMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
-            .withDriveMotorGains(new Slot0Configs().withKP(36))//TODO: tune
+            .withDriveMotorGains(new Slot0Configs().withKP(8))//TODO: tune
             .withSteerMotorGains(new Slot0Configs()
-                .withKP(CHOSEN_MODULE_CONSTANTS.steerKD)
+                .withKP(CHOSEN_MODULE_CONSTANTS.steerKP)
                 .withKI(CHOSEN_MODULE_CONSTANTS.steerKI)
                 .withKD(CHOSEN_MODULE_CONSTANTS.steerKD)
-            )//TODO: tune
+            )
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withCouplingGearRatio(COUPLING_GEAR_RATIO)
-            .withDriveMotorInverted(false)//TODO: tune
-            .withSteerMotorInverted(false)//TODO: tune
-            .withEncoderInverted(false)//TODO: tune
+            .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert == InvertedValue.CounterClockwise_Positive)
+            .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert == InvertedValue.CounterClockwise_Positive)
+            .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.Clockwise_Positive)
             .withEncoderInitialConfigs(new CANcoderConfiguration())
             .withDriveFrictionVoltage(0.25)//TODO: tune
             .withSteerFrictionVoltage(0.001)//TODO: tune
@@ -204,8 +195,8 @@ public final class SwerveConstants {
             new CurrentLimitsConfigs()
                 .withSupplyCurrentLimitEnable(true)//TODO: tune
                 .withStatorCurrentLimitEnable(true)//TODO: tune
-                .withSupplyCurrentLimit(50.0)//TODO: tune
-                .withStatorCurrentLimit(100.0)//TODO: tune
+                .withSupplyCurrentLimit(25.0)//TODO: tune
+                .withStatorCurrentLimit(60.0)//TODO: tune
         ).withMotorOutput(
             new MotorOutputConfigs()
                 .withInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert)
@@ -219,8 +210,8 @@ public final class SwerveConstants {
                 new CurrentLimitsConfigs()
                     .withSupplyCurrentLimitEnable(true)//TODO: tune
                     .withStatorCurrentLimitEnable(true)//TODO: tune
-                    .withSupplyCurrentLimit(30.0)//TODO: tune
-                    .withStatorCurrentLimit(90.0)//TODO: tune
+                    .withSupplyCurrentLimit(20.0)//TODO: tune
+                    .withStatorCurrentLimit(40.0)//TODO: tune
             ).withMotorOutput(
                 new MotorOutputConfigs()
                     .withInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert)

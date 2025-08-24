@@ -13,6 +13,6 @@ public class SwerveDisableMotors extends InstantCommand {
 
 	@Override
 	public void initialize() {
-		this.swerveSubsystem.zeroOutputs();
+		this.swerveSubsystem.disableMotorsWithState();
 	}
 }
