@@ -21,22 +21,22 @@ import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
  * Holds all the constants for the robot swerve drivetrain and modules.
  * The drivetrain also includes the pigeon and gyro configurations.
  */
-public final class SwerveConstants {
+public final class SwerveConstantsRobotSeason {
     
-    private static final String CANBUS_NAME = "rio";
-    private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
+    private static final String CANBUS_NAME = "Canivore";
+    private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
     // Ports and IDs
-    private static final int GYRO_ID = 0;
+    private static final int GYRO_ID = 44;
 
     // Swerve Modules
-    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 20;
-    private static final int FRONT_LEFT_STEER_MOTOR_ID = 21;
-    private static final int FRONT_LEFT_STEER_ENCODER_ID = 22;
+    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 10;
+    private static final int FRONT_LEFT_STEER_MOTOR_ID = 11;
+    private static final int FRONT_LEFT_STEER_ENCODER_ID = 12;
 
 
-    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 10;
-    private static final int FRONT_RIGHT_STEER_MOTOR_ID = 11;
-    private static final int FRONT_RIGHT_STEER_ENCODER_ID = 12;
+    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 20;
+    private static final int FRONT_RIGHT_STEER_MOTOR_ID = 21;
+    private static final int FRONT_RIGHT_STEER_ENCODER_ID = 22;
 
     private static final int BACK_LEFT_DRIVE_MOTOR_ID = 30;
     private static final int BACK_LEFT_STEER_MOTOR_ID = 31;
@@ -63,21 +63,27 @@ public final class SwerveConstants {
     private static final double STEER_GEAR_RATIO = CHOSEN_MODULE_CONSTANTS.steerGearRatio;
 
     /**
+     * The coupled gear ratio between the CanCoder and the drive motor.
+     * Every 1 rotation of the steer motor results in coupled ratio of drive turns.
+     */
+    private static final double COUPLING_GEAR_RATIO = 150/7/1;//TODO: tune
+
+    /**
      * Wheelbase length is the distance between the front and back wheels.
      * Positive x values represent moving towards the front of the robot
      */
-    private static final double WHEELBASE_LENGTH_METERS = 0.51665;
+    private static final double WHEELBASE_LENGTH_METERS = 0.61665;
 
     /**
      * Wheel track width is the distance between the left and right wheels.
      * Positive y values represent moving towards the left of the robot.
      */
-    private static final double WHEEL_TRACK_WIDTH_METERS = 0.51665;
+    private static final double WHEEL_TRACK_WIDTH_METERS = 0.61665;
 
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = 4;//TODO: tune
+    private static final double MAX_SPEED_METERS_PER_SECOND = 5.2;//TODO: tune (i used the value from the pre code)
 
     /**
      * The maximum angular speed of the robot in radians per second.
@@ -86,10 +92,10 @@ public final class SwerveConstants {
      */
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.396240;
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.279297;
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.226562;
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.157227;
     
     private static final int GYRO_MOUNTING_ANGLE = 0;
 
@@ -161,7 +167,7 @@ public final class SwerveConstants {
             .withSteerMotorType(SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated)
             .withDriveMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
             .withSteerMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
-            .withDriveMotorGains(new Slot0Configs().withKP(3))//TODO: tune
+            .withDriveMotorGains(new Slot0Configs().withKP(8))//TODO: tune
             .withSteerMotorGains(new Slot0Configs()
                 .withKP(CHOSEN_MODULE_CONSTANTS.steerKP)
                 .withKI(CHOSEN_MODULE_CONSTANTS.steerKI)
@@ -169,16 +175,17 @@ public final class SwerveConstants {
             )
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
+            .withCouplingGearRatio(COUPLING_GEAR_RATIO)
             .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert == InvertedValue.CounterClockwise_Positive)
             .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert == InvertedValue.CounterClockwise_Positive)
             .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.Clockwise_Positive)
-            //.withEncoderInitialConfigs(new CANcoderConfiguration())
-            //.withDriveFrictionVoltage(0.25)//TODO: tune
-            //.withSteerFrictionVoltage(0.001)//TODO: tune
-            //.withDriveInertia(0.001)//TODO: tune
-            //.withSteerInertia(0.00001)//TODO: tune
-            //.withSlipCurrent(120) //TODO: tuneE
-            //.withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.FusedCANcoder)
+            .withEncoderInitialConfigs(new CANcoderConfiguration())
+            .withDriveFrictionVoltage(0.25)//TODO: tune
+            .withSteerFrictionVoltage(0.001)//TODO: tune
+            .withDriveInertia(0.001)//TODO: tune
+            .withSteerInertia(0.00001)//TODO: tune
+            .withSlipCurrent(120) //TODO: tuneE
+            .withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.FusedCANcoder)
             .withSpeedAt12Volts(MAX_SPEED_METERS_PER_SECOND)
             .withWheelRadius(WHEEL_RADIUS_METERS);
     }

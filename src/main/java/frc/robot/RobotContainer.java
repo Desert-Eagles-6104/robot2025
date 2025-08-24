@@ -34,6 +34,7 @@ import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.constants.Constants;
 import frc.robot.constants.SwerveConstants;
+import frc.robot.constants.SwerveConstantsRobotSeason;
 import frc.robot.presetState.PresetState;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -65,8 +66,7 @@ public class RobotContainer {
 	public static PresetState m_state = PresetState.Home;
 
 	public RobotContainer() {
-		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants =
-		SwerveConstants.getSwerveModuleConstants();
+		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants = this.getmoduleConstants(false);
 		this.swerveSubsystem = new SwerveSubsystem(
 			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
 			drivercontroller,
@@ -162,5 +162,10 @@ public class RobotContainer {
 	
 	public SwerveSubsystem getSwerveSubsystem() {
 		return this.swerveSubsystem;
+	}
+
+	private SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] getmoduleConstants(boolean robotSeason){
+		return robotSeason ? SwerveConstantsRobotSeason.getSwerveModuleConstants():
+			SwerveConstants.getSwerveModuleConstants();
 	}
 }

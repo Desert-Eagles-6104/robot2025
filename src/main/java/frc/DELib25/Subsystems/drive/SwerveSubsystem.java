@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
@@ -203,7 +204,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     private void applyStates() {
-        System.out.println("Applying state: " + this.systemState);
         switch (this.systemState) {
         default:
         case IDLE:
@@ -301,8 +301,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setWantedState(DriveState state) {
-        System.out.println("Setting wanted state to: " + state);
         this.wantedState = state;
+        SmartDashboard.putString("wantedState", this.wantedState.toString());
     }
 
     public void setDesiredChoreoTrajectory(Trajectory<SwerveSample> trajectory) {
@@ -347,10 +347,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
         double xMagnitude = MathUtil.applyDeadband(this.controller.getLeftY(), CONTROLLER_DEADBAND);
         double yMagnitude = MathUtil.applyDeadband(this.controller.getLeftX(), CONTROLLER_DEADBAND);
+        SmartDashboard.putNumber("xMagnitude", xMagnitude);
+        SmartDashboard.putNumber("yMagnitude", yMagnitude);
         double angularMagnitude = MathUtil.applyDeadband(this.controller.getRightX(), CONTROLLER_DEADBAND);
-        //
-        // xMagnitude = Math.copySign(xMagnitude * xMagnitude, xMagnitude);
-        // yMagnitude = Math.copySign(yMagnitude * yMagnitude, yMagnitude);
         angularMagnitude = Math.copySign(angularMagnitude * angularMagnitude, angularMagnitude);
 
         double xVelocity = (FieldUtil.isBlueAlliance() ? -xMagnitude * this.maxVelocity : xMagnitude * this.maxVelocity) * this.teleopVelocityCoefficient;
@@ -477,8 +476,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this.io.disableMotors();
         
         //Allow for the method to be called immediately and not wait for the next cycle.
-        this.setWantedState(DriveState.DRIVE_TO_POINT);
-        this.systemState = DriveState.IDLE;//We allready disabled the motors, so we can set the state to IDLE immediately.
+        this.setWantedState(DriveState.TELEOP_DRIVE);
+        this.systemState = DriveState.TELEOP_DRIVE;//We allready disabled the motors, so we can set the state to IDLE immediately.
     }
 
 
