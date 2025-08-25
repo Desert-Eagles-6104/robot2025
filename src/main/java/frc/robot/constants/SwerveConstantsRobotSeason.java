@@ -16,13 +16,15 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.COTSTalonFXSwerveConstants;
+import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
 
 /**
  * Holds all the constants for the robot swerve drivetrain and modules.
  * The drivetrain also includes the pigeon and gyro configurations.
  */
-public final class SwerveConstantsRobotSeason {
-    
+public final class SwerveConstantsRobotSeason implements SwerveConstants {
+    public static final String MAC_ADDRESS = "--"; //TODO
+
     private static final String CANBUS_NAME = "Canivore";
     private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
     // Ports and IDs
@@ -219,13 +221,15 @@ public final class SwerveConstantsRobotSeason {
             );
     }
 
-    public static SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] getSwerveModuleConstants() {
+    @Override
+    public SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] getSwerveModuleConstants() {
         return swerveModuleConstants;
     }
 
-    public static SwerveDrivetrainConstants getSwerveDrivetrainConstants() {
-        return swerveDrivetrainConstants;
-    }
+    @Override public SwerveDrivetrainConstants getSwerveDrivetrainConstants() { return swerveDrivetrainConstants; }
+    @Override public SysIdRoutine.Config getTranslationSysIdConfig() { return TRANSLATION_SYS_ID_CONFIG; }
+    @Override public SysIdRoutine.Config getRotationSysIdConfig() { return ROTATION_SYS_ID_CONFIG; }
+    @Override public SysIdRoutine.Config getSteerSysIdConfig() { return STEER_SYS_ID_CONFIG; }
 
     
 }

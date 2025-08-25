@@ -19,8 +19,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
 import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
+import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.DriverStationController;
+import frc.DELib25.Util.MacAddressUtil;
 import frc.robot.subsystems.GripperArmSubsystem;
 import frc.robot.subsystems.GripperSubsystem;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
@@ -33,7 +35,7 @@ import frc.robot.Commands.integrationCommands.L4Score;
 import frc.robot.Commands.integrationCommands.ResetAllSubsystems;
 import frc.robot.Commands.integrationCommands.SmartPreset;
 import frc.robot.constants.Constants;
-import frc.robot.constants.SwerveConstants;
+import frc.robot.constants.TrainingChassisSwerveConstants;
 import frc.robot.constants.SwerveConstantsRobotSeason;
 import frc.robot.presetState.PresetState;
 import frc.robot.subsystems.Climb;
@@ -66,21 +68,18 @@ public class RobotContainer {
 	public static PresetState m_state = PresetState.Home;
 
 	public RobotContainer() {
-		
-		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants = this.getmoduleConstants(false);
+		SwerveConstants swerveConstants = this.getSwerveConstants();
+		SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] moduleConstants = swerveConstants.getSwerveModuleConstants();
 		this.swerveSubsystem = new SwerveSubsystem(
-			new SwerveIOCTRE(SwerveConstants.getSwerveDrivetrainConstants(), SwerveConstants.getSwerveModuleConstants()),
+			new SwerveIOCTRE(swerveConstants.getSwerveDrivetrainConstants(), moduleConstants),
 			drivercontroller,
 			moduleConstants[0].SpeedAt12Volts,
 			moduleConstants[0].SpeedAt12Volts / Math.hypot(moduleConstants[0].LocationX, moduleConstants[0].LocationY),
-			SwerveConstants.TRANSLATION_SYS_ID_CONFIG,
-			SwerveConstants.ROTATION_SYS_ID_CONFIG,
-			SwerveConstants.STEER_SYS_ID_CONFIG
+			swerveConstants.getTranslationSysIdConfig(),
+			swerveConstants.getRotationSysIdConfig(),
+			swerveConstants.getSteerSysIdConfig()
 		);
 		
-		SmartDashboard.putData("go to pos", new InstantCommand(() -> 
-			this.swerveSubsystem.setDesiredPoseForDriveToPoint(new Pose2d(1,0,Rotation2d.fromDegrees(0)),0.1)
-		));
 
 
 		//m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
@@ -165,8 +164,16 @@ public class RobotContainer {
 		return this.swerveSubsystem;
 	}
 
-	private SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>[] getmoduleConstants(boolean robotSeason){
-		return robotSeason ? SwerveConstantsRobotSeason.getSwerveModuleConstants():
-			SwerveConstants.getSwerveModuleConstants();
+	// if you change the mac address (or switch the radio) update the constants file with the new mac address
+	public SwerveConstants getSwerveConstants(){
+		switch (MacAddressUtil.getMACAddress()) {
+			case SwerveConstantsRobotSeason.MAC_ADDRESS:
+				return new SwerveConstantsRobotSeason();
+			case TrainingChassisSwerveConstants.MAC_ADDRESS:
+				return new TrainingChassisSwerveConstants();
+			default:
+				throw new IllegalArgumentException("Unknown MAC Address: " + MacAddressUtil.getMACAddress());
+		}
 	}
+
 }
