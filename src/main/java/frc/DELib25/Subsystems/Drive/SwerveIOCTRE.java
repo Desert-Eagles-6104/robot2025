@@ -139,11 +139,25 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
     public Rotation2d getYaw() {
         return this.getState().Pose.getRotation();
     }
+
     public void disableMotors() {
         for (int i = 0; i < 4; i++) {
             this.getModule(i).getDriveMotor().disable();
             this.getModule(i).getSteerMotor().disable();
         }
+    }
+
+    //For testing
+    public TalonFX getMotorById(int id) {
+        for (int i = 0; i < 4; i++) {
+            if (this.getModule(i).getDriveMotor().getDeviceID() == id) {
+                return this.getModule(i).getDriveMotor();
+            }
+            if (this.getModule(i).getSteerMotor().getDeviceID() == id) {
+                return this.getModule(i).getSteerMotor();
+            }
+        }
+        return null;
     }
     
 }

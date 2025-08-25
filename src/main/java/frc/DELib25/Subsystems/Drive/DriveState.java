@@ -15,4 +15,7 @@ public enum DriveState {
   
     /** Drives to a specific field pose (PID to a pose target). */
     DRIVE_TO_POINT,
+
+    /** Do nothing (shold only be used for testing) */
+    IDLE
 }

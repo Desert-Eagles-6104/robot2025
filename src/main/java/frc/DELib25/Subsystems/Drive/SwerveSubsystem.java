@@ -184,15 +184,18 @@ public class SwerveSubsystem extends SubsystemBase {
         case CHOREO_PATH -> {
             if (this.systemState != DriveState.CHOREO_PATH) {
                 this.choreoTimer.restart();
-                this.choreoSampleToBeApplied = this.desiredChoreoTrajectory.sampleAt(this.choreoTimer.get(), false);
-                yield DriveState.CHOREO_PATH;
-            } else {
-                this.choreoSampleToBeApplied = this.desiredChoreoTrajectory.sampleAt(this.choreoTimer.get(), false);
-                yield DriveState.CHOREO_PATH;
             }
+            this.choreoSampleToBeApplied = this.desiredChoreoTrajectory.sampleAt(this.choreoTimer.get(), false);
+            yield DriveState.CHOREO_PATH;
         }
         case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
         case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
+        case IDLE -> {
+            if (this.systemState != DriveState.IDLE) {
+                this.disableMotors();
+            }
+            yield DriveState.IDLE;
+        }
         default -> throw new IllegalArgumentException("Wanted state is not valid.");
         };
     }
@@ -200,6 +203,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private void applyStates() {
         switch (this.systemState) {
         default:
+        case IDLE:
         case SYS_ID:
             break;
         case TELEOP_DRIVE:

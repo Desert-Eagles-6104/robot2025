@@ -23,7 +23,7 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private LimelightHelpers.PoseEstimate limelightMesermentMT2;
   private boolean first;
   private StableBoolean tvStableBoolean;
-  private SwerveDrivePoseEstimator odometry;
+  private SwerveDrivePoseEstimator odometry;//TODO: the drive train allready has one of these, maybe we can use that one
   private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
   private VisionSubsystem vision;
