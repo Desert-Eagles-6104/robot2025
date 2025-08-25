@@ -172,13 +172,13 @@ public final class SwerveConstants {
             .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert == InvertedValue.CounterClockwise_Positive)
             .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert == InvertedValue.CounterClockwise_Positive)
             .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.Clockwise_Positive)
-            //.withEncoderInitialConfigs(new CANcoderConfiguration())
+            .withEncoderInitialConfigs(new CANcoderConfiguration())
             //.withDriveFrictionVoltage(0.25)//TODO: tune
             //.withSteerFrictionVoltage(0.001)//TODO: tune
             //.withDriveInertia(0.001)//TODO: tune
             //.withSteerInertia(0.00001)//TODO: tune
             //.withSlipCurrent(120) //TODO: tuneE
-            //.withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.FusedCANcoder)
+            .withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.FusedCANcoder)
             .withSpeedAt12Volts(MAX_SPEED_METERS_PER_SECOND)
             .withWheelRadius(WHEEL_RADIUS_METERS);
     }

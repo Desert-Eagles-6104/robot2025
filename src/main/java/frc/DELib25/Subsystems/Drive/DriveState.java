@@ -15,7 +15,4 @@ public enum DriveState {
   
     /** Drives to a specific field pose (PID to a pose target). */
     DRIVE_TO_POINT,
-  
-    /** Idle/stop: command zero speeds so modules enter neutral behavior (Brake/Coast). */
-    IDLE
 }

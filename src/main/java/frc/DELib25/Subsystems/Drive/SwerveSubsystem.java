@@ -193,20 +193,13 @@ public class SwerveSubsystem extends SubsystemBase {
         }
         case ROTATION_LOCK -> DriveState.ROTATION_LOCK;
         case DRIVE_TO_POINT -> DriveState.DRIVE_TO_POINT;
-        case IDLE -> {
-            if (this.systemState != DriveState.IDLE) {
-                this.disableMotorsWithState();
-            }
-            yield DriveState.IDLE;
-        }
-        default -> DriveState.IDLE;
+        default -> throw new IllegalArgumentException("Wanted state is not valid.");
         };
     }
 
     private void applyStates() {
         switch (this.systemState) {
         default:
-        case IDLE:
         case SYS_ID:
             break;
         case TELEOP_DRIVE:
