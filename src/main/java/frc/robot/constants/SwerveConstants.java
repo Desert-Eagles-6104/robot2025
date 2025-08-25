@@ -86,10 +86,10 @@ public final class SwerveConstants {
      */
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.378662;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = -0.000977;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.120850;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0.275146;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.383057;
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.007812;
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.122559;
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0.268799;
     
     private static final int GYRO_MOUNTING_ANGLE = 0;
 
