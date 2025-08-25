@@ -203,9 +203,9 @@ public class SwerveSubsystem extends SubsystemBase {
         case SYS_ID:
             break;
         case TELEOP_DRIVE:
-            this.io.setSwerveState(new SwerveRequest.ApplyFieldSpeeds()
-                    .withSpeeds(calculateSpeedsBasedOnJoystickInputs())
-                    .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage));
+            this.io.setSwerveState(new SwerveRequest.ApplyRobotSpeeds()
+                    .withSpeeds(new ChassisSpeeds(0,0,0))
+                    .withDriveRequestType(SwerveModule.DriveRequestType.Velocity)); //change to CloseLoopVoltage idk where is that.
             break;
         case CHOREO_PATH: {
             if (this.choreoSampleToBeApplied.isPresent()) {
@@ -348,8 +348,12 @@ public class SwerveSubsystem extends SubsystemBase {
         double xVelocity = (FieldUtil.isBlueAlliance() ? -xMagnitude * this.maxVelocity : xMagnitude * this.maxVelocity) * this.teleopVelocityCoefficient;
         double yVelocity = (FieldUtil.isBlueAlliance() ? -yMagnitude * this.maxVelocity : yMagnitude * this.maxVelocity) * this.teleopVelocityCoefficient;
         double angularVelocity = angularMagnitude * this.maxAngularVelocity * this.rotationVelocityCoefficient;
+        SmartDashboard.putNumber("xVelocity", xVelocity);
+        SmartDashboard.putNumber("yVelocity", yVelocity);
+        SmartDashboard.putNumber("angularVelocity", angularVelocity);
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
+        
         return ChassisSpeeds.fromRobotRelativeSpeeds(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity), this.swerveInputs.Pose.getRotation()),

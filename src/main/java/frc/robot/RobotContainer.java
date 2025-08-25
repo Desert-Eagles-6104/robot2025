@@ -88,18 +88,18 @@ public class RobotContainer {
 		//m_gripper = new GripperSubsystem();
 		//m_gripper2 = new Gripper2Subsystem();
 		m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
-		m_poseEstimator = new PoseEstimatorSubsystem(this.swerveSubsystem, m_vision);
+		//m_poseEstimator = new PoseEstimatorSubsystem(this.swerveSubsystem, m_vision);
 		m_isLocalisation = driverStationController.LeftSwitch().negate();
 		m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
 		
 		// controls
 		dashboardResets();
-		SwerveBinding();
+		//SwerveBinding();
 		//auto();
-		DriverManuals();
+		//DriverManuals();
 		//OperatorManuals();
 
-		drivercontroller.R3().whileTrue(new InstantCommand(() -> m_vision.getCurrentID()));
+		//drivercontroller.R3().whileTrue(new InstantCommand(() -> m_vision.getCurrentID()));
 
 	}
 

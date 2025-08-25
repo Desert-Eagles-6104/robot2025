@@ -101,7 +101,7 @@ public class Robot extends LoggedRobot {
       autonomousCommand.cancel();
     }
     //this.robotContainer.getSwerveSubsystem().setWantedState(DriveState.TELEOP_DRIVE);
-    this.robotContainer.getSwerveSubsystem().disableMotorsWithState();
+    //this.robotContainer.getSwerveSubsystem().disableMotorsWithState();
     
   }
 

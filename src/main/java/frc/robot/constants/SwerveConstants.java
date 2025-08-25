@@ -30,7 +30,7 @@ public final class SwerveConstants {
 
     // Swerve Modules
     private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 20;
-    private static final int FRONT_LEFT_STEER_MOTOR_ID = 21;
+    private static final int FRONT_LEFT_STEER_MOTOR_ID = 21 ;
     private static final int FRONT_LEFT_STEER_ENCODER_ID = 22;
 
 
@@ -86,10 +86,10 @@ public final class SwerveConstants {
      */
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.378662;
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = -0.000977;
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.120850;
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0.275146;
     
     private static final int GYRO_MOUNTING_ANGLE = 0;
 
