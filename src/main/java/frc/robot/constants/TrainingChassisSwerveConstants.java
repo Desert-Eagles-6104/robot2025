@@ -77,13 +77,9 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = 4;//TODO: tune
-
-    /**
-     * The maximum angular speed of the robot in radians per second.
-     * If set to 0, the value is calculated using the max speed in meters per second
-     * and the wheelbase radius.
-     */
+    private static final double MAX_SPEED_METERS_PER_SECOND = 4;//TODO: tune 
+    //the calculation is (Motor Free Speed (RPM)​/DRIVE_GEAR_RATIO) * (1/60) * Math.PI * CHOSEN_MODULE_CONSTANTS.wheelDiameter
+    //Also from what i see on the web we should also multiply by 0.9 or so to account for friction losses
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
     private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.383057;

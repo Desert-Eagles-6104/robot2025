@@ -81,9 +81,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private final double maxVelocity;
     private final double maxAngularVelocity;
-
+    /*
+     * Coefficient to scale the maximum velocity during teleop driving
+     */
     private double teleopVelocityCoefficient = 1.0;
+    /*
+     * Coefficient to scale the maximum angular velocity during teleop driving
+     */
     private double rotationVelocityCoefficient = 1.0;
+    /*
+     * Maximum velocity to use when driving to a point
+     */
     private double maximumAngularVelocityForDriveToPoint = Double.NaN;
 
     private final SysIdRoutine translationSysIdRoutine;
@@ -172,6 +180,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
         this.systemState = handleStateTransition();
 
+        SmartDashboard.putString("wantedState", this.wantedState.toString());
+        SmartDashboard.putString("systemState", this.systemState.toString());
+
         Logger.recordOutput("Subsystems/Drive/SystemState", this.systemState);
         Logger.recordOutput("Subsystems/Drive/DesiredState",this.wantedState);
         this.applyStates();
@@ -218,8 +229,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 Logger.recordOutput("Subsystems/Drive/Choreo/Traj Name", this.desiredChoreoTrajectory.name());
                 Logger.recordOutput("Subsystems/Drive/Choreo/Total time", this.desiredChoreoTrajectory.getTotalTime());
                 Logger.recordOutput("Subsystems/Drive/Choreo/sample/Desired Pose", sample.getPose());
-                Logger.recordOutput(
-                        "Subsystems/Drive/Choreo/sample/Desired Chassis Speeds", sample.getChassisSpeeds());
+                Logger.recordOutput("Subsystems/Drive/Choreo/sample/Desired Chassis Speeds", sample.getChassisSpeeds());
                 Logger.recordOutput("Subsystems/Drive/Choreo/sample/Module Forces X", sample.moduleForcesX());
                 Logger.recordOutput("Subsystems/Drive/Choreo/sample/Module Forces Y", sample.moduleForcesY());
                 synchronized (this.swerveInputs) {
@@ -299,7 +309,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setWantedState(DriveState state) {
         this.wantedState = state;
-        SmartDashboard.putString("wantedState", this.wantedState.toString());
     }
 
     public void setDesiredChoreoTrajectory(Trajectory<SwerveSample> trajectory) {
@@ -315,8 +324,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this.maximumAngularVelocityForDriveToPoint = Double.NaN;
     }
 
-    public void setDesiredPoseForDriveToPointWithMaximumAngularVelocity(
-            Pose2d pose, double maximumAngularVelocityForDriveToPoint) {
+    public void setDesiredPoseForDriveToPointWithMaximumAngularVelocity(Pose2d pose, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
         this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = Units.feetToMeters(10.0);
@@ -329,8 +337,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
     }
 
-    public void setDesiredPoseForDriveToPointWithConstraints(
-            Pose2d pose, double maxVelocityOutputForDriveToPoint, double maximumAngularVelocityForDriveToPoint) {
+    public void setDesiredPoseForDriveToPointWithConstraints(Pose2d pose, double maxVelocityOutputForDriveToPoint, double maximumAngularVelocityForDriveToPoint) {
         this.desiredPoseForDriveToPoint = pose;
         this.setWantedState(DriveState.DRIVE_TO_POINT);
         this.maxVelocityOutputForDriveToPoint = maxVelocityOutputForDriveToPoint;
@@ -344,24 +351,20 @@ public class SwerveSubsystem extends SubsystemBase {
 
         double xMagnitude = MathUtil.applyDeadband(this.controller.getLeftY(), CONTROLLER_DEADBAND);
         double yMagnitude = MathUtil.applyDeadband(this.controller.getLeftX(), CONTROLLER_DEADBAND);
-        SmartDashboard.putNumber("xMagnitude", xMagnitude);
-        SmartDashboard.putNumber("yMagnitude", yMagnitude);
         double angularMagnitude = MathUtil.applyDeadband(this.controller.getRightX(), CONTROLLER_DEADBAND);
-        angularMagnitude = Math.copySign(angularMagnitude * angularMagnitude, angularMagnitude);
 
-        double xVelocity = (FieldUtil.isBlueAlliance() ? -xMagnitude * this.maxVelocity : xMagnitude * this.maxVelocity) * this.teleopVelocityCoefficient;
-        double yVelocity = (FieldUtil.isBlueAlliance() ? -yMagnitude * this.maxVelocity : yMagnitude * this.maxVelocity) * this.teleopVelocityCoefficient;
+        angularMagnitude = Math.copySign(Math.pow(angularMagnitude, 2), angularMagnitude);
+
+        double xVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * xMagnitude * maxVelocity * this.teleopVelocityCoefficient;
+        double yVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * yMagnitude * maxVelocity * this.teleopVelocityCoefficient;
         double angularVelocity = angularMagnitude * this.maxAngularVelocity * this.rotationVelocityCoefficient;
-        SmartDashboard.putNumber("xVelocity", xVelocity);
-        SmartDashboard.putNumber("yVelocity", yVelocity);
-        SmartDashboard.putNumber("angularVelocity", angularVelocity);
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
-        
+
         return ChassisSpeeds.fromRobotRelativeSpeeds(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                        new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity), this.swerveInputs.Pose.getRotation()),
-                this.swerveInputs.Pose.getRotation().plus(skewCompensationFactor));
+                ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity), this.swerveInputs.Pose.getRotation()),
+                this.swerveInputs.Pose.getRotation().plus(skewCompensationFactor)
+            );
     }
 
     public void resetTranslationAndRotation(Pose2d pose2d) {
