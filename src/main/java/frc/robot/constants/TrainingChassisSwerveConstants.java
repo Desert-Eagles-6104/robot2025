@@ -21,7 +21,7 @@ import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
 
 public final class TrainingChassisSwerveConstants implements SwerveConstants {
 
-    public static final String MAC_ADDRESS = "-"; //TODO
+    public static final String MAC_ADDRESS = "00-80-2F-39-64-5B";
 
     private static final String CANBUS_NAME = "rio";
     private static final COTSTalonFXSwerveConstants CHOSEN_MODULE_CONSTANTS = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
@@ -161,7 +161,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withSteerMotorType(SwerveModuleConstants.SteerMotorArrangement.TalonFX_Integrated)
             .withDriveMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
             .withSteerMotorClosedLoopOutput(SwerveModuleConstants.ClosedLoopOutputType.Voltage)//TODO: tune
-            .withDriveMotorGains(new Slot0Configs().withKP(3))//TODO: tune
+            .withDriveMotorGains(new Slot0Configs().withKP(10).withKD(0))//TODO: tune
             .withSteerMotorGains(new Slot0Configs()
                 .withKP(CHOSEN_MODULE_CONSTANTS.steerKP)
                 .withKI(CHOSEN_MODULE_CONSTANTS.steerKI)
@@ -171,14 +171,14 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert == InvertedValue.CounterClockwise_Positive)
             .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert == InvertedValue.CounterClockwise_Positive)
-            .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.Clockwise_Positive)
+            .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.CounterClockwise_Positive)
             .withEncoderInitialConfigs(new CANcoderConfiguration())
             //.withDriveFrictionVoltage(0.25)//TODO: tune
             //.withSteerFrictionVoltage(0.001)//TODO: tune
             //.withDriveInertia(0.001)//TODO: tune
             //.withSteerInertia(0.00001)//TODO: tune
             //.withSlipCurrent(120) //TODO: tuneE
-            .withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.FusedCANcoder)
+            .withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.RemoteCANcoder)//the FusedCANcoder is pro only
             .withSpeedAt12Volts(MAX_SPEED_METERS_PER_SECOND)
             .withWheelRadius(WHEEL_RADIUS_METERS);
     }
@@ -209,6 +209,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
                 new MotorOutputConfigs()
                     .withInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert)
                     .withNeutralMode(NeutralModeValue.Coast)
+                    
             );
     }
 

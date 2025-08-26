@@ -56,8 +56,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     
 
-    private DriveState systemState = DriveState.TELEOP_DRIVE;
-    private DriveState wantedState = DriveState.TELEOP_DRIVE;
+    private DriveState systemState = DriveState.IDLE;
+    private DriveState wantedState = DriveState.IDLE;
 
     private Rotation2d desiredRotationForRotationLockState;
 
@@ -207,9 +207,9 @@ public class SwerveSubsystem extends SubsystemBase {
         case SYS_ID:
             break;
         case TELEOP_DRIVE:
-            this.io.setSwerveState(new SwerveRequest.ApplyRobotSpeeds()
-                    .withSpeeds(new ChassisSpeeds(0,0,0))
-                    .withDriveRequestType(SwerveModule.DriveRequestType.Velocity)); //change to CloseLoopVoltage idk where is that.
+            this.io.setSwerveState(new SwerveRequest.ApplyFieldSpeeds()
+                    .withSpeeds(this.calculateSpeedsBasedOnJoystickInputs())
+                    .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage));
             break;
         case CHOREO_PATH: {
             if (this.choreoSampleToBeApplied.isPresent()) {
