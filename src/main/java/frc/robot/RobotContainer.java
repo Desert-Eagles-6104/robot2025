@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
@@ -81,7 +82,17 @@ public class RobotContainer {
 			swerveConstants.getSteerSysIdConfig()
 		);
 
-		//new PidCalibrations(this.swerveSubsystem.getIO().getMotorById(20));
+		new PidCalibrations(
+				new TalonFX[] {
+					this.swerveSubsystem.getIO().getMotorById(11),
+					this.swerveSubsystem.getIO().getMotorById(21),
+					this.swerveSubsystem.getIO().getMotorById(31),
+					this.swerveSubsystem.getIO().getMotorById(41),
+				},
+				false
+			);
+			
+		
 
 
 		//m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);

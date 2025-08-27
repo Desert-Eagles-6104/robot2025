@@ -355,8 +355,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
         angularMagnitude = Math.copySign(Math.pow(angularMagnitude, 2), angularMagnitude);
 
-        double xVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * xMagnitude * maxVelocity * this.teleopVelocityCoefficient;
-        double yVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * yMagnitude * maxVelocity * this.teleopVelocityCoefficient;
+        double xVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * xMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
+        double yVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * yMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
         double angularVelocity = angularMagnitude * this.maxAngularVelocity * this.rotationVelocityCoefficient;
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
