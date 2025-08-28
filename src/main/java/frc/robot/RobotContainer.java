@@ -71,26 +71,26 @@ public class RobotContainer {
 
   public RobotContainer() {
     m_swerve = SwerveSubsystem.createInstance(Constants.Swerve.swerveConstants);
-    m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
-    m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
-    m_climb = new Climb();
-    m_gripper = new GripperSubsystem();
-    m_gripper2 = new Gripper2Subsystem();
-    m_vision = new VisionSubsystem(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
-    m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
+    //m_elevator = new ElevatorSubsystem(Constants.Elevator.ElevatorConfiguration);
+    //m_gripperArm = new GripperArmSubsystem(Constants.GripperArm.configuration);
+    //m_climb = new Climb();
+    //m_gripper = new GripperSubsystem();
+    //m_gripper2 = new Gripper2Subsystem();
+    //m_vision = new VisionSubsystem(new CameraSettings(0.20449, 0.20083, 0.57226 , 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
+    //m_sysid = new PhoneixSysid(Constants.sysidConfiguration, m_gripperArm);
     m_poseEstimator = new PoseEstimatorSubsystem(m_swerve);
-    m_isLocalisation = driverStationController.LeftSwitch().negate();
-    m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
+    //m_isLocalisation = driverStationController.LeftSwitch().negate();
+    //m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
     m_swerveAutoBuilder = new SwerveAutoBuilder(m_swerve);
     
     // controls
-    dashboardResets();
+    //dashboardResets();
     SwerveBinding();
-    auto();
-    DriverManuals();
-    OperatorManuals();
+    //auto();
+    //DriverManuals();
+    //OperatorManuals();
 
-    drivercontroller.R3().whileTrue(new InstantCommand(() -> VisionSubsystem.LockID()));
+   // drivercontroller.R3().whileTrue(new InstantCommand(() -> VisionSubsystem.LockID()));
 
   }
 
@@ -130,8 +130,8 @@ public class RobotContainer {
   }
 
   public void DriverManuals(){
-    drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, 0.6));
-    drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
+   //drivercontroller.L2().whileTrue(new GripperSet(m_gripper2, 0.6));
+   //drivercontroller.R2().whileTrue(new GripperSet(m_gripper2, -0.6));
     drivercontroller.povLeft().whileTrue(new SetPercent(m_climb, -0.50));
     drivercontroller.povRight().whileTrue(new SetPercent(m_climb, 0.65));
     // drivercontroller.square().onTrue(new L4Score(m_elevator, m_gripperArm, m_gripper, m_state, m_gripper2,drivercontroller.cross()));

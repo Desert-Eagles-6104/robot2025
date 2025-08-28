@@ -17,7 +17,7 @@ public class SwerveConstants {
     COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
     /*String bus */
-    String canBus = "Canivore";
+    String canBus = "rio";
 
     /* Drivetrain Constants */
     public double wheelCircumference = chosenModule.wheelCircumference;

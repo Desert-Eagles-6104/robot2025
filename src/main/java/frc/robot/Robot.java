@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-        SmartDashboard.putNumber("AprilTagID", VisionSubsystem.getID());    
+        //SmartDashboard.putNumber("AprilTagID", VisionSubsystem.getID());    
 
   }
 

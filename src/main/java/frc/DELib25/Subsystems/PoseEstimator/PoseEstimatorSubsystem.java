@@ -28,12 +28,12 @@ public class PoseEstimatorSubsystem extends SubsystemBase{
 
   @Override
   public void periodic() {
-    if(!first){
-      updateVisionOdometry();
-    }
-    else{
-      first = false;
-    }
+    // if(!first){
+    //  updateVisionOdometry();
+    // }
+    // else{
+    //  first = false;
+    // }
   }
 
   private static void updateVisionOdometry(){
