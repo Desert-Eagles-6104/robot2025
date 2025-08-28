@@ -74,18 +74,18 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
      */
     private static final double WHEEL_TRACK_WIDTH_METERS = 0.51665;
 
+    private static final double DRIVE_MAX_RPM = 6380;//https://store.ctr-electronics.com/products/falcon-500-powered-by-talon-fx?srsltid=AfmBOooHbAKYVQOjIng8aG_SS-pt4lBmCyn5QY2ZagAbAt-w49fwpTGh
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = 4;//TODO: tune 
-    //the calculation is (Motor Free Speed (RPM)​/DRIVE_GEAR_RATIO) * (1/60) * Math.PI * CHOSEN_MODULE_CONSTANTS.wheelDiameter
-    //Also from what i see on the web we should also multiply by 0.9 or so to account for friction losses
+    private static final double MAX_SPEED_METERS_PER_SECOND = (DRIVE_MAX_RPM/DRIVE_GEAR_RATIO) * (1/60.0) * Math.PI * CHOSEN_MODULE_CONSTANTS.wheelDiameter* 0.9;//we multiply by 0.9 to be safe//the exstra .0 is to make it a double not a int so we dont have 0
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = -0.383057;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.007812;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.122559;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0.268799;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.381592;
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.260498;
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = -0.135254;
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.475342;
+
     
     private static final int GYRO_MOUNTING_ANGLE = 0;
 
@@ -121,7 +121,9 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderId(FRONT_LEFT_STEER_ENCODER_ID)
             .withEncoderOffset(FRONT_LEFT_STEER_OFFSET_ROTATIONS)
             .withLocationX(WHEELBASE_LENGTH_METERS / 2)
-            .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2);
+            .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2)
+            .withDriveMotorInverted(true);
+            
 
         moduleConstants[1] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(FRONT_RIGHT_DRIVE_MOTOR_ID)
@@ -129,7 +131,9 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderId(FRONT_RIGHT_STEER_ENCODER_ID)
             .withEncoderOffset(FRONT_RIGHT_STEER_OFFSET_ROTATIONS)
             .withLocationX(WHEELBASE_LENGTH_METERS / 2)
-            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2);
+            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2)
+            .withDriveMotorInverted(false);
+
 
         moduleConstants[2] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(BACK_LEFT_DRIVE_MOTOR_ID)
@@ -137,7 +141,8 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderId(BACK_LEFT_STEER_ENCODER_ID)
             .withEncoderOffset(BACK_LEFT_STEER_OFFSET_ROTATIONS)
             .withLocationX(-WHEELBASE_LENGTH_METERS / 2)
-            .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2);
+            .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2)
+            .withDriveMotorInverted(true);
 
         moduleConstants[3] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(BACK_RIGHT_DRIVE_MOTOR_ID)
@@ -145,7 +150,9 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderId(BACK_RIGHT_STEER_ENCODER_ID)
             .withEncoderOffset(BACK_RIGHT_STEER_OFFSET_ROTATIONS)
             .withLocationX(-WHEELBASE_LENGTH_METERS / 2)
-            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2);
+            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2)
+            .withDriveMotorInverted(false);
+
         return moduleConstants;
     }
 

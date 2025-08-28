@@ -354,6 +354,8 @@ public class SwerveSubsystem extends SubsystemBase {
         double angularMagnitude = MathUtil.applyDeadband(this.controller.getRightX(), CONTROLLER_DEADBAND);
 
         angularMagnitude = Math.copySign(Math.pow(angularMagnitude, 2), angularMagnitude);
+        xMagnitude = Math.copySign(Math.pow(xMagnitude, 2), xMagnitude);
+        yMagnitude = Math.copySign(Math.pow(yMagnitude, 2), yMagnitude);
 
         double xVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * xMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
         double yVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * yMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
@@ -482,7 +484,6 @@ public class SwerveSubsystem extends SubsystemBase {
         //Allow for the method to be called immediately and not wait for the next cycle.
         this.setWantedState(DriveState.TELEOP_DRIVE);
         this.systemState = DriveState.TELEOP_DRIVE;//We allready disabled the motors, so we can set the state to IDLE immediately.
-    }
-
+    }    
 
 }
