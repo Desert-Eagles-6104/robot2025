@@ -5,7 +5,9 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.util.Units;
 
-/* Contains values and required settings for common COTS swerve modules. */
+/* Contains values and required settings for common COTS swerve modules. 
+ * originally by FRC team 364 https://github.com/dirtbikerxz/BaseTalonFXSwerve/blob/main/src/main/java/frc/lib/util/COTSTalonFXSwerveConstants.java
+*/
 public class COTSTalonFXSwerveConstants {
     public final double wheelDiameter;
     public final double wheelCircumference;
