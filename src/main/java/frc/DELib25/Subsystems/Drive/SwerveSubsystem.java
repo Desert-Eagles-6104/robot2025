@@ -2,6 +2,10 @@ package frc.DELib25.Subsystems.Drive;
 
 import choreo.trajectory.SwerveSample;
 import choreo.trajectory.Trajectory;
+
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.utility.PhoenixPIDController;
@@ -484,6 +488,16 @@ public class SwerveSubsystem extends SubsystemBase {
         //Allow for the method to be called immediately and not wait for the next cycle.
         this.setWantedState(DriveState.TELEOP_DRIVE);
         this.systemState = DriveState.TELEOP_DRIVE;//We allready disabled the motors, so we can set the state to IDLE immediately.
-    }    
+    }
 
+    public void enterPushMode() {
+        this.setWantedState(DriveState.IDLE);
+        this.io.configNeutralMode(NeutralModeValue.Coast);
+    }
+
+    public void exitPushMode(NeutralModeValue mode) {
+        this.setWantedState(DriveState.TELEOP_DRIVE);
+        this.io.configNeutralMode(mode);
+    }
+    
 }

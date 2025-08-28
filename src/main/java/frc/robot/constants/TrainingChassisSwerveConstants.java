@@ -7,9 +7,7 @@ import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
@@ -51,16 +49,11 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
      * which measures distance as a function of the number of rotations * wheel circumference.
      */
     private static final double WHEEL_RADIUS_METERS = CHOSEN_MODULE_CONSTANTS.wheelDiameter / 2.0;
-
     /**
-     * Ratio between the drive motor shaft and the output shaft the wheel is mounted on.
+     * The coupled gear ratio between the CanCoder and the drive motor.
+     * Every 1 rotation of the steer motor results in coupled ratio of drive turns.
      */
-    private static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE_CONSTANTS.driveGearRatio;
-
-    /**
-     * Ratio between the steer motor shaft and the steer output shaft.
-     */
-    private static final double STEER_GEAR_RATIO = CHOSEN_MODULE_CONSTANTS.steerGearRatio;
+    private static final double COUPLING_GEAR_RATIO = 0;//TODO: measure
 
     /**
      * Wheelbase length is the distance between the front and back wheels.
@@ -73,12 +66,10 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
      * Positive y values represent moving towards the left of the robot.
      */
     private static final double WHEEL_TRACK_WIDTH_METERS = 0.51665;
-
-    private static final double DRIVE_MAX_RPM = 6380;//https://store.ctr-electronics.com/products/falcon-500-powered-by-talon-fx?srsltid=AfmBOooHbAKYVQOjIng8aG_SS-pt4lBmCyn5QY2ZagAbAt-w49fwpTGh
     /**
      * The maximum speed of the robot in meters per second.
      */
-    private static final double MAX_SPEED_METERS_PER_SECOND = (DRIVE_MAX_RPM/DRIVE_GEAR_RATIO) * (1/60.0) * Math.PI * CHOSEN_MODULE_CONSTANTS.wheelDiameter* 0.9;//we multiply by 0.9 to be safe//the exstra .0 is to make it a double not a int so we dont have 0
+    private static final double MAX_SPEED_METERS_PER_SECOND = CHOSEN_MODULE_CONSTANTS.getTheoreticalMaxLinearSpeedMps() * 0.9;//we multiply by 0.9 to be safe//the exstra .0 is to make it a double not a int so we dont have 0
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
     private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.381592;
@@ -122,8 +113,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderOffset(FRONT_LEFT_STEER_OFFSET_ROTATIONS)
             .withLocationX(WHEELBASE_LENGTH_METERS / 2)
             .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2)
-            .withDriveMotorInverted(true);
-            
+            .withDriveMotorInverted(false);
 
         moduleConstants[1] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(FRONT_RIGHT_DRIVE_MOTOR_ID)
@@ -132,8 +122,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderOffset(FRONT_RIGHT_STEER_OFFSET_ROTATIONS)
             .withLocationX(WHEELBASE_LENGTH_METERS / 2)
             .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2)
-            .withDriveMotorInverted(false);
-
+            .withDriveMotorInverted(true);
 
         moduleConstants[2] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(BACK_LEFT_DRIVE_MOTOR_ID)
@@ -142,7 +131,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderOffset(BACK_LEFT_STEER_OFFSET_ROTATIONS)
             .withLocationX(-WHEELBASE_LENGTH_METERS / 2)
             .withLocationY(WHEEL_TRACK_WIDTH_METERS / 2)
-            .withDriveMotorInverted(true);
+            .withDriveMotorInverted(false);
 
         moduleConstants[3] = getDefaultSwerveModuleConstants()
             .withDriveMotorId(BACK_RIGHT_DRIVE_MOTOR_ID)
@@ -151,7 +140,7 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderOffset(BACK_RIGHT_STEER_OFFSET_ROTATIONS)
             .withLocationX(-WHEELBASE_LENGTH_METERS / 2)
             .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2)
-            .withDriveMotorInverted(false);
+            .withDriveMotorInverted(true);
 
         return moduleConstants;
     }
@@ -170,17 +159,14 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
                 .withKI(CHOSEN_MODULE_CONSTANTS.steerKI)
                 .withKD(CHOSEN_MODULE_CONSTANTS.steerKD)
             )
-            .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
-            .withSteerMotorGearRatio(STEER_GEAR_RATIO)
-            .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.driveMotorInvert == InvertedValue.CounterClockwise_Positive)
-            .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.steerMotorInvert == InvertedValue.CounterClockwise_Positive)
-            .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.cancoderInvert == SensorDirectionValue.CounterClockwise_Positive)
+            .withDriveMotorGearRatio(CHOSEN_MODULE_CONSTANTS.driveGearRatio)
+            .withSteerMotorGearRatio(CHOSEN_MODULE_CONSTANTS.steerGearRatio)
+            .withCouplingGearRatio(COUPLING_GEAR_RATIO)
+            .withDriveMotorInverted(CHOSEN_MODULE_CONSTANTS.isDriveInverted())
+            .withSteerMotorInverted(CHOSEN_MODULE_CONSTANTS.isSteerInverted())
+            .withEncoderInverted(CHOSEN_MODULE_CONSTANTS.isCancoderInverted())
             .withEncoderInitialConfigs(new CANcoderConfiguration())
-            //.withDriveFrictionVoltage(0.25)//TODO: tune
-            //.withSteerFrictionVoltage(0.001)//TODO: tune
-            //.withDriveInertia(0.001)//TODO: tune
-            //.withSteerInertia(0.00001)//TODO: tune
-            //.withSlipCurrent(120) //TODO: tuneE
+            //.withSlipCurrent(120) //TODO: tune
             .withFeedbackSource(SwerveModuleConstants.SteerFeedbackType.RemoteCANcoder)//the FusedCANcoder is pro only
             .withSpeedAt12Volts(MAX_SPEED_METERS_PER_SECOND)
             .withWheelRadius(WHEEL_RADIUS_METERS);

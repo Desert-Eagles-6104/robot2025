@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import frc.DELib25.BooleanUtil.StableBoolean;
-import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
+import frc.DELib25.Subsystems.PoseEstimator.PoseInterfaceSubsystem;
 import frc.DELib25.Util.FieldUtil;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
 
 public class ReefAssist extends Command {
 	private final SwerveSubsystem swerve;
-	private final PoseEstimatorSubsystem poseEstimator;
+	private final PoseInterfaceSubsystem poseEstimator;
 	private final VisionSubsystemRobot2025 vision;
 
 	private final BooleanSupplier chooseRight;
@@ -34,7 +34,7 @@ public class ReefAssist extends Command {
 	private final SwerveRequest.ApplyFieldSpeeds request = new SwerveRequest.ApplyFieldSpeeds()
 		.withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
-	public ReefAssist( SwerveSubsystem swerve, VisionSubsystemRobot2025 vision, PoseEstimatorSubsystem poseEstimator, BooleanSupplier chooseRight, Supplier<Translation2d> leftErrorSupplier, Supplier<Translation2d> rightErrorSupplier) {
+	public ReefAssist( SwerveSubsystem swerve, VisionSubsystemRobot2025 vision, PoseInterfaceSubsystem poseEstimator, BooleanSupplier chooseRight, Supplier<Translation2d> leftErrorSupplier, Supplier<Translation2d> rightErrorSupplier) {
 		this.swerve = swerve;
 		this.vision = vision;
 		this.poseEstimator = poseEstimator;

@@ -13,11 +13,17 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.DELib25.Util.FieldUtil;
 import frc.DELib25.Util.ProjectConstants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements SwerveIO {
 
@@ -148,16 +154,49 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
     }
 
     //For testing
-    public TalonFX getMotorById(int id) {
-        for (int i = 0; i < 4; i++) {
-            if (this.getModule(i).getDriveMotor().getDeviceID() == id) {
-                return this.getModule(i).getDriveMotor();
-            }
-            if (this.getModule(i).getSteerMotor().getDeviceID() == id) {
-                return this.getModule(i).getSteerMotor();
-            }
+    public TalonFX[] getMotorsByIds(int... ids) {
+        if (ids == null || ids.length == 0) return new TalonFX[0];
+
+        Set<Integer> requested = new HashSet<>();
+        for (int id : ids) requested.add(id);
+
+        Map<Integer, TalonFX> found = new HashMap<>(requested.size());
+
+        for (int i = 0; i < 4 && found.size() < requested.size(); i++) {
+            TalonFX drive = this.getModule(i).getDriveMotor();
+            TalonFX steer = this.getModule(i).getSteerMotor();
+
+            int dId = drive.getDeviceID();
+            int sId = steer.getDeviceID();
+
+            if (requested.contains(dId)) found.putIfAbsent(dId, drive);
+            if (requested.contains(sId)) found.putIfAbsent(sId, steer);
         }
-        return null;
+
+        List<TalonFX> out = new ArrayList<>(ids.length);
+        Set<Integer> missing = new LinkedHashSet<>();
+        
+        for (int id : ids) {
+            TalonFX m = found.get(id);
+            if (m != null) out.add(m);
+            else missing.add(id);
+        }
+
+        if (!missing.isEmpty()) {
+            DriverStation.reportWarning("Some requested motor IDs were not found: " + missing, false);
+        }
+
+        return out.toArray(new TalonFX[0]);
     }
+
+    public TalonFX getMotorById(int id) {
+        TalonFX[] arr = getMotorsByIds(id);
+        if (arr.length == 0) {
+            throw new IllegalArgumentException("Motor with device ID " + id + " not found.");
+        }
+        return arr[0];
+    }
+    
+
     
 }

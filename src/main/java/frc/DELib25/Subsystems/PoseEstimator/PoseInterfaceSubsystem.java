@@ -17,7 +17,7 @@ import frc.DELib25.Subsystems.Vision.VisionSubsystem;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
 /** Creates a new PoseEstimator. */
-public class PoseEstimatorSubsystem extends SubsystemBase {
+public class PoseInterfaceSubsystem extends SubsystemBase {
 
   private SwerveSubsystem swerve;
   private LimelightHelpers.PoseEstimate limelightMesermentMT2;
@@ -27,8 +27,9 @@ public class PoseEstimatorSubsystem extends SubsystemBase {
   private Field2d field;
   private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
   private VisionSubsystem vision;
+  private Pose2d pose;
 
-  public PoseEstimatorSubsystem(SwerveSubsystem swerve, VisionSubsystem vision) {
+  public PoseInterfaceSubsystem(SwerveSubsystem swerve, VisionSubsystem vision) {
     this.swerve = swerve;
     this.vision = vision;
 

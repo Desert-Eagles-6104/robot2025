@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
+import frc.DELib25.Subsystems.PoseEstimator.PoseInterfaceSubsystem;
 import frc.robot.ReefUtill;
 import frc.robot.Robot;
 import frc.robot.subsystems.VisionSubsystemRobot2025;
@@ -16,9 +16,9 @@ public class DriveAssistToReef {
 	private final double m_kpForward = 2.6;
 	private LinearFilter m_filterSide = LinearFilter.movingAverage(4);
 	private LinearFilter m_filterForward = LinearFilter.movingAverage(4);
-	private PoseEstimatorSubsystem poseEstimator;
+	private PoseInterfaceSubsystem poseEstimator;
 	private VisionSubsystemRobot2025 visionSubsystem;
-    public DriveAssistToReef(PoseEstimatorSubsystem poseEstimator, VisionSubsystemRobot2025 visionSubsystem){
+    public DriveAssistToReef(PoseInterfaceSubsystem poseEstimator, VisionSubsystemRobot2025 visionSubsystem){
 		this.poseEstimator = poseEstimator;
 		this.visionSubsystem = visionSubsystem;
     }

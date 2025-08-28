@@ -17,7 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
-import frc.DELib25.Subsystems.PoseEstimator.PoseEstimatorSubsystem;
+import frc.DELib25.Subsystems.PoseEstimator.PoseInterfaceSubsystem;
 import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
@@ -64,7 +64,7 @@ public class RobotContainer {
 	private GripperArmSubsystem m_gripperArm;
 	private GripperSubsystem m_gripper;
 	private Gripper2Subsystem m_gripper2;
-	private PoseEstimatorSubsystem m_poseEstimator;
+	private PoseInterfaceSubsystem m_poseEstimator;
 	public static BooleanSupplier m_isLocalisation = ()-> false;
 	public static BooleanSupplier m_isLocalisationOmega = () -> false;
 	public static PresetState m_state = PresetState.Home;
