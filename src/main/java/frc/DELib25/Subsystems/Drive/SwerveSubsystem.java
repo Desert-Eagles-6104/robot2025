@@ -30,7 +30,6 @@ import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
 
-
 public class SwerveSubsystem extends SubsystemBase {
     private static final double CONTROLLER_DEADBAND = 0.1;
     public static final double TRANSLATION_ERROR_MARGIN_FOR_RELEASING_PIECE_METERS = Units.inchesToMeters(0.5);
@@ -58,8 +57,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private final SwerveRequest.FieldCentricFacingAngle driveAtAngle = new SwerveRequest.FieldCentricFacingAngle().withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
-    
-
     private DriveState systemState = DriveState.IDLE;
     private DriveState wantedState = DriveState.IDLE;
 
@@ -72,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private Pose2d desiredPoseForDriveToPoint = new Pose2d();
 
     private final SwerveIOInputsAutoLogged swerveInputs = new SwerveIOInputsAutoLogged();
-    
+
     ModuleIOInputsAutoLogged frontLeftInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged frontRightInputs = new ModuleIOInputsAutoLogged();
     ModuleIOInputsAutoLogged backLeftInputs = new ModuleIOInputsAutoLogged();
@@ -107,8 +104,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private final SysIdRoutine steerSysIdRoutine;
 
-    public SwerveSubsystem(SwerveIOCTRE io, CommandPS5Controller controller, double maxVelocity, double maxAngularVelocity,SysIdRoutine.Config translationSysIdRoutineConfig,
-    SysIdRoutine.Config rotationSysIdRoutineConfig, SysIdRoutine.Config steerSysIdRoutineConfig) {
+    public SwerveSubsystem(SwerveIOCTRE io, CommandPS5Controller controller, double maxVelocity, double maxAngularVelocity, SysIdRoutine.Config translationSysIdRoutineConfig,
+            SysIdRoutine.Config rotationSysIdRoutineConfig, SysIdRoutine.Config steerSysIdRoutineConfig) {
         this.io = io;
         this.controller = controller;
         this.maxVelocity = maxVelocity;
@@ -130,9 +127,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private SysIdRoutine.Mechanism createSysIdRoutineMechanism() {
         return new SysIdRoutine.Mechanism(
-            output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output)),
-            null,this
-        );
+                output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output)),
+                null, this);
     }
 
     private SysIdRoutine getRoutine(SysIdMechanism mechanism) {
@@ -188,7 +184,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putString("systemState", this.systemState.toString());
 
         Logger.recordOutput("Subsystems/Drive/SystemState", this.systemState);
-        Logger.recordOutput("Subsystems/Drive/DesiredState",this.wantedState);
+        Logger.recordOutput("Subsystems/Drive/DesiredState", this.wantedState);
         this.applyStates();
     }
 
@@ -361,16 +357,15 @@ public class SwerveSubsystem extends SubsystemBase {
         xMagnitude = Math.copySign(Math.pow(xMagnitude, 2), xMagnitude);
         yMagnitude = Math.copySign(Math.pow(yMagnitude, 2), yMagnitude);
 
-        double xVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * xMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
-        double yVelocity = (FieldUtil.isBlueAlliance() ? -1 : 1) * yMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
+        double xVelocity = (FieldUtil.isBlueAllianceOrDefault() ? -1 : 1) * xMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
+        double yVelocity = (FieldUtil.isBlueAllianceOrDefault() ? -1 : 1) * yMagnitude * this.maxVelocity * this.teleopVelocityCoefficient;
         double angularVelocity = angularMagnitude * this.maxAngularVelocity * this.rotationVelocityCoefficient;
 
         Rotation2d skewCompensationFactor = Rotation2d.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
 
         return ChassisSpeeds.fromRobotRelativeSpeeds(
                 ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity), this.swerveInputs.Pose.getRotation()),
-                this.swerveInputs.Pose.getRotation().plus(skewCompensationFactor)
-            );
+                this.swerveInputs.Pose.getRotation().plus(skewCompensationFactor));
     }
 
     public void resetTranslationAndRotation(Pose2d pose2d) {
@@ -412,10 +407,10 @@ public class SwerveSubsystem extends SubsystemBase {
             return false;
         }
         return MathUtil.isNear(
-            this.desiredChoreoTrajectory.getFinalPose(false).get().getX(),
+                this.desiredChoreoTrajectory.getFinalPose(false).get().getX(),
                 this.swerveInputs.Pose.getX(),
                 TRANSLATION_ERROR_MARGIN_FOR_RELEASING_PIECE_METERS) && MathUtil.isNear(
-                    this.desiredChoreoTrajectory.getFinalPose(false).get().getY(),
+                        this.desiredChoreoTrajectory.getFinalPose(false).get().getY(),
                         this.swerveInputs.Pose.getY(),
                         TRANSLATION_ERROR_MARGIN_FOR_RELEASING_PIECE_METERS);
     }
@@ -423,13 +418,13 @@ public class SwerveSubsystem extends SubsystemBase {
     public boolean isAtEndOfChoreoTrajectoryOrDriveToPoint() {
         if (this.desiredChoreoTrajectory != null) {
             return (MathUtil.isNear(
-                this.desiredChoreoTrajectory
+                    this.desiredChoreoTrajectory
                             .getFinalPose(false)
                             .get()
                             .getX(),
                     this.swerveInputs.Pose.getX(),
                     TRANSLATION_ERROR_MARGIN_FOR_RELEASING_PIECE_METERS) && MathUtil.isNear(
-                        this.desiredChoreoTrajectory
+                            this.desiredChoreoTrajectory
                                     .getFinalPose(false)
                                     .get()
                                     .getY(),
@@ -491,5 +486,5 @@ public class SwerveSubsystem extends SubsystemBase {
         this.setWantedState(DriveState.TELEOP_DRIVE);
         this.io.configNeutralMode(mode);
     }
-    
+
 }

@@ -9,6 +9,8 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -37,11 +39,10 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
     @SafeVarargs
     public SwerveIOCTRE(
             SwerveDrivetrainConstants constants,
-            SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>... moduleConstants
-        ) {
-            
+            SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>... moduleConstants) {
+
         super(TalonFX::new, TalonFX::new, CANcoder::new, constants, moduleConstants);
-        this.resetRotation(FieldUtil.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
+        this.resetRotation(FieldUtil.isBlueAllianceOrDefault() ? Rotation2d.kZero : Rotation2d.k180deg);
 
         signalsMap.put(0, frontLeftSignals);
         signalsMap.put(1, frontRightSignals);
@@ -90,7 +91,7 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
 
     @Override
     public void resetRotation() {
-        this.resetRotation(FieldUtil.isBlueAlliance() ? Rotation2d.kZero : Rotation2d.k180deg);
+        this.resetRotation(FieldUtil.isBlueAllianceOrDefault() ? Rotation2d.kZero : Rotation2d.k180deg);
     }
 
     @Override
@@ -112,17 +113,13 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         for (int i = 0; i < 4; i++) {
             var moduleMap = signalsMap.get(i);
 
-            inputs[i].driveSupplyCurrentAmps =
-                    moduleMap.get("driveSupplyCurrentAmps").getValueAsDouble();
-            inputs[i].driveStatorCurrentAmps =
-                    moduleMap.get("driveStatorCurrentAmps").getValueAsDouble();
+            inputs[i].driveSupplyCurrentAmps = moduleMap.get("driveSupplyCurrentAmps").getValueAsDouble();
+            inputs[i].driveStatorCurrentAmps = moduleMap.get("driveStatorCurrentAmps").getValueAsDouble();
             inputs[i].driveAppliedVolts = moduleMap.get("driveAppliedVolts").getValueAsDouble();
             inputs[i].driveTemperature = moduleMap.get("driveTemperature").getValueAsDouble();
 
-            inputs[i].steerSupplyCurrentAmps =
-                    moduleMap.get("steerSupplyCurrentAmps").getValueAsDouble();
-            inputs[i].steerStatorCurrentAmps =
-                    moduleMap.get("steerStatorCurrentAmps").getValueAsDouble();
+            inputs[i].steerSupplyCurrentAmps = moduleMap.get("steerSupplyCurrentAmps").getValueAsDouble();
+            inputs[i].steerStatorCurrentAmps = moduleMap.get("steerStatorCurrentAmps").getValueAsDouble();
             inputs[i].steerAppliedVolts = moduleMap.get("steerAppliedVolts").getValueAsDouble();
             inputs[i].steerTemperature = moduleMap.get("steerTemperature").getValueAsDouble();
         }
@@ -136,11 +133,14 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         }
     }
 
-    //Wrapers to the CTRE swerveDrivetrain
+    public Pose2d getPose() {
+        return this.getStateCopy().Pose;
+    }
+
+    // Wrapers to the CTRE swerveDrivetrain
     public SwerveModulePosition[] getModulesPositions() {
         return this.getStateCopy().ModulePositions;
     }
-
 
     public Rotation2d getYaw() {
         return this.getState().Pose.getRotation();
@@ -153,12 +153,14 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         }
     }
 
-    //For testing
+    // For testing
     public TalonFX[] getMotorsByIds(int... ids) {
-        if (ids == null || ids.length == 0) return new TalonFX[0];
+        if (ids == null || ids.length == 0)
+            return new TalonFX[0];
 
         Set<Integer> requested = new HashSet<>();
-        for (int id : ids) requested.add(id);
+        for (int id : ids)
+            requested.add(id);
 
         Map<Integer, TalonFX> found = new HashMap<>(requested.size());
 
@@ -169,17 +171,21 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
             int dId = drive.getDeviceID();
             int sId = steer.getDeviceID();
 
-            if (requested.contains(dId)) found.putIfAbsent(dId, drive);
-            if (requested.contains(sId)) found.putIfAbsent(sId, steer);
+            if (requested.contains(dId))
+                found.putIfAbsent(dId, drive);
+            if (requested.contains(sId))
+                found.putIfAbsent(sId, steer);
         }
 
         List<TalonFX> out = new ArrayList<>(ids.length);
         Set<Integer> missing = new LinkedHashSet<>();
-        
+
         for (int id : ids) {
             TalonFX m = found.get(id);
-            if (m != null) out.add(m);
-            else missing.add(id);
+            if (m != null)
+                out.add(m);
+            else
+                missing.add(id);
         }
 
         if (!missing.isEmpty()) {
@@ -196,7 +202,5 @@ public class SwerveIOCTRE extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> i
         }
         return arr[0];
     }
-    
 
-    
 }

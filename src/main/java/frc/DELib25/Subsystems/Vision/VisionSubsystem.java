@@ -32,7 +32,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	 * Whether the limelight has any valid targets (0 or 1)
 	 */
 	protected boolean tv = false;
-	private PoseEstimate estimatedRobotPose = new PoseEstimate(); 
+	private PoseEstimate estimatedRobotPose; 
 	private double currentID = 0;
     
     protected double cropXMin = -1;
@@ -101,6 +101,14 @@ public abstract class VisionSubsystem extends SubsystemBase {
 			poseEstimate.pose = new Pose2d();
 			return poseEstimate;
 		}
+		return this.estimatedRobotPose;
+	}
+	/**
+	 * Returns the estimated robot pose based on the AprilTag camera's data.
+	 * If no pose is estimated, it returns null.
+	 * @return
+	 */
+	public PoseEstimate getEstimatedRobotPoseNoDefault() {
 		return this.estimatedRobotPose;
 	}
     
