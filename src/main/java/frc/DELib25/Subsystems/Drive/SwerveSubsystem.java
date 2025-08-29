@@ -374,8 +374,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetTranslationAndRotation(Pose2d pose2d) {
-        resetTranslation(pose2d);
-        resetRotation(pose2d.getRotation());
+        this.resetTranslation(pose2d);
+        this.resetRotation(pose2d.getRotation());
     }
 
     public void resetRotation(Rotation2d rotation2d) {
@@ -480,14 +480,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void disableMotors() {
         this.io.disableMotors();
-    }
-
-    public void disableMotorsWithState() {
-        this.io.disableMotors();
-        
-        //Allow for the method to be called immediately and not wait for the next cycle.
-        this.setWantedState(DriveState.TELEOP_DRIVE);
-        this.systemState = DriveState.TELEOP_DRIVE;//We allready disabled the motors, so we can set the state to IDLE immediately.
     }
 
     public void enterPushMode() {

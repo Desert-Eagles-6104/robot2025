@@ -1,5 +1,8 @@
-//LimelightHelpers v1.9 (REQUIRES 2024.9.1)
-
+/**
+ * Source {@link https://github.com/LimelightVision/limelightlib-wpijava}
+ * LimelightHelpers v1.9 (REQUIRES 2024.9.1)
+ */
+//TODO: update to v1.12 
 package frc.DELib25.Subsystems.Vision.VisionUtil;
 
 import edu.wpi.first.networktables.DoubleArrayEntry;

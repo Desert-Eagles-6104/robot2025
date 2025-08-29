@@ -53,8 +53,9 @@ public class COTSTalonFXSwerveConstants {
     }
 
     /**
-     * Theoretical maximum linear speed of the robot in meters per second.
-     * @return
+     * Calculates the theoretical maximum linear speed of the robot in meters per second.
+     * Note: It is recommended to reduce this value by 10-15% to account for real-world inefficiencies.
+     * @return Theoretical maximum linear speed in meters per second.
      */
     public double getTheoreticalMaxLinearSpeedMps(){
         return (this.maxDriveRPM/this.driveGearRatio) * (1/60.0) * this.wheelCircumference;

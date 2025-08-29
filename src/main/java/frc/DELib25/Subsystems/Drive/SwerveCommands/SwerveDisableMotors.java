@@ -9,10 +9,11 @@ public class SwerveDisableMotors extends InstantCommand {
 
 	public SwerveDisableMotors(SwerveSubsystem swerveSubsystem) {
 		this.swerveSubsystem = swerveSubsystem;
+		this.addRequirements(swerveSubsystem);
 	}
 
 	@Override
 	public void initialize() {
-		this.swerveSubsystem.disableMotorsWithState();
+		this.swerveSubsystem.disableMotors();
 	}
 }
