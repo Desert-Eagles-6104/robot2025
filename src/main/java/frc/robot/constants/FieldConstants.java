@@ -31,6 +31,7 @@ public class FieldConstants {
     public static final int RED_REEF_RIGHT_BARGE = 9;
     public static final int RED_REEF_CENTER_BARGE = 10;
     public static final int RED_REEF_LEFT_BARGE = 11;
+    
     public static final int BLUE_RIGHT_CORAL_STATION = 12;
     public static final int BLUE_LEFT_CORAL_STATION = 13;
     public static final int BLUE_LEFT_BARGE = 14;

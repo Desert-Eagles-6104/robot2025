@@ -40,7 +40,9 @@ public class Robot extends LoggedRobot {
     // Pathfinding.setPathfinder(new LocalADStarAK());
     FollowPathCommand.warmupCommand().schedule();
     s_Alliance = DriverStation.getAlliance().get();
+
   }
+  
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics

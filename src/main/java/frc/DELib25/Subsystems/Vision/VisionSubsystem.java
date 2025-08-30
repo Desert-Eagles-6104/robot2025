@@ -1,14 +1,13 @@
 package frc.DELib25.Subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
+import frc.DELib25.Util.FieldUtil;
 
 public abstract class VisionSubsystem extends SubsystemBase {
 	
@@ -77,8 +76,7 @@ public abstract class VisionSubsystem extends SubsystemBase {
 			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName(), this.lastTx);
 			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName(), this.lastTy);
 			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
-			if (DriverStation.getAlliance().isPresent() && 
-				(DriverStation.getAlliance().get() == Alliance.Red)) {
+			if (FieldUtil.isRedAlliance()) {
 					this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			} else {
 				this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());

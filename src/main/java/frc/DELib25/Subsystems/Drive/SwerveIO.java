@@ -8,9 +8,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.DELib25.Subsystems.Pose.PoseTracker;
+
 import org.littletonrobotics.junction.AutoLog;
 
-public interface SwerveIO  {
+public interface SwerveIO {
 
     @AutoLog
     class SwerveIOInputs {
@@ -35,8 +37,8 @@ public interface SwerveIO  {
             this.SuccessfulDaqs = state.SuccessfulDaqs;
             this.FailedDaqs = state.FailedDaqs;
             this.OdometryPeriod = state.OdometryPeriod;
-            this.Timestamp = state.OdometryPeriod;
-            SwerveSubsystem.setRobotToFieldFromSwerveDriveOdometry(this.Pose);
+            this.Timestamp = state.Timestamp;
+            PoseTracker.updatePose(this.Pose,this.Timestamp);
         }
     }
 
@@ -53,21 +55,30 @@ public interface SwerveIO  {
         public double steerTemperature = 0.0;
     }
 
-    default void updateSwerveInputs(SwerveIOInputs inputs) {}
+    default void updateSwerveInputs(SwerveIOInputs inputs) {
+    }
 
-    default void updateModuleInputs(ModuleIOInputs... inputs) {}
+    default void updateModuleInputs(ModuleIOInputs... inputs) {
+    }
 
-    default void registerTelemetryFunction(SwerveIOInputs inputs) {}
+    default void registerTelemetryFunction(SwerveIOInputs inputs) {
+    }
 
-    default void setSwerveState(SwerveRequest request) {}
+    default void setSwerveState(SwerveRequest request) {
+    }
 
-    default void resetRotation() {}
+    default void resetRotation() {
+    }
 
-    default void resetToParamaterizedRotation(Rotation2d rotation2d) {}
+    default void resetToParamaterizedRotation(Rotation2d rotation2d) {
+    }
 
-    default void updateSimState() {}
+    default void updateSimState() {
+    }
 
-    default void resetRobotTranslation(Translation2d translation2d) {}
+    default void resetRobotTranslation(Translation2d translation2d) {
+    }
 
-    default void refreshData() {}
+    default void refreshData() {
+    }
 }

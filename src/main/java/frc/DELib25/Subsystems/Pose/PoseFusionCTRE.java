@@ -1,7 +1,6 @@
 package frc.DELib25.Subsystems.Pose;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.DELib25.BooleanUtil.StableBoolean;
@@ -33,11 +32,10 @@ public class PoseFusionCTRE extends SubsystemBase {
 		if (Timer.getFPGATimestamp() >= this.enableVisionAt) {
 			this.maybeFuseVision();
 		}
-		PoseTracker.updatePose(this.getPose());
   	}
 
 	private void maybeFuseVision() {
-		Pose2d now = this.swerveIO.getState().Pose;
+		Pose2d now = this.swerveIO.getPose();
 
 		LimelightHelpers.SetRobotOrientation(
 			CameraType.AprilTagCamera.getCameraName(),
@@ -71,7 +69,4 @@ public class PoseFusionCTRE extends SubsystemBase {
 		double timestamp = Timer.getFPGATimestamp() - latencySeconds;
 		return this.swerveIO.samplePoseAt(timestamp).orElse(null);
 	}
-
-	public Pose2d getPose() { return this.swerveIO.getPose(); }
-	public Rotation2d getHeading() { return this.getPose().getRotation(); }
 }

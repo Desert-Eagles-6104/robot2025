@@ -14,6 +14,7 @@ import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.ProjectConstants;
+import frc.DELib25.Util.RobotMode;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -24,10 +25,8 @@ import frc.DELib25.Util.ProjectConstants;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	
-	public final static class PigeonConfigs {
-		public static final int PIGEON_ID = 44;
-	}
+
+	public static final RobotMode currentRobotMode = RobotMode.REAL;
 
 	public static TalonFXConfiguration getDefaultTalonConfig(){
         TalonFXConfiguration talonConfig = new TalonFXConfiguration();

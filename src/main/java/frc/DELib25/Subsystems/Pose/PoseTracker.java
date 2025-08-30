@@ -22,9 +22,9 @@ public class PoseTracker {
         SmartDashboard.putData("Field", field);
     }
 
-    public static void updatePose(Pose2d newPose) {
+    public static void updatePose(Pose2d newPose,double timestamp) {
         pose = newPose;
-        pastPoses.put(new InterpolatingDouble(Timer.getFPGATimestamp()), newPose);
+        pastPoses.put(new InterpolatingDouble(timestamp), newPose);
 
         SmartDashboard.putNumber("RobotHeading", pose.getRotation().getDegrees());
         SmartDashboard.putNumber("robotX", pose.getX());
@@ -48,8 +48,12 @@ public class PoseTracker {
 
     public Pose2d getPoseLatencyAgo(double latencySeconds) {
 		double timestamp = Timer.getFPGATimestamp() - latencySeconds;
-		return pastPoses.getInterpolated(new InterpolatingDouble(timestamp));
+		return getPoseTimestamp(timestamp);
 	}
+
+    public Pose2d getPoseTimestamp(double timestamp) {
+        return pastPoses.getInterpolated(new InterpolatingDouble(timestamp));
+    }
 
     public static LimelightHelpers.PoseEstimate getLimelightMeasurement() {
         return limelightMeserment;
