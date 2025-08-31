@@ -378,12 +378,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
 		double xMagnitude = MathUtil.applyDeadband(-this.controller.getLeftY(), CONTROLLER_DEADBAND);
 		double yMagnitude = -MathUtil.applyDeadband(this.controller.getLeftX(), CONTROLLER_DEADBAND);
-		double angularMagnitude = MathUtil.applyDeadband(this.controller.getRightX(), CONTROLLER_DEADBAND);
+		double angularMagnitude = -MathUtil.applyDeadband(this.controller.getRightX(), CONTROLLER_DEADBAND);
 
 		angularMagnitude = Math.copySign(Math.pow(angularMagnitude, 2), angularMagnitude);
 		xMagnitude = Math.copySign(Math.pow(xMagnitude, 2), xMagnitude);
 		yMagnitude = Math.copySign(Math.pow(yMagnitude, 2), yMagnitude);
-		
+		SmartDashboard.putNumber("Drive/xMagnitude", xMagnitude);
+		SmartDashboard.putNumber("Drive/yMagnitude", yMagnitude);
 		double xVelocity = FieldUtil.getAllianceDirectionMultiplier() * xMagnitude * this.maxVelocity
 				* this.teleopVelocityCoefficient;
 		double yVelocity = FieldUtil.getAllianceDirectionMultiplier() * yMagnitude * this.maxVelocity
@@ -394,7 +395,7 @@ public class SwerveSubsystem extends SubsystemBase {
 				.fromRadians(this.swerveInputs.Speeds.omegaRadiansPerSecond * SKEW_COMPENSATION_SCALAR);
 
 		return ChassisSpeeds.fromRobotRelativeSpeeds(
-				ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xVelocity, yVelocity, -angularVelocity),
+				ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(xVelocity, yVelocity, angularVelocity),
 						this.swerveInputs.Pose.getRotation()),
 				this.swerveInputs.Pose.getRotation().plus(skewCompensationFactor));
 	}

@@ -1,73 +1,78 @@
 package frc.DELib25.Subsystems.Drive.SwerveCommands;
 
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveModule;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.DELib25.Subsystems.Drive.DriveState;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 
 public class SwervePush extends Command {
     private final SwerveSubsystem swerve;
-    private DriveState originalState;
-    private BooleanSupplier isFinished;
+    private final BooleanSupplier exit;
 
-    public SwervePush(SwerveSubsystem swerve, BooleanSupplier isFinished) {
-        this.swerve = swerve;
-        this.isFinished = isFinished;
+    private DriveState originalState;
+
+    public SwervePush(SwerveSubsystem swerve, BooleanSupplier exitCondition) {
+        this.swerve = Objects.requireNonNull(swerve);
+        this.exit = exitCondition != null ? exitCondition : () -> false;
         addRequirements(swerve);
+        setName("SwervePush");
     }
 
     @Override
     public void initialize() {
-        originalState = swerve.getWantedState();
-        swerve.setWantedState(DriveState.IDLE); // your code should do nothing in IDLE
 
-        // Set Coast once so there’s no electrical braking
+        originalState = swerve.getWantedState();
+
         for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
             m.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
             m.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
-            // Immediately neutral outputs
-            m.getDriveMotor().setControl(new NeutralOut());
-            m.getSteerMotor().setControl(new NeutralOut());
         }
-        DriverStation.reportWarning("Push Mode: ENABLED", false);
+		
+        swerve.setWantedState(DriveState.IDLE);
+        swerve.getIO().setSwerveState(new SwerveRequest.Idle());
+
+        DriverStation.reportWarning("[Swerve] Push Mode: ENABLED", false);
     }
 
     @Override
     public void execute() {
-        if (isFinished.getAsBoolean()) {
-            this.end(false);
-            this.cancel();
-        }
-        // Keep everything neutral so no loop elsewhere can “grab” the motors
-        for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
-            m.getDriveMotor().setControl(new NeutralOut());
-            m.getSteerMotor().setControl(new NeutralOut());
-        }
+        swerve.getIO().setSwerveState(new SwerveRequest.Idle());
+    }
+
+    @Override
+    public boolean isFinished() {
+        return exit.getAsBoolean();
     }
 
     @Override
     public void end(boolean interrupted) {
-        // Restore your normal neutral mode (change if you normally use Coast)
-        for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
-            m.getDriveMotor().setNeutralMode(NeutralModeValue.Brake);
-            m.getSteerMotor().setNeutralMode(NeutralModeValue.Brake);
-        }
         swerve.setWantedState(originalState);
-        DriverStation.reportWarning("Push Mode: DISABLED", false);
+		for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
+			m.getDriveMotor().setNeutralMode(NeutralModeValue.Brake);
+			m.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
+		}
+        DriverStation.reportWarning("[Swerve] Push Mode: " + (interrupted ? "INTERRUPTED" : "DISABLED"), false);
     }
 
     public static void bind(SwerveSubsystem swerve) {
-        SmartDashboard.putBoolean("Push Mode", false);
-		SmartDashboard.putData("Push Mode Control", 
-            new SwervePush(swerve, () -> SmartDashboard.getBoolean("Push Mode", false))
-        );
-    }
+		SmartDashboard.putData("Push Mode Control",
+			new InstantCommand(() -> {
+				if (swerve.getCurrentCommand() instanceof SwervePush) {
+					swerve.getCurrentCommand().cancel();
+				} else {
+					new SwervePush(swerve, () -> false).schedule();
+				}
+			}, swerve));
+	}
 }
