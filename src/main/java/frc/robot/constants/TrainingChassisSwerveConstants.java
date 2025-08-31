@@ -72,16 +72,11 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
     private static final double MAX_SPEED_METERS_PER_SECOND = CHOSEN_MODULE_CONSTANTS.getTheoreticalMaxLinearSpeedMps() * 0.9;//we multiply by 0.9 to be safe//the exstra .0 is to make it a double not a int so we dont have 0
 
     // CANcoder offsets of the swerve modules - bevel gears pointing to the vertical senter of the robot ()
-    // private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.377441;
-    // private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.248047;
-    // private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = -0.132080;
-    // private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.475098;
-
-    
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.60;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.25;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = 0.1;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = 0;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.370361+0.25;// equivalent to bevel to robot front, set using the bevel to robot right
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.250732;// bevel to robot left
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = -0.129395+0.25;// equivalent to bevel to robot front, set using the bevel to robot right
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.468018-0.056885;// bevel to robot left
+    //-0.476562
 
 
     private static final int GYRO_MOUNTING_ANGLE = 0;
@@ -142,7 +137,8 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
             .withEncoderId(BACK_RIGHT_STEER_ENCODER_ID)
             .withEncoderOffset(BACK_RIGHT_STEER_OFFSET_ROTATIONS)
             .withLocationX(-WHEELBASE_LENGTH_METERS / 2)
-            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2);
+            .withLocationY(-WHEEL_TRACK_WIDTH_METERS / 2)
+            .withDriveMotorInverted(!CHOSEN_MODULE_CONSTANTS.isDriveInverted());
 
         return moduleConstants;
     }
