@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
+import frc.DELib25.Subsystems.Drive.SwerveCommands.SwervePush;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
 import frc.DELib25.Subsystems.Pose.PoseTracker;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
@@ -86,9 +87,11 @@ public class RobotContainer {
 		// m_vision);
 		m_isLocalisation = driverStationController.LeftSwitch().negate();
 		m_isLocalisationOmega = driverStationController.LeftMidSwitch().negate();
+		
+		SwervePush.bind(this.swerveSubsystem);
 
 		// controls
-		dashboardResets();
+		//dashboardResets();
 		// SwerveBinding();
 		// auto();
 		// DriverManuals();
