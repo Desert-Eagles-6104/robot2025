@@ -5,15 +5,23 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.wpilibj.DriverStation;
+
+import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.DELib25.Subsystems.Drive.DriveState;
+import frc.robot.constants.Constants;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -21,113 +29,130 @@ import frc.DELib25.Subsystems.Drive.DriveState;
  * project.
  */
 public class Robot extends LoggedRobot {
-  public static boolean s_isAuto = false;
-  public static Alliance s_Alliance = Alliance.Red;
+	public static boolean s_isAuto = false;
+	public static Alliance s_Alliance = Alliance.Red;
 
-  private Command autonomousCommand;
+	private Command autonomousCommand;
 
-  private RobotContainer robotContainer;
+	private RobotContainer robotContainer;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
-  @Override
-  public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    robotContainer = new RobotContainer();
-    // Pathfinding.setPathfinder(new LocalADStarAK());
-    FollowPathCommand.warmupCommand().schedule();
-    s_Alliance = DriverStation.getAlliance().get();
-
-  }
-  
-
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-   * that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-    this.robotContainer.poseFusion.fuse();
-  }
-
-  /** This function is called once each time the robot enters Disabled mode. */
-  @Override
-  public void disabledInit() {
-    robotContainer.disableMotors();
-  }
-
-  @Override
-  public void disabledPeriodic() {}
-
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override
-  public void autonomousInit() {
-    s_isAuto = true;
-    s_Alliance = DriverStation.getAlliance().get();
-   //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+	/**
+	 * This function is run when the robot is first started up and should be used for any
+	 * initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		// Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+		// autonomous chooser on the dashboard.
+		robotContainer = new RobotContainer();
+		// Pathfinding.setPathfinder(new LocalADStarAK());
+		FollowPathCommand.warmupCommand().schedule();
+		s_Alliance = DriverStation.getAlliance().get();
+		switch (Constants.currentRobotMode) {
+			case REAL:
+				Logger.addDataReceiver(new WPILOGWriter());
+				Logger.addDataReceiver(new NT4Publisher());
+				break;
+			case SIM:
+				Logger.addDataReceiver(new NT4Publisher());
+				break;
+			case REPLAY:
+				setUseTiming(false);
+				String logPath = LogFileUtil.findReplayLog();
+				Logger.setReplaySource(new WPILOGReader(logPath));
+				Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+				break;
+		}
+		SignalLogger.enableAutoLogging(false);
+		Logger.start();
+	}
+	
 
 
-    // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      //m_autonomousCommand.schedule();
-    }
-    
-  }
+	/**
+	 * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+	 * that you want ran during disabled, autonomous, teleoperated and test.
+	 *
+	 * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+	 * SmartDashboard integrated updating.
+	 */
+	@Override
+	public void robotPeriodic() {
 
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {}
+		// Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+		// commands, running already-scheduled commands, removing finished or interrupted commands,
+		// and running subsystem periodic() methods.  This must be called from the robot's periodic
+		// block in order for anything in the Command-based framework to work.
+		CommandScheduler.getInstance().run();
+		this.robotContainer.poseFusion.fuse();
+	}
 
-  @Override
-  public void teleopInit() {
-    s_isAuto = false;
-    s_Alliance = DriverStation.getAlliance().get();
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
-    this.robotContainer.getSwerveSubsystem().setWantedState(DriveState.TELEOP_DRIVE);
-    //TalonFX motor = this.robotContainer.getSwerveSubsystem().getIO().getMotorById(21);
-    //motor.setPosition(0);
-    
-  }
+	/** This function is called once each time the robot enters Disabled mode. */
+	@Override
+	public void disabledInit() {
+		robotContainer.disableMotors();
+	}
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-    SmartDashboard.putNumber("AprilTagID", robotContainer.getVision().getCurrentID());    
-  }
+	@Override
+	public void disabledPeriodic() {}
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
+	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+	@Override
+	public void autonomousInit() {
+		s_isAuto = true;
+		s_Alliance = DriverStation.getAlliance().get();
+	 //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
 
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {}
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null) {
+			//m_autonomousCommand.schedule();
+		}
+		
+	}
 
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {}
+	/** This function is called periodically during autonomous. */
+	@Override
+	public void autonomousPeriodic() {}
+
+	@Override
+	public void teleopInit() {
+		s_isAuto = false;
+		s_Alliance = DriverStation.getAlliance().get();
+		// This makes sure that the autonomous stops running when
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
+		}
+		this.robotContainer.getSwerveSubsystem().setWantedState(DriveState.TELEOP_DRIVE);
+		//TalonFX motor = this.robotContainer.getSwerveSubsystem().getIO().getMotorById(21);
+		//motor.setPosition(0);
+		
+	}
+
+	/** This function is called periodically during operator control. */
+	@Override
+	public void teleopPeriodic() {
+		SmartDashboard.putNumber("AprilTagID", robotContainer.getVision().getCurrentID());    
+	}
+
+	@Override
+	public void testInit() {
+		// Cancels all running commands at the start of test mode.
+		CommandScheduler.getInstance().cancelAll();
+	}
+
+	/** This function is called periodically during test mode. */
+	@Override
+	public void testPeriodic() {}
+
+	/** This function is called once when the robot is first started up. */
+	@Override
+	public void simulationInit() {}
+
+	/** This function is called periodically whilst in simulation. */
+	@Override
+	public void simulationPeriodic() {}
 }
