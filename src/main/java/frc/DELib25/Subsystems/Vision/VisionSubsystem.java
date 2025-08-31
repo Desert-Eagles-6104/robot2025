@@ -13,7 +13,6 @@ import frc.DELib25.Util.FieldUtil;
 
 public abstract class VisionSubsystem extends SubsystemBase {
 
-	private static final double MAX_VISION_POS_ERR_M = 1.0;
 	private static final double STARTUP_DELAY_SEC = 0.20;
 
 	private final StableBoolean tvStable;
@@ -31,8 +30,6 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	 * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
 	 */
 	private double ty = 0;
-	private double lastTy = 0;
-	private double lastTx = 0;
 
 	/**
 	 * Whether the limelight has any valid targets (0 or 1)
@@ -82,16 +79,14 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	protected void updateVisionData() {
 		this.tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.getCameraName());
 		if (this.tv) {
-			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName(), this.lastTx);
-			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName(), this.lastTy);
+			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName());
+			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName());
 			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
 			if (FieldUtil.isRedAlliance()) {
 					this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			} else {
 				this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			}
-			this.lastTy = this.ty;
-			this.lastTx = this.tx;
 		}
 	}
 	

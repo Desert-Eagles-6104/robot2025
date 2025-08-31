@@ -15,7 +15,7 @@ import edu.wpi.first.math.interpolation.Interpolatable;
 public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<K>, V extends Interpolatable<V>>
         extends TreeMap<K, V> {
     
-    private static final long SERIAL_VERSION_UID = 8347275262778054124L;
+    public static final long SERIAL_VERSION_UID = 8347275262778054124L;
 
     final int max;
 

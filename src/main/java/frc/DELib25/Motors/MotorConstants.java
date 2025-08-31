@@ -2,7 +2,6 @@ package frc.DELib25.Motors;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class MotorConstants {
     public final int id;
@@ -36,13 +35,6 @@ public class MotorConstants {
             return InvertedValue.CounterClockwise_Positive;
         }
         return InvertedValue.Clockwise_Positive;
-    }
-
-    public static IdleMode toIdleMode(boolean isBrake) {
-        if (isBrake) {
-            return IdleMode.kBrake;
-        }
-        return IdleMode.kCoast;
     }
 
 }
