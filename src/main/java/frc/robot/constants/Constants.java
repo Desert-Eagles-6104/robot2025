@@ -4,13 +4,14 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.DELib25.Motors.MotorConstants;
-import frc.DELib25.Motors.PIDContainer;
 import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.ProjectConstants;
@@ -95,7 +96,7 @@ public final class Constants {
 						.withMotionMagicAcceleration(52.516996782659136)
 						.withMotionMagicJerk(78.7754951739887)
 				).withSlot0(
-					PIDContainer.toSlot0Configs(new PIDContainer(0, 1.2733, 0.060729, 0.334, 0.15, 0.0, 0.0))
+					new Slot0Configs().withKV(1.2733).withKA(0.060729).withKG(0.334).withKP(0.15)
 				).withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(10.2857142857)
 				).withSoftwareLimitSwitch(
 					getSoftwareLimitSwitchConfigs(true, 0.7, true, 0, 1.0 / (0.0363728 * Math.PI))
@@ -123,9 +124,9 @@ public final class Constants {
 						.withMotionMagicAcceleration(30000 / 360)
 						.withMotionMagicJerk(360 / 360)
 				).withSlot0(
-					PIDContainer.toSlot0Configs(new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine))
+					new Slot0Configs().withKG(0.75).withKP(160).withKD(0.65).withGravityType(GravityTypeValue.Arm_Cosine)
 				).withSlot1(
-					PIDContainer.toSlot1Configs(new PIDContainer(0, 0, 0, 0.75, 160, 0, 0.65, GravityTypeValue.Arm_Cosine))
+					new Slot1Configs().withKG(0.75).withKP(160).withKD(0.65).withGravityType(GravityTypeValue.Arm_Cosine)
 				).withFeedback(
 					new FeedbackConfigs().withSensorToMechanismRatio(2.28)
 				).withSoftwareLimitSwitch(getSoftwareLimitSwitchConfigs(true, 36.5, true, -89.5, 1.0 / 360.0)
@@ -159,9 +160,9 @@ public final class Constants {
 						.withMotionMagicAcceleration(15000 / 360.0)
 						.withMotionMagicJerk(20000 / 360.0)
 				).withSlot0(
-					PIDContainer.toSlot0Configs(new PIDContainer(0, 0, 0, 0.65, 400.0, 0.0, 0.0))
+					new Slot0Configs().withKG(0.65).withKP(400.0)
 				).withSlot1(
-					PIDContainer.toSlot1Configs(new PIDContainer(0, 0, 0, 0.65, 3, 0.0, 0.0))
+					new Slot1Configs().withKG(0.65).withKP(3)
 				).withFeedback(
 					new FeedbackConfigs().withSensorToMechanismRatio(20)
 				).withSoftwareLimitSwitch(

@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,11 +22,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import static edu.wpi.first.units.Units.Volts;
+
 import frc.DELib25.Util.FieldUtil;
 
 import org.littletonrobotics.junction.Logger;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SwerveSubsystem extends SubsystemBase {
 	private static final double CONTROLLER_DEADBAND = 0.1;
@@ -117,18 +121,31 @@ public class SwerveSubsystem extends SubsystemBase {
 
 		this.choreoThetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-		this.translationSysIdRoutine = new SysIdRoutine(translationSysIdRoutineConfig,
-				this.createSysIdRoutineMechanism());
+		this.translationSysIdRoutine = new SysIdRoutine(
+			translationSysIdRoutineConfig,
+			new SysIdRoutine.Mechanism(this.getConsumer(SysIdMechanism.SWERVE_TRANSLATION),null, this)
+		);
 
-		this.rotationSysIdRoutine = new SysIdRoutine(rotationSysIdRoutineConfig, this.createSysIdRoutineMechanism());
+		this.rotationSysIdRoutine = new SysIdRoutine(
+			rotationSysIdRoutineConfig,
+			new SysIdRoutine.Mechanism(this.getConsumer(SysIdMechanism.SWERVE_ROTATION),null, this)
+		);
 
-		this.steerSysIdRoutine = new SysIdRoutine(steerSysIdRoutineConfig, this.createSysIdRoutineMechanism());
+		this.steerSysIdRoutine = new SysIdRoutine(
+			steerSysIdRoutineConfig, 
+			new SysIdRoutine.Mechanism(this.getConsumer(SysIdMechanism.SWERVE_STEER),null, this)
+		);
 	}
 
-	private SysIdRoutine.Mechanism createSysIdRoutineMechanism() {
-		return new SysIdRoutine.Mechanism(
-				output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output)),
-				null, this);
+
+	private Consumer<Voltage> getConsumer(SysIdMechanism mechanism) {
+		return switch (mechanism) {
+			case SWERVE_TRANSLATION -> output -> this.io.setSwerveState(this.translationCharacterization.withVolts(output));
+			case SWERVE_ROTATION -> output -> this.io.setSwerveState(this.rotationCharacterization.withRotationalRate(output.in(Volts)));
+			case SWERVE_STEER -> output -> this.io.setSwerveState(this.steerCharacterization.withVolts(output));
+			default -> throw new IllegalArgumentException(
+					String.format("Mechanism %s is not supported.", mechanism));
+		};
 	}
 
 	private SysIdRoutine getRoutine(SysIdMechanism mechanism) {

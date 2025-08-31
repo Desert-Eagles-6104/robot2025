@@ -72,12 +72,11 @@ public final class TrainingChassisSwerveConstants implements SwerveConstants {
     private static final double MAX_SPEED_METERS_PER_SECOND = CHOSEN_MODULE_CONSTANTS.getTheoreticalMaxLinearSpeedMps() * 0.9;//we multiply by 0.9 to be safe//the exstra .0 is to make it a double not a int so we dont have 0
 
     // CANcoder offsets of the swerve modules - bevel gears pointing left of the robot
-    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.381592;
-    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.260498;
-    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = -0.135254;
-    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.475342;
+    private static final double FRONT_LEFT_STEER_OFFSET_ROTATIONS = 0.381592;//TODO: remeasure
+    private static final double FRONT_RIGHT_STEER_OFFSET_ROTATIONS = 0.260498;//TODO: remeasure
+    private static final double BACK_LEFT_STEER_OFFSET_ROTATIONS = -0.135254;//TODO: remeasure
+    private static final double BACK_RIGHT_STEER_OFFSET_ROTATIONS = -0.475342;//TODO: remeasure
 
-    
     private static final int GYRO_MOUNTING_ANGLE = 0;
 
     //SysId configs
