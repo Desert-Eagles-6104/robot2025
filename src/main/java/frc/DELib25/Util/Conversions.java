@@ -3,24 +3,45 @@ package frc.DELib25.Util;
 public class Conversions {
     
     /**
-     * @param wheelRPS Wheel Velocity: (in Rotations per Second)
-     * @param circumference Wheel Circumference: (in Meters)
-     * @return Wheel Velocity: (in Meters per Second)
+     * @param wheelRotPerSec Wheel velocity (rotations per second).
+     * @param circumference Wheel circumference (meters).
+     * @return Wheel linear velocity (meters per second).
      */
-    public static double RPSToMPS(double wheelRPS, double circumference){
-        double wheelMPS = wheelRPS * circumference;
-        return wheelMPS;
+    public static double RotPerSecToMPS(double wheelRotPerSec, double circumference) {
+        return wheelRotPerSec * circumference;
     }
 
     /**
-     * @param wheelMPS Wheel Velocity: (in Meters per Second)
-     * @param circumference Wheel Circumference: (in Meters)
-     * @return Wheel Velocity: (in Rotations per Second)
+     * @param wheelMPS Wheel linear velocity (meters per second).
+     * @param circumference Wheel circumference (meters).
+     * @return Wheel velocity (rotations per second).
      */
-    public static double MPSToRPS(double wheelMPS, double circumference){
-        double wheelRPS = wheelMPS / circumference;
-        return wheelRPS;
+    public static double MPSToRotPerSec(double wheelMPS, double circumference) {
+        return wheelMPS / circumference;
     }
+
+    /**
+     * Convert linear speed at a module into angular speed of the robot.
+     *
+     * @param wheelMPS Wheel linear velocity (m/s).
+     * @param radiusMeters Distance from robot center to module (m).
+     * @return Robot angular velocity (radians per second).
+     */
+    public static double MPSToRadPerSec(double wheelMPS, double radiusMeters) {
+        return wheelMPS / radiusMeters;
+    }
+
+    /**
+     * Convert angular robot speed into the linear speed a module must travel.
+     *
+     * @param radPerSec Robot angular velocity (rad/s).
+     * @param radiusMeters Distance from robot center to module (m).
+     * @return Module linear velocity (m/s).
+     */
+    public static double RadPerSecToMPS(double radPerSec, double radiusMeters) {
+        return radPerSec * radiusMeters;
+    }
+
 
     /**
      * @param wheelRotations Wheel Position: (in Rotations)

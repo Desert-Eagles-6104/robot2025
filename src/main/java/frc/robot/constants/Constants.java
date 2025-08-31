@@ -86,7 +86,7 @@ public final class Constants {
 
 			homePosition = 0.0;
 
-			rotationsPerPositionUnit = 1 / (0.0363728 * Math.PI);
+			rotationsPerPositionUnit = 1.0 / (0.0363728 * Math.PI);
 
 			slaves = new MotorConstants[]{new MotorConstants(50,"rio",true, getDefaultTalonConfig(true,40,40))};
 
@@ -101,7 +101,7 @@ public final class Constants {
 					new Slot0Configs().withKV(1.2733).withKA(0.060729).withKG(0.334).withKP(0.15)
 				).withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(10.2857142857)
 				).withSoftwareLimitSwitch(
-					getSoftwareLimitSwitchConfigs(true, 0.7, true, 0, 1.0 / (0.0363728 * Math.PI))
+					getSoftwareLimitSwitchConfigs(true, 0.7, true, 0, rotationsPerPositionUnit)
 				)
 			);
 		}};
@@ -133,7 +133,7 @@ public final class Constants {
 					new Slot1Configs().withKG(0.75).withKP(160).withKD(0.65).withGravityType(GravityTypeValue.Arm_Cosine)
 				).withFeedback(
 					new FeedbackConfigs().withSensorToMechanismRatio(2.28)
-				).withSoftwareLimitSwitch(getSoftwareLimitSwitchConfigs(true, 36.5, true, -89.5, 1.0 / 360.0)
+				).withSoftwareLimitSwitch(getSoftwareLimitSwitchConfigs(true, 36.5, true, -89.5, rotationsPerPositionUnit)
 				).withCurrentLimits(
 					new CurrentLimitsConfigs()
 						.withSupplyCurrentLimit(55)
@@ -173,7 +173,7 @@ public final class Constants {
 				).withFeedback(
 					new FeedbackConfigs().withSensorToMechanismRatio(20)
 				).withSoftwareLimitSwitch(
-					getSoftwareLimitSwitchConfigs(true, 105.0, true, 0.0, 1.0 / 360.0)
+					getSoftwareLimitSwitchConfigs(true, 105.0, true, 0.0, rotationsPerPositionUnit)
 				).withCurrentLimits(
 					new CurrentLimitsConfigs()
 						.withSupplyCurrentLimit(60)
