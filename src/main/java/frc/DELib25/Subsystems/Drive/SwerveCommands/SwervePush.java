@@ -1,6 +1,5 @@
 package frc.DELib25.Subsystems.Drive.SwerveCommands;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
@@ -14,15 +13,17 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.DELib25.Subsystems.Drive.DriveState;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 
+/**
+ * Holds the robot in a passive "push" state (nutral) until the exit condition becomes true.
+ * - Sets all swerve modules to coast and issues a SwerveRequest.Idle() continuously.
+ * - Restores the original wanted drive state on end.
+ */
 public class SwervePush extends Command {
-	private static boolean mySwitch = false;
     private final SwerveSubsystem swerve;
     private final BooleanSupplier exit;
 
@@ -38,34 +39,33 @@ public class SwervePush extends Command {
     @Override
     public void initialize() {
 
-        originalState = swerve.getWantedState();
+        this.originalState = this.swerve.getWantedState();
 
-        for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
+        for (SwerveModule<TalonFX, TalonFX, CANcoder> m : this.swerve.getIO().getModules()) {
             m.getDriveMotor().setNeutralMode(NeutralModeValue.Coast);
             m.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
         }
 		
-        swerve.setWantedState(DriveState.IDLE);
-        swerve.getIO().setSwerveState(new SwerveRequest.Idle());
+        this.swerve.setWantedState(DriveState.IDLE);
+        this.swerve.getIO().setSwerveState(new SwerveRequest.Idle());
 
         DriverStation.reportWarning("[Swerve] Push Mode: ENABLED", false);
     }
 
     @Override
     public void execute() {
-		System.out.println("Push Mode Active with value: "+mySwitch);
-        swerve.getIO().setSwerveState(new SwerveRequest.Idle());
+        this.swerve.getIO().setSwerveState(new SwerveRequest.Idle());
     }
 
     @Override
     public boolean isFinished() {
-        return exit.getAsBoolean();
+        return this.exit.getAsBoolean();
     }
 
     @Override
     public void end(boolean interrupted) {
-        swerve.setWantedState(originalState);
-		for (SwerveModule<TalonFX, TalonFX, CANcoder> m : swerve.getIO().getModules()) {
+        this.swerve.setWantedState(this.originalState);
+		for (SwerveModule<TalonFX, TalonFX, CANcoder> m : this.swerve.getIO().getModules()) {
 			m.getDriveMotor().setNeutralMode(NeutralModeValue.Brake);
 			m.getSteerMotor().setNeutralMode(NeutralModeValue.Coast);
 		}
