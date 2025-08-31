@@ -86,9 +86,11 @@ public final class Constants {
 
 			homePosition = 0.0;
 
+			rotationsPerPositionUnit = 1 / (0.0363728 * Math.PI);
+
 			slaves = new MotorConstants[]{new MotorConstants(50,"rio",true, getDefaultTalonConfig(true,40,40))};
 
-			master = new MotorConstants(51, "rio", true, 1 / (0.0363728 * Math.PI),
+			master = new MotorConstants(51, "rio", true,
 				getDefaultTalonConfig(true,40,40)
 				.withMotionMagic(
 					new MotionMagicConfigs()
@@ -116,7 +118,9 @@ public final class Constants {
 
 			angleOffset = 0.163;
 
-			master = new MotorConstants(1, "rio", true, 1 /360,
+			rotationsPerPositionUnit = 1 / 360.0;
+
+			master = new MotorConstants(1, "rio", true,
 				getDefaultTalonConfig(true)
 				.withMotionMagic(
 					new MotionMagicConfigs()
@@ -152,7 +156,10 @@ public final class Constants {
 			allowableError = 2.0;
 
 			homePosition = 0;
-			master = new MotorConstants(4,"rio",true, 1 / 360.0,
+
+			rotationsPerPositionUnit = 1 / 360.0;
+
+			master = new MotorConstants(4,"rio",true,
 				getDefaultTalonConfig(true)
 				.withMotionMagic(
 					new MotionMagicConfigs()

@@ -122,11 +122,11 @@ public class MotorSubsystemTalon extends SubsystemBase {
 	}
 
 	public double toRotations(double units) {
-		return units * this.configuration.master.rotationsPerPositionUnit;
+		return units * this.configuration.rotationsPerPositionUnit;
 	}
 
 	public double fromRotations(double rotations) {
-		return rotations / this.configuration.master.rotationsPerPositionUnit;
+		return rotations / this.configuration.rotationsPerPositionUnit;
 	}
 
 	public void setMotionMagicPosition(double position) {

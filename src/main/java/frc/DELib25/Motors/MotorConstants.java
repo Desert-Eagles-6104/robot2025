@@ -12,21 +12,6 @@ public class MotorConstants {
     // TalonFX configuration for this motor
     private final TalonFXConfiguration talonFXConfiguration;
 
-    /**
-     * Ratio between motor rotations and position units (e.g., height of an
-     * elevator).
-     */
-    public double rotationsPerPositionUnit;
-
-    public MotorConstants(int id, String bus, boolean counterClockwisePositive, double rotationsPerPositionUnit, TalonFXConfiguration talonFXConfiguration){
-        this.id = id;
-        this.bus = bus;
-        this.counterClockwisePositive = counterClockwisePositive;
-        this.rotationsPerPositionUnit = rotationsPerPositionUnit;
-        this.talonFXConfiguration = talonFXConfiguration;
-        this.talonFXConfiguration.MotorOutput.Inverted = MotorConstants.toInvertedType(counterClockwisePositive);
-    }
-
     public MotorConstants(int id, String bus, boolean counterClockwisePositive, TalonFXConfiguration talonFXConfiguration){
         this.id = id;
         this.bus = bus;

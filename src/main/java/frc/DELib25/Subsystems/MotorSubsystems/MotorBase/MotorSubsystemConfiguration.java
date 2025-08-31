@@ -13,6 +13,11 @@ public class MotorSubsystemConfiguration {
 
     /** Slave motor configurations (optional). */
     public MotorConstants[] slaves = null;
+    /**
+     * Ratio between motor rotations and position units (e.g., height of an
+     * elevator).
+     */
+    public double rotationsPerPositionUnit;
 
     public double allowableError = 6.0;
 
