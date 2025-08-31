@@ -66,7 +66,7 @@ public class ReefAssist extends Command {
 		}
 
 		// Convert to FIELD-relative using current heading
-		ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(fwd, str, 0.0, PoseTracker.getHeading());
+		ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(fwd, str, 0.0, PoseTracker.getInstance().getHeading());
 		swerve.getIO().setSwerveState(request.withSpeeds(fieldSpeeds));
 	}
 

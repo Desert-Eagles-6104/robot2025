@@ -10,52 +10,61 @@ import frc.DELib25.Interpolation.InterpolatingTreeMap;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 
 public class PoseTracker {
-    private static Pose2d pose;
-    private static LimelightHelpers.PoseEstimate limelightMeserment;
-    private static InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
-    private static Field2d field;
+    private static PoseTracker instance;
 
-    static {
-        pose = new Pose2d();
-        pastPoses = new InterpolatingTreeMap<>(51);
-        field = new Field2d();
-        SmartDashboard.putData("Field", field);
+    public static PoseTracker getInstance() {
+        if (instance == null) {
+            instance = new PoseTracker();
+        }
+        return instance;
     }
 
-    public static void updatePose(Pose2d newPose,double timestamp) {
-        pose = newPose;
-        pastPoses.put(new InterpolatingDouble(timestamp), newPose);
+    private Pose2d pose;
+    private LimelightHelpers.PoseEstimate limelightMeserment;
+    private InterpolatingTreeMap<InterpolatingDouble, Pose2d> pastPoses;
+    private Field2d field;
 
-        SmartDashboard.putNumber("RobotHeading", pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("robotX", pose.getX());
-        SmartDashboard.putNumber("robotY ", pose.getY());
-        SmartDashboard.putNumber("robotorientation", pose.getRotation().getDegrees());
-
-        field.setRobotPose(pose);
+    public PoseTracker() {
+        this.pose = new Pose2d();
+        this.pastPoses = new InterpolatingTreeMap<>(51);
+        this.field = new Field2d();
+        SmartDashboard.putData("Field", this.field);
     }
 
-    public static void updateLimelightMeasurement(LimelightHelpers.PoseEstimate newMeasurement) {
-        limelightMeserment = newMeasurement;
+    public void updatePose(Pose2d newPose, double timestamp) {
+        this.pose = newPose;
+        this.pastPoses.put(new InterpolatingDouble(timestamp), newPose);
+
+        SmartDashboard.putNumber("RobotHeading", this.pose.getRotation().getDegrees());
+        SmartDashboard.putNumber("robotX", this.pose.getX());
+        SmartDashboard.putNumber("robotY ", this.pose.getY());
+        SmartDashboard.putNumber("robotorientation", this.pose.getRotation().getDegrees());
+
+        this.field.setRobotPose(this.pose);
     }
 
-    public static Pose2d getPose() {
-        return pose;
+    public void updateLimelightMeasurement(LimelightHelpers.PoseEstimate newMeasurement) {
+        this.limelightMeserment = newMeasurement;
     }
-    
-    public static Rotation2d getHeading() {
-        return pose.getRotation();
+
+    public Pose2d getPose() {
+        return this.pose;
+    }
+
+    public Rotation2d getHeading() {
+        return this.pose.getRotation();
     }
 
     public Pose2d getPoseLatencyAgo(double latencySeconds) {
-		double timestamp = Timer.getFPGATimestamp() - latencySeconds;
-		return getPoseTimestamp(timestamp);
-	}
-
-    public Pose2d getPoseTimestamp(double timestamp) {
-        return pastPoses.getInterpolated(new InterpolatingDouble(timestamp));
+        double timestamp = Timer.getFPGATimestamp() - latencySeconds;
+        return getPoseTimestamp(timestamp);
     }
 
-    public static LimelightHelpers.PoseEstimate getLimelightMeasurement() {
-        return limelightMeserment;
+    public Pose2d getPoseTimestamp(double timestamp) {
+        return this.pastPoses.getInterpolated(new InterpolatingDouble(timestamp));
+    }
+
+    public LimelightHelpers.PoseEstimate getLimelightMeasurement() {
+        return this.limelightMeserment;
     }
 }

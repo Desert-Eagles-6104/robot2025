@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.ctre.phoenix6.SignalLogger;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import org.littletonrobotics.junction.LogFileUtil;
@@ -21,6 +22,9 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.DELib25.Subsystems.Drive.DriveState;
+import frc.DELib25.Subsystems.Pose.PoseTracker;
+import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
+import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 import frc.robot.constants.Constants;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -84,7 +88,7 @@ public class Robot extends LoggedRobot {
 		// and running subsystem periodic() methods.  This must be called from the robot's periodic
 		// block in order for anything in the Command-based framework to work.
 		CommandScheduler.getInstance().run();
-		this.robotContainer.poseFusion.fuse();
+		this.maybeFuseVision();
 	}
 
 	/** This function is called once each time the robot enters Disabled mode. */
@@ -155,4 +159,23 @@ public class Robot extends LoggedRobot {
 	/** This function is called periodically whilst in simulation. */
 	@Override
 	public void simulationPeriodic() {}
+
+	private void maybeFuseVision() {
+		Pose2d now = PoseTracker.getInstance().getPose();
+
+		LimelightHelpers.SetRobotOrientation(
+			CameraType.AprilTagCamera.getCameraName(),
+			now.getRotation().getDegrees(), 
+			0, 0, 0, 0, 0
+		);
+
+		LimelightHelpers.PoseEstimate est = this.robotContainer.getVision().getEstimatedRobotPose();
+		if (!this.robotContainer.getVision().isVisionUsable()) return;
+		double dx = est.pose.getX() - now.getX();
+		double dy = est.pose.getY() - now.getY();
+		if (Math.hypot(dx, dy) > Constants.Vision.MAX_VISION_POS_ERR_M) return;
+
+		PoseTracker.getInstance().updateLimelightMeasurement(est);
+		this.robotContainer.getSwerveSubsystem().getIO().addVisionMeasurement(est.pose, est.timestampSeconds);
+	}
 }

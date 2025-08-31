@@ -75,6 +75,8 @@ public final class Constants {
 		public static final double cameraHeight = 0.10689;//TODO: This must be tuned to specific robot
 		public static final double tragetHeight = 0.307975;//height of april tag center from the floor - reef april tag
 		public static final double cameraPitch = 15.13;//limelight 3 cameraPitch
+
+		public static final double MAX_VISION_POS_ERR_M = 1.0;
 	}
 
 	public final class Elevator {

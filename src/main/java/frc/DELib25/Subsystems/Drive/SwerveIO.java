@@ -38,7 +38,7 @@ public interface SwerveIO {
             this.FailedDaqs = state.FailedDaqs;
             this.OdometryPeriod = state.OdometryPeriod;
             this.Timestamp = state.Timestamp;
-            PoseTracker.updatePose(this.Pose,this.Timestamp);
+            PoseTracker.getInstance().updatePose(this.Pose,this.Timestamp);
         }
     }
 

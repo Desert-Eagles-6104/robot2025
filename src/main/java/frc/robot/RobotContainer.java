@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.DELib25.Subsystems.Drive.SwerveIOCTRE;
 import frc.DELib25.Subsystems.Drive.SwerveSubsystem;
 import frc.DELib25.Subsystems.Drive.SwerveUtil.SwerveConstants;
-import frc.DELib25.Subsystems.Pose.PoseFusionCTRE;
 import frc.DELib25.Subsystems.Pose.PoseTracker;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Util.DriverStationController;
@@ -52,7 +51,6 @@ public class RobotContainer {
 	private DriverStationController driverStationController = new DriverStationController(2);
 	private final SwerveSubsystem swerveSubsystem;
 	private final VisionSubsystemRobot2025 m_vision;
-	public final PoseFusionCTRE poseFusion;
 	private Climb m_climb;
 	private ElevatorSubsystem m_elevator;
 	private GripperArmSubsystem m_gripperArm;
@@ -84,7 +82,6 @@ public class RobotContainer {
 		// m_gripper = new GripperSubsystem();
 		// m_gripper2 = new Gripper2Subsystem();
 		m_vision = new VisionSubsystemRobot2025(new CameraSettings(0.20449, 0.20083, 0.57226, 13.18, 21.18, 15.0, true), new CameraSettings(0, 0, 0, 0, 0, 0, false));
-		this.poseFusion = new PoseFusionCTRE(this.swerveSubsystem.getIO(), m_vision);
 		// m_poseEstimator = new PoseEstimatorSubsystem(this.swerveSubsystem,
 		// m_vision);
 		m_isLocalisation = driverStationController.LeftSwitch().negate();
@@ -104,7 +101,7 @@ public class RobotContainer {
 
 	public void dashboardResets() {
 		SmartDashboard.putData("Reset Odometry From Limelight", new InstantCommand(() -> {
-			Pose2d pose = PoseTracker.getLimelightMeasurement().pose;
+			Pose2d pose = PoseTracker.getInstance().getLimelightMeasurement().pose;
 			if (pose != null) {
 				this.swerveSubsystem.getIO().resetPose(pose);
 			}

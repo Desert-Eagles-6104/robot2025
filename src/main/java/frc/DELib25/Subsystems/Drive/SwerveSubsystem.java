@@ -499,6 +499,11 @@ public class SwerveSubsystem extends SubsystemBase {
 		return this.io;
 	}
 
+	public boolean isRotatingSlowForVision(double maxGyroRateDps){
+		double rateDps = Math.abs(this.io.getPigeon2().getAngularVelocityZWorld().getValueAsDouble());
+		return rateDps < maxGyroRateDps;
+	}
+
 	public void disableMotors() {
 		this.io.disableMotors();
 	}

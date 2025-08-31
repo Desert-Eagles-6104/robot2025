@@ -1,8 +1,10 @@
 package frc.DELib25.Subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
@@ -10,8 +12,13 @@ import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
 import frc.DELib25.Util.FieldUtil;
 
 public abstract class VisionSubsystem extends SubsystemBase {
-	
-	
+
+	private static final double MAX_VISION_POS_ERR_M = 1.0;
+	private static final double STARTUP_DELAY_SEC = 0.20;
+
+	private final StableBoolean tvStable;
+	private final double enableVisionAt;
+
 	//First AprilTag Limelight
 	private CameraSettings aprilTagCameraSettings = null;
 
@@ -44,8 +51,8 @@ public abstract class VisionSubsystem extends SubsystemBase {
     
     //*create a new VisionSubsystem constructor to apply the subsystem's properties */
     public VisionSubsystem(CameraSettings aprilTagCameraSettings, CameraSettings gamePieceCameraSettings) {
-      this.aprilTagCameraSettings = aprilTagCameraSettings;
-      if(aprilTagCameraSettings != null){
+      	this.aprilTagCameraSettings = aprilTagCameraSettings;
+		if(aprilTagCameraSettings != null){
 			LimelightHelpers.setCameraPose_RobotSpace(
 				CameraType.AprilTagCamera.getCameraName(),
 				aprilTagCameraSettings.forward,
@@ -55,8 +62,10 @@ public abstract class VisionSubsystem extends SubsystemBase {
 				aprilTagCameraSettings.pitch,
 				aprilTagCameraSettings.yaw
 			);
-      	}
-      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
+		}
+      	LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
+	  	this.tvStable = new StableBoolean(0.15);
+		this.enableVisionAt = Timer.getFPGATimestamp() + STARTUP_DELAY_SEC;
     }
   
     @Override
@@ -86,7 +95,14 @@ public abstract class VisionSubsystem extends SubsystemBase {
 		}
 	}
 	
-	
+	public boolean isVisionUsable() {
+		PoseEstimate est = this.getEstimatedRobotPoseNoDefault();
+		if (est == null || est.pose == null) return false;
+
+		if (Timer.getFPGATimestamp() < this.enableVisionAt || !this.tvStable.update(this.getTv())) return false;
+
+		return true;
+	}
 	
 	/**
 	 * Returns the estimated robot pose based on the AprilTag camera's data.
