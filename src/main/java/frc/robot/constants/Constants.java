@@ -49,7 +49,7 @@ public final class Constants {
 			talonConfig.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
 		talonConfig.MotorOutput.withDutyCycleNeutralDeadband(0.01);
-		return talonConfig;
+		return talonConfig; 
 	}
 
 	public static TalonFXConfiguration getDefaultTalonConfig(boolean isBrake,double statorCurrentLimit, double supplyCurrentLimit){
