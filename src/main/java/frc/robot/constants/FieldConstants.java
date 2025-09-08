@@ -31,6 +31,7 @@ public class FieldConstants {
     public static final int RED_REEF_RIGHT_BARGE = 9;
     public static final int RED_REEF_CENTER_BARGE = 10;
     public static final int RED_REEF_LEFT_BARGE = 11;
+    
     public static final int BLUE_RIGHT_CORAL_STATION = 12;
     public static final int BLUE_LEFT_CORAL_STATION = 13;
     public static final int BLUE_LEFT_BARGE = 14;
@@ -92,25 +93,16 @@ public class FieldConstants {
             Rotation2d.fromDegrees(55));
 
 
-
-    public static boolean isBlueAllianceStrict() {
-        return DriverStation.getAlliance().isPresent() && isBlueAlliance();
-    }
-    
-    public static boolean isRedAllianceStrict() {
-        return DriverStation.getAlliance().isPresent() && !isBlueAlliance();
-    }
-
     public static Translation2d getMark1() {
-        return isBlueAlliance() ? BLUE_MARK_1 : RED_MARK_1;
+        return isBlueAllianceOrDefault() ? BLUE_MARK_1 : RED_MARK_1;
     }
 
     public static Translation2d getMark2() {
-        return isBlueAlliance() ? BLUE_MARK_2 : RED_MARK_2;
+        return isBlueAllianceOrDefault() ? BLUE_MARK_2 : RED_MARK_2;
     }
 
     public static Translation2d getMark3() {
-        return isBlueAlliance() ? BLUE_MARK_3 : RED_MARK_3;
+        return isBlueAllianceOrDefault() ? BLUE_MARK_3 : RED_MARK_3;
     }
 
     public static Pose2d getFarLeftStartingPose(DriverStation.Alliance alliance) {
@@ -138,27 +130,27 @@ public class FieldConstants {
     }
 
     public static Pose2d getFarLeftStartingPose() {
-        return isBlueAlliance() ? FAR_LEFT_STARTING_POSE_BLUE : FAR_LEFT_STARTING_POSE_RED;
+        return isBlueAllianceOrDefault() ? FAR_LEFT_STARTING_POSE_BLUE : FAR_LEFT_STARTING_POSE_RED;
     }
 
     public static Pose2d getFarRightStartingPose() {
-        return isBlueAlliance() ? FAR_RIGHT_STARTING_POSE_BLUE : FAR_RIGHT_STARTING_POSE_RED;
+        return isBlueAllianceOrDefault() ? FAR_RIGHT_STARTING_POSE_BLUE : FAR_RIGHT_STARTING_POSE_RED;
     }
 
     public static Pose2d getLeftStartingPose() {
-        return isBlueAlliance() ? LEFT_STARTING_POSE_BLUE : LEFT_STARTING_POSE_RED;
+        return isBlueAllianceOrDefault() ? LEFT_STARTING_POSE_BLUE : LEFT_STARTING_POSE_RED;
     }
 
     public static Pose2d getRightStartingPose() {
-        return isBlueAlliance() ? RIGHT_STARTING_POSE_BLUE : RIGHT_STARTING_POSE_RED;
+        return isBlueAllianceOrDefault() ? RIGHT_STARTING_POSE_BLUE : RIGHT_STARTING_POSE_RED;
     }
 
     public static Pose2d getLeftStationPickup() {
-        return isBlueAlliance() ? LEFT_STATION_PICKUP_POSE_BLUE : LEFT_STATION_PICKUP_POSE_RED;
+        return isBlueAllianceOrDefault() ? LEFT_STATION_PICKUP_POSE_BLUE : LEFT_STATION_PICKUP_POSE_RED;
     }
 
     public static Pose2d getRightStationPickup() {
-        return isBlueAlliance() ? RIGHT_STATION_PICKUP_POSE_BLUE : RIGHT_STATION_PICKUP_POSE_RED;
+        return isBlueAllianceOrDefault() ? RIGHT_STATION_PICKUP_POSE_BLUE : RIGHT_STATION_PICKUP_POSE_RED;
     }
 
     public static Pose3d getTagPose(int id) {
@@ -204,20 +196,16 @@ public class FieldConstants {
             Pose2d tagPose = FieldConstants.FIELD_LAYOUT.getTagPose(tagID).get().toPose2d();
             double xOffset = isScoringBase
                     ? Units.inchesToMeters(
-                            SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES
-                                    + Units.metersToInches(distanceFromFinalScoringPose))
-                    : Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES
-                            + Units.metersToInches(distanceFromFinalScoringPose));
+                            SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES + Units.metersToInches(distanceFromFinalScoringPose))
+                    : Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES + Units.metersToInches(distanceFromFinalScoringPose));
 
-            double yOffset =
-                    -Units.inchesToMeters(SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_L1_INCHES);
+            double yOffset = -Units.inchesToMeters(SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_L1_INCHES);
             if (scoringSide == SuperstructureConstants.ScoringSide.RIGHT) {
                 yOffset *= -1;
             }
             Translation2d offsetFromTag = new Translation2d(xOffset, yOffset);
 
-            var transformedPose =
-                    tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
+            var transformedPose = tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
 
             if (scoringDirection == SuperstructureConstants.ScoringDirection.FRONT) {
                 transformedPose = new Pose2d(
@@ -246,8 +234,7 @@ public class FieldConstants {
 
         if (tagID >= 1 && tagID <= 22) {
             Pose2d tagPose = FieldConstants.FIELD_LAYOUT.getTagPose(tagID).get().toPose2d();
-            double xOffset = Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_SCORING_INCHES
-                    + Units.metersToInches(distanceFromFinalScoringPose));
+            double xOffset = Units.inchesToMeters(SuperstructureConstants.X_OFFSET_FROM_TAG_FOR_SCORING_INCHES + Units.metersToInches(distanceFromFinalScoringPose));
 
             double yOffset = -Units.inchesToMeters(
                     SuperstructureConstants.Y_OFFSET_FROM_TAG_FOR_SCORING_ON_REEF_INCHES);
@@ -256,8 +243,7 @@ public class FieldConstants {
             }
             Translation2d offsetFromTag = new Translation2d(xOffset, yOffset);
 
-            var transformedPose =
-                    tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
+            var transformedPose = tagPose.plus(new Transform2d(offsetFromTag.getX(), offsetFromTag.getY(), Rotation2d.kZero));
 
             if (scoringDirection == SuperstructureConstants.ScoringDirection.FRONT) {
                 transformedPose = new Pose2d(
@@ -270,7 +256,8 @@ public class FieldConstants {
             return Pose2d.kZero;
         }
     }
-    //TODO: tune all these values for our robot
+
+    // TODO: tune all these values for our robot
     public static final class SuperstructureConstants {
         public static final double X_OFFSET_FROM_TAG_FOR_L1_BASE_SCORING_INCHES = 21.0;
         public static final double X_OFFSET_FROM_TAG_FOR_L1_TOP_SCORING_INCHES = 19.25;

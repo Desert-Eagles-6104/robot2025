@@ -1,18 +1,23 @@
 package frc.DELib25.Subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.DELib25.BooleanUtil.StableBoolean;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraSettings;
 import frc.DELib25.Subsystems.Vision.VisionUtil.CameraType;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers;
 import frc.DELib25.Subsystems.Vision.VisionUtil.LimelightHelpers.PoseEstimate;
+import frc.DELib25.Util.FieldUtil;
 
 public abstract class VisionSubsystem extends SubsystemBase {
-	
-	
+
+	private static final double STARTUP_DELAY_SEC = 0.20;
+
+	private final StableBoolean tvStable;
+	private final double enableVisionAt;
+
 	//First AprilTag Limelight
 	private CameraSettings aprilTagCameraSettings = null;
 
@@ -25,14 +30,12 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	 * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
 	 */
 	private double ty = 0;
-	private double lastTy = 0;
-	private double lastTx = 0;
 
 	/**
 	 * Whether the limelight has any valid targets (0 or 1)
 	 */
 	protected boolean tv = false;
-	private PoseEstimate estimatedRobotPose = new PoseEstimate(); 
+	private PoseEstimate estimatedRobotPose; 
 	private double currentID = 0;
     
     protected double cropXMin = -1;
@@ -45,8 +48,8 @@ public abstract class VisionSubsystem extends SubsystemBase {
     
     //*create a new VisionSubsystem constructor to apply the subsystem's properties */
     public VisionSubsystem(CameraSettings aprilTagCameraSettings, CameraSettings gamePieceCameraSettings) {
-      this.aprilTagCameraSettings = aprilTagCameraSettings;
-      if(aprilTagCameraSettings != null){
+      	this.aprilTagCameraSettings = aprilTagCameraSettings;
+		if(aprilTagCameraSettings != null){
 			LimelightHelpers.setCameraPose_RobotSpace(
 				CameraType.AprilTagCamera.getCameraName(),
 				aprilTagCameraSettings.forward,
@@ -56,8 +59,10 @@ public abstract class VisionSubsystem extends SubsystemBase {
 				aprilTagCameraSettings.pitch,
 				aprilTagCameraSettings.yaw
 			);
-      	}
-      LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
+		}
+      	LimelightHelpers.setPipelineIndex(CameraType.AprilTagCamera.getCameraName(), 0);
+	  	this.tvStable = new StableBoolean(0.15);
+		this.enableVisionAt = Timer.getFPGATimestamp() + STARTUP_DELAY_SEC;
     }
   
     @Override
@@ -74,21 +79,25 @@ public abstract class VisionSubsystem extends SubsystemBase {
 	protected void updateVisionData() {
 		this.tv = LimelightHelpers.getTV(CameraType.AprilTagCamera.getCameraName());
 		if (this.tv) {
-			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName(), this.lastTx);
-			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName(), this.lastTy);
+			this.tx = LimelightHelpers.getTX(CameraType.AprilTagCamera.getCameraName());
+			this.ty = LimelightHelpers.getTY(CameraType.AprilTagCamera.getCameraName());
 			this.currentID = LimelightHelpers.getFiducialID(CameraType.AprilTagCamera.getCameraName());
-			if (DriverStation.getAlliance().isPresent() && 
-				(DriverStation.getAlliance().get() == Alliance.Red)) {
+			if (FieldUtil.isRedAlliance()) {
 					this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			} else {
 				this.estimatedRobotPose = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CameraType.AprilTagCamera.getCameraName());
 			}
-			this.lastTy = this.ty;
-			this.lastTx = this.tx;
 		}
 	}
 	
-	
+	public boolean isVisionUsable() {
+		PoseEstimate est = this.getEstimatedRobotPoseNoDefault();
+		if (est == null || est.pose == null) return false;
+
+		if (Timer.getFPGATimestamp() < this.enableVisionAt || !this.tvStable.update(this.getTv())) return false;
+
+		return true;
+	}
 	
 	/**
 	 * Returns the estimated robot pose based on the AprilTag camera's data.
@@ -101,6 +110,14 @@ public abstract class VisionSubsystem extends SubsystemBase {
 			poseEstimate.pose = new Pose2d();
 			return poseEstimate;
 		}
+		return this.estimatedRobotPose;
+	}
+	/**
+	 * Returns the estimated robot pose based on the AprilTag camera's data.
+	 * If no pose is estimated, it returns null.
+	 * @return
+	 */
+	public PoseEstimate getEstimatedRobotPoseNoDefault() {
 		return this.estimatedRobotPose;
 	}
     

@@ -57,6 +57,4 @@
     "edu.wpi.first.math.**.proto.*",
     "edu.wpi.first.math.**.struct.*",
   ],
-  "java.format.settings.url": "file:///C:/Users/Owner/Desktop/assets/no-wrap-style.xml",
-  "java.format.settings.profile": "NoWrapStyle"
 }
