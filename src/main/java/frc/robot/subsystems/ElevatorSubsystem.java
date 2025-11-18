@@ -3,23 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.DELib25.Sensors.BeamBreak;
-import frc.DELib25.Subsystems.ServoSubsystem.ServoSubsystemConfiguration;
-import frc.DELib25.Subsystems.ServoSubsystem.Base.Motor.ServoSubsystemTalon;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemConfiguration;
+import frc.DELib25.Subsystems.MotorSubsystems.MotorBase.MotorSubsystemTalon;
 
-public class ElevatorSubsystem extends ServoSubsystemTalon {
-  private BeamBreak m_ElevatorMagnet;
-  private boolean magnetState = false;
+public class ElevatorSubsystem extends MotorSubsystemTalon {
+  private DigitalInput elevatorMagnet;
   /** Creates a new Elevator. */
-  public ElevatorSubsystem(ServoSubsystemConfiguration configuration) {
+  public ElevatorSubsystem(MotorSubsystemConfiguration configuration) {
     super(configuration);  
-    m_ElevatorMagnet = new BeamBreak(1);
+    elevatorMagnet = new DigitalInput(1);
   }
    public void periodic() {
     super.periodic();
-    magnetState = magnetUpdate();
-    SmartDashboard.putBoolean("magneticSee", magnetState);
+    SmartDashboard.putBoolean("Elevator Magnet", this.getMagnetState());
   }
 
   @Override
@@ -32,15 +30,8 @@ public class ElevatorSubsystem extends ServoSubsystemTalon {
     }
   }
 
-  public boolean magnetUpdate(){
-    m_ElevatorMagnet.update();
-    return m_ElevatorMagnet.get();
-  }
-
   public boolean getMagnetState(){
-    return magnetState;
+    return this.elevatorMagnet.get();
   }
-
-
  
 }

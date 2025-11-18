@@ -1,55 +1,40 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.DELib25.Motors;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-/** Add your docs here. */
 public class MotorConstants {
-    public int id = -1;
-    public String bus = "";
-    public boolean CounterClockwisePositive = false;
-    public boolean isBrake = false;
+    public final int id;
+    public final String bus;
+    public final boolean counterClockwisePositive;
 
-    public MotorConstants(int id, String bus, boolean CounterClockwisePositive, boolean isBrake){
+    // TalonFX configuration for this motor
+    private final TalonFXConfiguration talonFXConfiguration;
+
+    public MotorConstants(int id, String bus, boolean counterClockwisePositive, TalonFXConfiguration talonFXConfiguration){
         this.id = id;
         this.bus = bus;
-        this.CounterClockwisePositive = CounterClockwisePositive;
-        this.isBrake = isBrake;
+        this.counterClockwisePositive = counterClockwisePositive;
+        this.talonFXConfiguration = talonFXConfiguration;
+        this.talonFXConfiguration.MotorOutput.Inverted = MotorConstants.toInvertedType(counterClockwisePositive);
+    }
+
+
+    public TalonFXConfiguration getTalonFXConfig() {
+        return this.talonFXConfiguration;
     }
 
     /**
      * for talonFX
-     * @param CounterClockwisePositive
+     * 
+     * @param counterClockwisePositive
      * @return
      */
-    public static InvertedValue toInvertedType(boolean CounterClockwisePositive){
-        if (CounterClockwisePositive) {
+    public static InvertedValue toInvertedType(boolean counterClockwisePositive) {
+        if (counterClockwisePositive) {
             return InvertedValue.CounterClockwise_Positive;
         }
         return InvertedValue.Clockwise_Positive;
     }
 
-    /**
-     * for TalonFX
-     * @param isBrake
-     * @return
-     */
-    public static NeutralModeValue toNeturalMode(boolean isBrake){
-        if (isBrake) {
-            return NeutralModeValue.Brake;
-        }
-        return NeutralModeValue.Coast;
-    }
-
-    public static IdleMode toIdleMode(boolean isBrake){
-        if (isBrake) {
-            return IdleMode.kBrake;
-        }
-        return IdleMode.kCoast;
-    }
 }

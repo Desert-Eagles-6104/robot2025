@@ -2,26 +2,29 @@ package frc.DELib25.BooleanUtil;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/**
+ * A stable boolean that returns true only if the input has remained true
+ * for at least the specified time threshold.
+ */
 public class StableBoolean {
-    private final double m_timeThreshold;
-    private Timer m_timer;
-    private boolean m_previousValue = false;
+    private double timeThreshold;
+    private Timer timer;
+    private boolean lastValue = false;
 
-    public StableBoolean(double timeThreshold){
-        m_timeThreshold = timeThreshold;
-        m_timer = new Timer();
-        m_timer.start();
+    public StableBoolean(double timeThreshold) {
+        this.timeThreshold = timeThreshold;
+        this.timer = new Timer();
+        this.timer.start();
+    }
+    public void setTimeout(double timeThreshold) {
+        this.timeThreshold = timeThreshold;
     }
 
-    public boolean get(boolean input){
-        if(!m_previousValue && input){
-            m_timer.reset();
+    public boolean update(boolean value){
+        if(!this.lastValue && value){
+            this.timer.restart();
         }
-        m_previousValue = input;
-        return input && m_timer.hasElapsed(m_timeThreshold);
-    }
-
-    public void reset(){
-        m_timer.reset();
+        this.lastValue = value;
+        return value && this.timer.hasElapsed(this.timeThreshold);
     }
 }

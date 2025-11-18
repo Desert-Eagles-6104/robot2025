@@ -1,17 +1,17 @@
 package frc.DELib25.BooleanUtil;
 
+/**
+ * A toggle boolean that flips its state on each rising edge of the input.
+ */
 public class ToggleBoolean {
-    private boolean released = true;
-    private boolean retVal = false;
+    private boolean lastInput = false;
+    private boolean toggleState = false;
 
-    public boolean update(boolean newValue) {
-        if(newValue && released) {
-            released = false;
-            retVal = !retVal;
+    public boolean update(boolean input) {
+        if (input && !this.lastInput) {
+            this.toggleState = !this.toggleState;
         }
-        if(!newValue) {
-            released = true;
-        }
-        return retVal;
+        this.lastInput = input;
+        return this.toggleState;
     }
 }

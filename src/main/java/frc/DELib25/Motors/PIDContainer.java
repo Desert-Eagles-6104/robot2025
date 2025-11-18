@@ -3,8 +3,6 @@ package frc.DELib25.Motors;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-// import com.revrobotics.CANSparkBase;
-// import com.revrobotics.SparkPIDController;
 
 public class PIDContainer
 {
@@ -25,38 +23,25 @@ public class PIDContainer
 
     public GravityTypeValue gravityTypeValue = GravityTypeValue.Elevator_Static; //only for talonFX
 
-        public PIDContainer(double kp, double ki, double kd, String headingType)
+    public PIDContainer(double kP, double kI, double kD, String headingType)
     {
-        this.kS = 0.0;
-        this.kV = 0.0;
-        this.kA = 0.0;
-        this.kG = 0.0;
-        this.kP = kp;
-        this.kI = ki;
-        this.kD = kd;
+        this(0.0, 0.0, 0.0, 0.0, kP, kI, kD);
         this.headingType = headingType;
     }
 
     public PIDContainer(double kS, double kV, double kA)
     {
-        this.kS = kS;
-        this.kV = kV;
-        this.kA = kA;
-        this.kG = 0.0;
-        this.kP = 0.0;
-        this.kI = 0.0;
-        this.kD = 0.0;
+        this(kS, kV, kA, 0.0);
     }
 
-        public PIDContainer(double kS, double kV, double kA, double kG)
+    public PIDContainer(double kS, double kV, double kA, double kG)
     {
-        this.kS = kS;
-        this.kV = kV;
-        this.kA = kA;
-        this.kG = kG;
-        this.kP = 0.0;
-        this.kI = 0.0;
-        this.kD = 0.0;
+        this(kS, kV, kA, kG, 0.0, 0.0, 0.0);
+    }
+
+    public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI)
+    {
+        this(kS, kV, kA, kG, kP, kI, 0.0);
     }
 
     public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI, double kD)
@@ -70,15 +55,9 @@ public class PIDContainer
         this.kD = kD;
     }
 
-        public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI, double kD, GravityTypeValue gravityTypeValue)
+    public PIDContainer(double kS, double kV, double kA, double kG, double kP, double kI, double kD, GravityTypeValue gravityTypeValue)
     {
-        this.kS = kS;
-        this.kV = kV;
-        this.kA = kA;
-        this.kG = kG;
-        this.kP = kP;
-        this.kI = kI;
-        this.kD = kD;
+        this(kS, kV, kA, kG, kP, kI, kD);
         this.gravityTypeValue = gravityTypeValue;
     }
 
@@ -105,13 +84,5 @@ public class PIDContainer
         .withKD(pidContainer.kD)
         .withGravityType(pidContainer.gravityTypeValue);
     }
-/* 
-    public static SparkPIDController toSparkPIDController(PIDContainer pidContainer, CANSparkBase controller){
-        SparkPIDController sparkPIDController = controller.getPIDController();
-        sparkPIDController.setP(pidContainer.kP);
-        sparkPIDController.setI(pidContainer.kI);
-        sparkPIDController.setD(pidContainer.kD);
-        sparkPIDController.setOutputRange(-1, 1);
-        return sparkPIDController;
-    }*/
+    
 }
